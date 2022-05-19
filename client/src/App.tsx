@@ -1,4 +1,4 @@
-import Counter from './components/Counter';
+import MovieCard from './components/MovieCard';
 
 function App() {
     return (
@@ -6,7 +6,7 @@ function App() {
             <div className="bg-sky-200 p-8 shadow">
                 <p className="text-center text-4xl font-bold">Filmilox</p>
             </div>
-            <Counter />
+            <MovieCard />
         </div>
     );
 }
