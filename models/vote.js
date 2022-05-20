@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const reviewSchema = new mongoose.Schema(
+const voteSchema = new mongoose.Schema(
 	{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -9,21 +9,17 @@ const reviewSchema = new mongoose.Schema(
 		},
 	},
 	{
-		movie: {
+		review: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Movie",
+			ref: "Review",
 			required: true,
 		},
 	},
 	{
-		comment: {
-			type: String,
-			required: false,
-		},
-	},
-	{
-		rating: {
-			type: Number,
+		// True  -> Upvote
+		// False -> Downvote
+		state: {
+			type: Boolean,
 			required: true,
 		},
 	},
@@ -32,6 +28,6 @@ const reviewSchema = new mongoose.Schema(
 	}
 );
 
-const Review = mongoose.model("Review", reviewSchema);
+const Vote = mongoose.model("Vote", voteSchema);
 
-module.exports = Review;
+module.exports = Vote;
