@@ -8,9 +8,13 @@ services:
       context: ./client/
       dockerfile: ./Dockerfile
     volumes:
-      - ./client/src:/app/src
+      - ./client/:/app
+      - /app/node_modules
     ports:
       - 3000:3000  
+    environment:
+      - CHOKIDAR_USEPOLLING=true  
+      - WDS_SOCKET_PORT=0
   server:
     container_name: filmilox-server
     image: filmilox-server
@@ -18,7 +22,10 @@ services:
       context: .
       dockerfile: ./Dockerfile
     depends_on:
-      - database  
+      - database
+    volumes:
+      - ./:/app
+      - /app/node_modules    
     environment:
       MONGODB_CONNECTION_STRING: mongodb://root:root@mongo:27017/
     ports:
