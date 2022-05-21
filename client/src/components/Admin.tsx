@@ -1,16 +1,30 @@
 import { Button, TextField } from '@mui/material';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 const Admin = () => {
-    const [loading, setLoading] = useState(false);
-    const [title, setTitel] = useState('');
-    const [description, setDescription] = useState('');
-    const [releaseDate, setReleaseDate] = useState('');
-    const [trailerLink, setTrailerLink] = useState('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [title, setTitel] = useState<string>();
+    const [description, setDescription] = useState<string>();
+    const [releaseDate, setReleaseDate] = useState<string>();
+    const [trailerLink, setTrailerLink] = useState<string>();
+    const [image, setImage] = useState<File>();
+    const [preview, setPreview] = useState<string>();
+
+    useEffect(() => {
+        if (image) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result as string);
+            };
+            reader.readAsDataURL(image);
+        } else {
+            setPreview(undefined);
+        }
+    }, [image]);
 
     function handleTitleChange(title: string) {
         setTitel(title);
@@ -28,6 +42,13 @@ const Admin = () => {
         setTrailerLink(tlink);
     }
 
+    function handlePosterUpload(event: ChangeEvent<HTMLInputElement>) {
+        const file = event.target.files![0];
+        if (file != null && file.type.substring(0, 5) === 'image') {
+            setImage(event.target.files![0]);
+        }
+    }
+
     function handleAddMovie() {
         console.log(title);
         console.log(description);
@@ -42,7 +63,7 @@ const Admin = () => {
 
     return (
         <>
-            <div className="h-[900px] w-[600px] mx-auto flex flex-col items-center justify-around">
+            <div className="w-[600px] mx-auto flex flex-col flex-wrap items-center space-y-10 justify-between ">
                 <h1 className="font-medium text-left leading-tight text-5xl w-[125%] mt-3">
                     FILM HINZUFÜGEN:
                 </h1>
@@ -61,7 +82,8 @@ const Admin = () => {
                     label="Beschreibung"
                     multiline
                     rows={7}
-                    className="scale-125 w-[100%] h-[23%]"
+                    sx={{ paddingTop: 1, paddingBottom: 2 }}
+                    className="scale-125 w-[100%]"
                     type="text"
                     onChange={(event) => {
                         handleDescriptionChange(event.target.value);
@@ -98,8 +120,10 @@ const Admin = () => {
                     <Input
                         accept="image/*"
                         id="contained-button-file"
-                        multiple
                         type="file"
+                        onChange={(event) => {
+                            handlePosterUpload(event);
+                        }}
                     />
                     <Button
                         variant="contained"
@@ -109,8 +133,12 @@ const Admin = () => {
                         Bild hinzufügen
                     </Button>
                 </label>
+                <img src={preview} className="w-[300px]" />
 
-                <div className="w-[115%] mt-16">
+                <div
+                    className="w-[115%]"
+                    style={{ marginBottom: 100, marginTop: 70 }}
+                >
                     <LoadingButton
                         color="primary"
                         onClick={handleAddMovie}
