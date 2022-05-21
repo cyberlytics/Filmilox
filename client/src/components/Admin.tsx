@@ -1,24 +1,49 @@
 import { Button, TextField } from '@mui/material';
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 const Admin = () => {
+    const [loading, setLoading] = useState(false);
+    const [title, setTitel] = useState('');
+    const [description, setDescription] = useState('');
+    const [releaseDate, setReleaseDate] = useState('');
+    const [trailerLink, setTrailerLink] = useState('');
+
+    function handleTitleChange(title: string) {
+        setTitel(title);
+    }
+
+    function handleDescriptionChange(description: string) {
+        setDescription(description);
+    }
+
+    function handleDateChange(date: string) {
+        setReleaseDate(date);
+    }
+
+    function handleTLinkChange(tlink: string) {
+        setTrailerLink(tlink);
+    }
+
+    function handleAddMovie() {
+        console.log(title);
+        console.log(description);
+        console.log(releaseDate);
+        console.log(trailerLink);
+        setLoading(true);
+    }
+
     const Input = styled('input')({
         display: 'none',
     });
 
-    const [loading, setLoading] = React.useState(false);
-    function handleClick() {
-        setLoading(true);
-    }
-
     return (
         <>
-            <div className="h-[900px] w-[600px] mx-auto mt-20 flex flex-col items-center justify-around">
-                <h1 className="font-medium text-left leading-tight text-5xl w-[125%] mb-6">
+            <div className="h-[900px] w-[600px] mx-auto flex flex-col items-center justify-around">
+                <h1 className="font-medium text-left leading-tight text-5xl w-[125%] mt-3">
                     FILM HINZUFÜGEN:
                 </h1>
                 <TextField
@@ -26,6 +51,10 @@ const Admin = () => {
                     label="Titel"
                     variant="outlined"
                     className="scale-125 w-[100%]"
+                    type="text"
+                    onChange={(event) => {
+                        handleTitleChange(event.target.value);
+                    }}
                 />
                 <TextField
                     id="outlined-multiline-static"
@@ -33,22 +62,33 @@ const Admin = () => {
                     multiline
                     rows={7}
                     className="scale-125 w-[100%] h-[23%]"
+                    type="text"
+                    onChange={(event) => {
+                        handleDescriptionChange(event.target.value);
+                    }}
                 />
                 <TextField
                     id="date"
                     label="Erscheinungsdatum"
-                    type="date"
                     defaultValue="2000-01-01"
                     InputLabelProps={{
                         shrink: true,
                     }}
                     className="scale-125 w-[100%]"
+                    type="date"
+                    onChange={(event) => {
+                        handleDateChange(event.target.value);
+                    }}
                 />
                 <TextField
                     id="outlined-basic"
                     label="Trailer-Link"
                     variant="outlined"
                     className="scale-125 w-[100%]"
+                    type="text"
+                    onChange={(event) => {
+                        handleTLinkChange(event.target.value);
+                    }}
                 />
 
                 <label
@@ -73,7 +113,7 @@ const Admin = () => {
                 <div className="w-[115%] mt-16">
                     <LoadingButton
                         color="primary"
-                        onClick={handleClick}
+                        onClick={handleAddMovie}
                         loading={loading}
                         loadingPosition="start"
                         startIcon={<AddIcon />}
