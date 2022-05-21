@@ -25,9 +25,11 @@ services:
       - database
     volumes:
       - ./:/app
-      - /app/node_modules    
+      - /app/node_modules
     environment:
       MONGODB_CONNECTION_STRING: mongodb://root:root@mongo:27017/
+    env_file:
+      - .env
     ports:
       - 9999:9999
   database:
@@ -37,7 +39,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-  
   mongo-express:
     container_name: mongo-express
     image: mongo-express
