@@ -5,4 +5,4 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install
 EXPOSE 9999
-CMD [ "yarn", "dev" ]
+CMD [ "sh", "-c", "yarn install & yarn dev" ]
