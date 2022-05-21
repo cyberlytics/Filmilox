@@ -73,7 +73,7 @@ const Login = () => {
                     error={identifierError.status}
                     helperText={identifierError.message}
                     fullWidth
-                    label="E-mail / username"
+                    label="Email / Username"
                     variant="filled"
                     sx={{ mt: 2 }}
                     value={identifier}
