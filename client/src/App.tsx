@@ -6,11 +6,12 @@ import Registration from './components/Authentication/Registration';
 import FilmDetails from './components/FilmDetails';
 import TopAppBar from './components/TopAppBar/TopAppBar';
 import { useEffect } from 'react';
-import { useAppDispatch } from './redux/hooks';
-import { fetchUserData } from './redux/userSlice';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
+import { fetchUserData, selectIsAdmin } from './redux/userSlice';
 
 function App() {
     const dispatch = useAppDispatch();
+    const isAdmin = useAppSelector(selectIsAdmin);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -23,7 +24,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Overview />} />
                 <Route path="/film/:filmId" element={<FilmDetails />} />
-                <Route path="/admin" element={<Admin />} />
+                {isAdmin && <Route path="/admin" element={<Admin />} />}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
             </Routes>

@@ -14,8 +14,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
+    selectIsAdmin,
     selectIsLoggedIn,
     selectUsername,
     setIsLoggedIn,
@@ -68,6 +70,7 @@ export default function TopAppBar() {
 
     const username = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
+    const isAdmin = useAppSelector(selectIsAdmin);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -116,6 +119,20 @@ export default function TopAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
+            {isAdmin && (
+                <MenuItem onClick={() => handleNavigate('/admin')}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        <AddIcon />
+                    </IconButton>
+                    <p>Add Movie</p>
+                </MenuItem>
+            )}
             <MenuItem onClick={handleLogOut}>
                 <IconButton
                     size="large"
@@ -149,18 +166,35 @@ export default function TopAppBar() {
             onClose={handleMobileMenuClose}
         >
             {isLoggedIn && (
-                <MenuItem onClick={handleProfileMenuOpen}>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="primary-search-account-menu"
-                        aria-haspopup="true"
-                        color="inherit"
-                    >
-                        <LogoutIcon />
-                    </IconButton>
-                    <p>Logout</p>
-                </MenuItem>
+                <div>
+                    {isAdmin && (
+                        <MenuItem onClick={() => handleNavigate('/admin')}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="primary-search-account-menu"
+                                aria-haspopup="true"
+                                color="inherit"
+                            >
+                                <AddIcon />
+                            </IconButton>
+                            <p>Add Movie</p>
+                        </MenuItem>
+                    )}
+
+                    <MenuItem onClick={handleProfileMenuOpen}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="primary-search-account-menu"
+                            aria-haspopup="true"
+                            color="inherit"
+                        >
+                            <LogoutIcon />
+                        </IconButton>
+                        <p>Logout</p>
+                    </MenuItem>
+                </div>
             )}
             {!isLoggedIn && (
                 <div>

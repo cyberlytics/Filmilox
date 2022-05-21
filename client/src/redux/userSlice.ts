@@ -4,6 +4,7 @@ import Axios from 'axios';
 import ApiRouter from '../api/ApiRouter';
 
 export interface userState {
+    admin: boolean;
     isLoggedIn: boolean;
     username: string;
     email: string;
@@ -11,6 +12,7 @@ export interface userState {
 }
 
 const initialState: userState = {
+    admin: false,
     isLoggedIn: false,
     username: '',
     email: '',
@@ -55,9 +57,10 @@ export const userSlice = createSlice({
                 state.status = 'idle';
                 state.isLoggedIn = true;
 
-                const { username, email } = action.payload;
+                const { username, email, admin } = action.payload;
                 state.username = username;
                 state.email = email;
+                state.admin = admin;
             })
             .addCase(fetchUserData.rejected, (state) => {
                 state.status = 'failed';
@@ -74,6 +77,7 @@ export const { setIsLoggedIn } = userSlice.actions;
 export const selectUsername = (state: RootState) => state.user.username;
 export const selectEmail = (state: RootState) => state.user.email;
 export const selectIsLoggedIn = (state: RootState) => state.user.isLoggedIn;
+export const selectIsAdmin = (state: RootState) => state.user.admin;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
