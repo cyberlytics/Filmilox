@@ -6,24 +6,21 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
     selectIsLoggedIn,
     selectUsername,
     setIsLoggedIn,
-} from '../redux/userSlice';
-import Controller from '../controller/Controller';
+} from '../../redux/userSlice';
+import Controller from '../../controller/Controller';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -119,7 +116,18 @@ export default function TopAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleLogOut}>Log out</MenuItem>
+            <MenuItem onClick={handleLogOut}>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <LogoutIcon />
+                </IconButton>
+                <p>Logout</p>
+            </MenuItem>
         </Menu>
     );
 
@@ -140,58 +148,68 @@ export default function TopAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 4 new mails"
-                    color="inherit"
-                >
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+            {isLoggedIn && (
+                <MenuItem onClick={handleProfileMenuOpen}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        <LogoutIcon />
+                    </IconButton>
+                    <p>Logout</p>
+                </MenuItem>
+            )}
+            {!isLoggedIn && (
+                <div>
+                    <MenuItem onClick={() => handleNavigate('/register')}>
+                        <IconButton
+                            size="large"
+                            aria-label="show 4 new mails"
+                            color="inherit"
+                        >
+                            <LogoutIcon />
+                        </IconButton>
+                        <p>Register</p>
+                    </MenuItem>
+                    <MenuItem onClick={() => handleNavigate('/login')}>
+                        <IconButton
+                            size="large"
+                            aria-label="show 17 new notifications"
+                            color="inherit"
+                        >
+                            <LoginIcon />
+                        </IconButton>
+                        <p>Login</p>
+                    </MenuItem>
+                </div>
+            )}
         </Menu>
     );
 
-    const handleNavigate = (route: string) => navigate(route);
+    const handleNavigate = (route: string) => {
+        handleMenuClose();
+        navigate(route);
+    };
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
+                        onClick={() => handleNavigate('/')}
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
                         sx={{ mr: 2 }}
                     >
-                        <MenuIcon />
+                        <img
+                            src={require('./logo.png')}
+                            alt="logo"
+                            className="w-8 h-8"
+                        />
                     </IconButton>
                     <Link to="/">
                         <Typography
@@ -246,36 +264,6 @@ export default function TopAppBar() {
                                 />
                             </IconButton>
                         )}
-
-                        {/*<IconButton*/}
-                        {/*    size="large"*/}
-                        {/*    aria-label="show 4 new mails"*/}
-                        {/*    color="inherit"*/}
-                        {/*>*/}
-                        {/*    <Badge badgeContent={4} color="error">*/}
-                        {/*        <MailIcon />*/}
-                        {/*    </Badge>*/}
-                        {/*</IconButton>*/}
-                        {/*<IconButton*/}
-                        {/*    size="large"*/}
-                        {/*    aria-label="show 17 new notifications"*/}
-                        {/*    color="inherit"*/}
-                        {/*>*/}
-                        {/*    <Badge badgeContent={17} color="error">*/}
-                        {/*        <NotificationsIcon />*/}
-                        {/*    </Badge>*/}
-                        {/*</IconButton>*/}
-                        {/*<IconButton*/}
-                        {/*    size="large"*/}
-                        {/*    edge="end"*/}
-                        {/*    aria-label="account of current user"*/}
-                        {/*    aria-controls={menuId}*/}
-                        {/*    aria-haspopup="true"*/}
-                        {/*    onClick={handleProfileMenuOpen}*/}
-                        {/*    color="inherit"*/}
-                        {/*>*/}
-                        {/*    <AccountCircle />*/}
-                        {/*</IconButton>*/}
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton

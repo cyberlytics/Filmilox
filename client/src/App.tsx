@@ -4,7 +4,7 @@ import Admin from './components/Admin';
 import Login from './components/Authentication/Login';
 import Registration from './components/Authentication/Registration';
 import FilmDetails from './components/FilmDetails';
-import TopAppBar from './components/TopAppBar';
+import TopAppBar from './components/TopAppBar/TopAppBar';
 import { useEffect } from 'react';
 import { useAppDispatch } from './redux/hooks';
 import { fetchUserData } from './redux/userSlice';
@@ -15,7 +15,7 @@ function App() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) dispatch(fetchUserData());
-    }, []);
+    }, [dispatch]);
 
     return (
         <BrowserRouter>

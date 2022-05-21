@@ -1,5 +1,3 @@
-import { deepOrange } from '@mui/material/colors';
-
 export default class Controller {
     static isEmail = (email: string) => {
         return String(email)
