@@ -1,10 +1,10 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-require("dotenv").config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+require('dotenv').config();
 
-const app = express()
+const app = express();
 
 // Configure Server
 app.use(cors());
@@ -19,10 +19,12 @@ mongoose.connect(
     },
     (err) => {
         if (err) throw err;
-        console.log("Database Connected");
+        console.log('Database Connected');
     }
 );
 
+app.use('/user', require('./routes/userRouter'));
+
 app.listen(process.env.PORT, () => {
-    console.log(`Server started on port ${process.env.PORT}`)
-})
+    console.log(`Server started on port ${process.env.PORT}`);
+});
