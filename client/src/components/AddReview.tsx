@@ -11,12 +11,13 @@ import React, { useEffect, useState } from 'react';
 interface Props {
     open: boolean;
     onClose(): void;
+    movieId: string;
 }
 
 //TODO: Add movie cover
 
 export const AddReview = (props: Props) => {
-    const { open, onClose } = props;
+    const { open, onClose, movieId } = props;
     const commentMaxLength: number = 2000;
 
     const [rating, setRating] = useState<number>(0);
