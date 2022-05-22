@@ -7,6 +7,8 @@ import {
     TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import ApiRouter from '../api/ApiRouter';
+import Backend from '../api/Backend';
 
 interface Props {
     open: boolean;
@@ -42,16 +44,18 @@ export const AddReview = (props: Props) => {
         else setRating(value);
     };
 
-    const submitReview = () => {
+    const submitReview = async () => {
         if (rating === 0) {
             setRatingError('Sternbewertung fehlt!');
             return;
         }
         try {
             console.log('Submit Review:', rating, comment);
+            await Backend.addreview({ movieId, rating, comment });
             onClose();
         } catch (error) {
             setError('Submission failed!');
+            throw error;
         }
     };
 

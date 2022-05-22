@@ -9,6 +9,7 @@ export default class ApiRouter {
 
     static Register = set('/user/register');
     static Login = set('/user/login');
+    static AddReview = set('/film/addreview');
 
     static FetchUserData = set('/user/fetch-data');
 }
