@@ -4,6 +4,5 @@ WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install
-COPY . .
-EXPOSE 3000
-CMD [ "yarn", "dev" ]
+EXPOSE 9999
+CMD [ "sh", "-c", "yarn install & yarn dev" ]

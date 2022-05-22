@@ -1,40 +1,34 @@
-import MovieCard from './components/MovieCard';
-import { useState } from 'react';
-import { Grid, ImageList } from '@mui/material';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Overview from './components/Overview';
+import Admin from './components/Admin';
+import Login from './components/Authentication/Login';
+import Registration from './components/Authentication/Registration';
+import FilmDetails from './components/FilmDetails';
+import TopAppBar from './components/TopAppBar/TopAppBar';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
+import { fetchUserData, selectIsAdmin } from './redux/userSlice';
 
 function App() {
-    const [movies, setMovies] = useState([
-        {
-            Title: 'Cars',
-            Poster: 'https://m.media-amazon.com/images/M/MV5BMGEwMzhmYjYtYTgyYS00YjMwLThjMmMtZDkxY2VmMjNiMzhiXkEyXkFqcGdeQXVyMTYzMDM0NTU@._V1_.jpg',
-        },
-        {
-            Title: 'Goodfellas',
-            Poster: 'https://m.media-amazon.com/images/M/MV5BOGIzYmY3NDctNTZmZS00YjM5LTljYTctZDNkZjg5MjliZTEwXkEyXkFqcGdeQXVyMTYzMDM0NTU@._V1_.jpg',
-        },
-        {
-            Title: 'Memories of Murder',
-            Poster: 'https://m.media-amazon.com/images/M/MV5BOGViNTg4YTktYTQ2Ni00MTU0LTk2NWUtMTI4OTc1YTM0NzQ2XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg',
-        },
-    ]);
+    const dispatch = useAppDispatch();
+    const isAdmin = useAppSelector(selectIsAdmin);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) dispatch(fetchUserData());
+    }, [dispatch]);
 
     return (
-        <div>
-            <div className="bg-sky-200 p-8 shadow">
-                <p className="text-center text-4xl font-bold">Filmilox</p>
-            </div>
-
-            <div style={{ display: 'flex' }}>
-                <Grid
-                    className="m-2"
-                    direction="row"
-                    rowSpacing={2}
-                    columnSpacing={2}
-                >
-                    <MovieCard movies={movies} />
-                </Grid>
-            </div>
-        </div>
+        <BrowserRouter>
+            <TopAppBar />
+            <Routes>
+                <Route path="/" element={<Overview />} />
+                <Route path="/film/:filmId" element={<FilmDetails />} />
+                {isAdmin && <Route path="/admin" element={<Admin />} />}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Registration />} />
+            </Routes>
+        </BrowserRouter>
     );
     /**return (
         /<div>
