@@ -6,7 +6,7 @@ services:
     image: filmilox-client
     build:
       context: ./sys-src/client/
-      dockerfile: ./sys-src/client/Dockerfile
+      dockerfile: ./Dockerfile
     volumes:
       - ./sys-src/client/:/app
       - /app/node_modules
@@ -22,7 +22,7 @@ services:
     image: filmilox-server
     build:
       context: ./sys-src/server/
-      dockerfile: ./sys-src/server/Dockerfile
+      dockerfile: ./Dockerfile
     depends_on:
       - database
     volumes:
