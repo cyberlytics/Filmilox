@@ -24,7 +24,7 @@ mongoose.connect(
 );
 
 app.use('/user', require('./routes/userRouter'));
-app.use('/film', require('./routes/addReviewRouter'));
+app.use('/film', require('./routes/reviewRouter'));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`);

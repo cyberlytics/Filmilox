@@ -17,7 +17,12 @@ router.post(
 
         try {
             const { movieId, rating, comment } = req.body;
-            const newReview = new Review({ movieId, rating, comment });
+            const newReview = new Review({
+                user: req.user,
+                movie: movieId,
+                rating,
+                comment,
+            });
             await newReview.save();
 
             return res.json({});
