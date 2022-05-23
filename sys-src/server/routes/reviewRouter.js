@@ -1,6 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const router = require('express').Router();
-const Review = require('../models/review');
+const Review = require('../models/reviewModel');
 const auth = require('../middleware/auth');
 
 router.post(
