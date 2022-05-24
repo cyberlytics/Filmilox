@@ -4,10 +4,8 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../redux/hooks';
 import { selectIsLoggedIn } from '../redux/userSlice';
 import { AddReview } from './AddReview';
-
-import React from 'react';
-import { useParams } from 'react-router-dom';
 import Comment from './Comment';
+
 function FilmDetails() {
     const params = useParams();
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
