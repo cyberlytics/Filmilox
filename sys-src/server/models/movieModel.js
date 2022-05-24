@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const movieSchema = new Schema({
     title: { type: String, unique: false, required: true },
     description: { type: String, unique: false, required: true },
-    release: { type: String, unique: false, required: false },
-    trailer: { type: String, unique: false, required: false },
-    image: { type: File, unique: false, required: false },
+    release: { type: Date, unique: false, required: true },
+    trailer: { type: String, unique: false },
+    image: { type: String, unique: false, required: true },
 });
 
 module.exports = Movie = mongoose.model('Movie', movieSchema);

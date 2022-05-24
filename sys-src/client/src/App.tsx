@@ -24,7 +24,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Overview />} />
                 <Route path="/film/:filmId" element={<FilmDetails />} />
-                <Route path="/admin" element={<Admin />} />
+                {isAdmin && <Route path="/admin" element={<Admin />} />}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
             </Routes>
