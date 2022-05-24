@@ -5,6 +5,9 @@ import { useAppSelector } from '../redux/hooks';
 import { selectIsLoggedIn } from '../redux/userSlice';
 import { AddReview } from './AddReview';
 
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import Comment from './Comment';
 function FilmDetails() {
     const params = useParams();
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -20,10 +23,6 @@ function FilmDetails() {
 
     return (
         <div>
-            <p>
-                This should be the Film Details Page for the Film with id{' '}
-                {params.filmId}
-            </p>
             {isLoggedIn && (
                 <Button variant="contained" onClick={handleAddReviewClick}>
                     Film bewerten
@@ -36,6 +35,7 @@ function FilmDetails() {
                     movieId={params.filmId}
                 />
             )}
+            <Comment />
         </div>
     );
 }
