@@ -1,28 +1,35 @@
 import Rating from '@mui/material/Rating';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia} from '@mui/material';
 import React from 'react';
 
-const MovieCard = (props: any) => {
+const MovieCard = (props:any) => {
     return (
         <>
-            {props.movies.map((movie: any, index: any) => (
+            {props.movies.map((movie: any) => (
                 <div className="m-3">
-                    <Card sx={{ maxWidth: 200, maxHeight: 380 }}>
+                    <Card style={{ height: 370, width: 200, padding: 0}}>
                         <CardMedia
+                            style={{
+                                minHeight: 300,
+                                minWidth: 200,
+                                maxHeight: 300,
+                                maxWidth: 200,
+                            }}
                             component="img"
-                            height="300"
                             src={movie.Poster}
                             alt="Movie Poster"
                         ></CardMedia>
-                        <CardContent className="content-center">
-                            <div>
+                        <CardContent className="content-center" style={{justifyContent: 'top', padding:0}}>
+                            <div style={{display: 'block', height:45, paddingTop:5}}>
                                 <p className="text-sm">{movie.Title}</p>
                             </div>
                             <div
-                                style={{ display: 'flex' }}
-                                className="content-center"
+                                style={{
+                                    justifyContent: 'center',
+                                    display: 'flex',
+                                }}
                             >
-                                <Rating
+                                <Rating style={{paddingBottom: 10}}
                                     name="movie-rating"
                                     defaultValue={0}
                                     max={10}
