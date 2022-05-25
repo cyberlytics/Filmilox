@@ -11,12 +11,41 @@ router.post(
     body('comment').exists().isString().isLength({ max: 2000 }),
     async (req, res) => {
         const errors = validationResult(req);
+
+        //return when there is an error
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        const { movieId, rating, comment } = req.body;
+
+        //check if movie exists
+        const existingMovie = await Movie.findById(movieId);
+        if (!existingMovie)
+            return res.status(404).json({
+                errors: [
+                    {
+                        message: "The movie doesn't exist.",
+                    },
+                ],
+            });
+
+        //check if the user has a review to the movie
+        const existingReview = await Review.findOne({
+            user: req.user,
+            movie: movieId,
+        });
+        if (existingReview)
+            return res.status(404).json({
+                errors: [
+                    {
+                        message: 'You can only add one review per movie.',
+                    },
+                ],
+            });
+
         try {
-            const { movieId, rating, comment } = req.body;
+            //create a new Review and save it
             const newReview = new Review({
                 user: req.user,
                 movie: movieId,
@@ -25,7 +54,7 @@ router.post(
             });
             await newReview.save();
 
-            return res.json({});
+            return res.json({ status: true });
         } catch (e) {
             return res.status(500).json({ error: { message: 'Failed' } });
         }
