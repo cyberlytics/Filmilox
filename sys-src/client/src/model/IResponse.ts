@@ -5,3 +5,7 @@ export interface IRegisterResponse {
 export interface ILoginResponse {
     token: string;
 }
+
+export interface IMovieResponse {
+    status: boolean;
+}
