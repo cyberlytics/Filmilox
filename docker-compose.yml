@@ -31,7 +31,7 @@ services:
     environment:
       MONGODB_CONNECTION_STRING: mongodb://root:root@mongo:27017/
     env_file:
-      - /sys-src/server/.env
+      - ./sys-src/server/.env
     ports:
       - 9999:9999
   database:
