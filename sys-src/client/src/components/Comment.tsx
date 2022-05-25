@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Card, Grid, IconButton, Rating } from '@mui/material';
+import React from 'react';
+import { Card, IconButton, Rating } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
