@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const Controller = require('./controller/Controller');
 require('dotenv').config();
 
 const app = express();
@@ -24,7 +25,17 @@ mongoose.connect(
 );
 
 app.use('/user', require('./routes/userRouter'));
+app.use('/film', require('./routes/reviewRouter'));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`);
 });
+
+// Making sure that admin Account exist
+try {
+    Controller.createAdminUser().then((status) => {
+        if (status) console.log('Admin Account created');
+    });
+} catch (e) {
+    console.error(e);
+}

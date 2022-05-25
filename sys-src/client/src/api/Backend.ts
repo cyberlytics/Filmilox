@@ -3,6 +3,7 @@ import ApiRouter from './ApiRouter';
 import { ILoginResponse, IRegisterResponse } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
+import { IReview } from '../model/IReview';
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -29,6 +30,18 @@ export default class Backend {
                 identifier,
             });
             localStorage.setItem('token', token);
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static addreview = async ({ movieId, rating, comment }: IReview) => {
+        try {
+            await Axios.post(
+                ApiRouter.AddReview,
+                { movieId, rating, comment },
+                ApiRouter.createHeaders()
+            );
         } catch (e) {
             throw e;
         }
