@@ -6,9 +6,10 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { useState, useEffect, ChangeEvent } from 'react';
 import Backend from '../api/Backend';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { setDate } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
     const [title, setTitel] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -16,6 +17,21 @@ const Admin = () => {
     const [trailerLink, setTrailerLink] = useState<string>('');
     const [image, setImage] = useState<File>();
     const [preview, setPreview] = useState<string>('');
+    const [formValid, setFormValid] = useState<boolean>(false);
+
+    // validation states
+    const [titleError, setTitelError] = useState({
+        status: false,
+        helperText: '',
+    });
+    const [descriptionError, setDescriptionError] = useState({
+        status: false,
+        helperText: '',
+    });
+    const [trailerError, setTrailerError] = useState({
+        status: false,
+        helperText: '',
+    });
 
     useEffect(() => {
         if (image) {
@@ -28,6 +44,50 @@ const Admin = () => {
             setPreview('');
         }
     }, [image]);
+
+    function validate() {
+        setFormValid(true);
+
+        // Reset Errors:
+        setTitelError({
+            status: false,
+            helperText: '',
+        });
+        setDescriptionError({
+            status: false,
+            helperText: '',
+        });
+        setTrailerError({
+            status: false,
+            helperText: '',
+        });
+
+        // Validate Inputs:
+        // leerer Titel
+        if (title === '') {
+            setTitelError({
+                status: true,
+                helperText: 'Titel darf nicht leer sein.',
+            });
+            setFormValid(false);
+        }
+        // Beschreibung mind. 50 Zeichen
+        if (description.length < 50) {
+            setDescriptionError({
+                status: true,
+                helperText: 'Beschreibung muss mind 50 Zeichen lang sein.',
+            });
+            setFormValid(false);
+        }
+        // trailer Link leer
+        if (trailerLink === '') {
+            setTrailerError({
+                status: true,
+                helperText: 'Trailer-Link darf nicht leer sein.',
+            });
+            setFormValid(false);
+        }
+    }
 
     function handleTitleChange(title: string) {
         setTitel(title);
@@ -53,26 +113,40 @@ const Admin = () => {
     }
 
     const handleAddMovie = async () => {
-        setLoading(true);
+        await validate();
 
-        const status = await Backend.addMovie({
-            title: title,
-            description: description,
-            release: releaseDate,
-            trailer: trailerLink,
-        });
+        if (formValid) {
+            try {
+                setLoading(true);
+                const status = await Backend.addMovie({
+                    title: title,
+                    description: description,
+                    release: releaseDate,
+                    trailer: trailerLink,
+                });
+                setLoading(false);
 
-        if (status) {
-            window.location.reload();
-            alert('Film hinzugefügt!');
-        } else {
-            alert('Fehler beim Film hinzufügen!');
+                if (status) {
+                    setTitel('');
+                    setDescription('');
+                    setTrailerLink('');
+                    alert('Film hinzugefügt!');
+                } else {
+                    alert('Fehler beim Film hinzufügen!');
+                }
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
     const Input = styled('input')({
         display: 'none',
     });
+
+    const handleNavigate = (route: string) => {
+        navigate(route);
+    };
 
     return (
         <>
@@ -86,15 +160,21 @@ const Admin = () => {
                     variant="outlined"
                     className="scale-125 w-[100%]"
                     type="text"
+                    value={title}
+                    error={titleError.status}
+                    helperText={titleError.helperText}
                     onChange={(event) => {
                         handleTitleChange(event.target.value);
                     }}
                 />
                 <TextField
                     id="outlined-multiline-static"
-                    label="Beschreibung"
+                    label="Beschreibung (mind. 50 Zeichen)"
                     multiline
                     rows={7}
+                    value={description}
+                    error={descriptionError.status}
+                    helperText={descriptionError.helperText}
                     sx={{ paddingTop: 1, paddingBottom: 2 }}
                     className="scale-125 w-[100%]"
                     type="text"
@@ -117,6 +197,9 @@ const Admin = () => {
                     variant="outlined"
                     className="scale-125 w-[100%]"
                     type="text"
+                    value={trailerLink}
+                    error={trailerError.status}
+                    helperText={trailerError.helperText}
                     onChange={(event) => {
                         handleTLinkChange(event.target.value);
                     }}
@@ -162,6 +245,7 @@ const Admin = () => {
                     <Button
                         variant="outlined"
                         className="scale-125 float-right"
+                        onClick={() => handleNavigate('/')}
                     >
                         Abbrechen
                     </Button>
