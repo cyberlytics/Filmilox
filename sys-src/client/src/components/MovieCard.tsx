@@ -1,13 +1,13 @@
 import Rating from '@mui/material/Rating';
-import { Card, CardContent, CardMedia} from '@mui/material';
+import { Card, CardContent, CardMedia } from '@mui/material';
 import React from 'react';
 
-const MovieCard = (props:any) => {
+const MovieCard = (props: any) => {
     return (
         <>
             {props.movies.map((movie: any) => (
-                <div className="m-3">
-                    <Card style={{ height: 370, width: 200, padding: 0}}>
+                <div className="m-3" key={movie}>
+                    <Card style={{ height: 370, width: 200, padding: 0 }}>
                         <CardMedia
                             style={{
                                 minHeight: 300,
@@ -19,8 +19,17 @@ const MovieCard = (props:any) => {
                             src={movie.Poster}
                             alt="Movie Poster"
                         ></CardMedia>
-                        <CardContent className="content-center" style={{justifyContent: 'top', padding:0}}>
-                            <div style={{display: 'block', height:45, paddingTop:5}}>
+                        <CardContent
+                            className="content-center"
+                            style={{ justifyContent: 'top', padding: 0 }}
+                        >
+                            <div
+                                style={{
+                                    display: 'block',
+                                    height: 45,
+                                    paddingTop: 5,
+                                }}
+                            >
                                 <p className="text-sm">{movie.Title}</p>
                             </div>
                             <div
@@ -29,7 +38,8 @@ const MovieCard = (props:any) => {
                                     display: 'flex',
                                 }}
                             >
-                                <Rating style={{paddingBottom: 10}}
+                                <Rating
+                                    style={{ paddingBottom: 10 }}
                                     name="movie-rating"
                                     defaultValue={0}
                                     max={10}
