@@ -108,7 +108,7 @@ router.post(
                 });
             }
 
-            const token = jwt.sign({ id: userDb._id }, process.env.JWT_SECTRET);
+            const token = jwt.sign({ id: userDb._id }, process.env.JWT_SECRET);
             return res.json({ token });
         } catch (e) {
             return res
@@ -120,7 +120,9 @@ router.post(
 
 router.post('/fetch-data', auth, async (req, res) => {
     try {
-        const userDb = await User.findById(req.user).select('username email');
+        const userDb = await User.findById(req.user).select(
+            'username email admin'
+        );
         if (!userDb)
             return res.status(400).json({
                 errors: [{ param: 'user', message: 'No user found' }],

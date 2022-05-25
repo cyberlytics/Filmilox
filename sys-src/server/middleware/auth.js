@@ -8,7 +8,7 @@ const auth = async (req, res, next) => {
                 msg: 'No authentications token, authorisation Denied.',
             });
 
-        const verified = jwt.verify(token, process.env.JWT_SECTRET);
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
 
         if (!verified)
             return res.status(401).json({
