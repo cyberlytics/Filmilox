@@ -7,7 +7,6 @@ import {
     TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import ApiRouter from '../api/ApiRouter';
 import Backend from '../api/Backend';
 
 interface Props {
@@ -16,8 +15,12 @@ interface Props {
     movieId: string;
 }
 
-//TODO: Add movie cover
-
+/**
+ * Creates a popup window and allows the logged in user to rate the movie between 1 and 10 stars,
+ * and the user can optionally add a text with up to 2000 characters
+ * @param props: {open: boolean, onClose(): void, movieId: string}
+ * @returns component
+ */
 export const AddReview = (props: Props) => {
     const { open, onClose, movieId } = props;
     const commentMaxLength: number = 2000;
@@ -27,6 +30,11 @@ export const AddReview = (props: Props) => {
     const [ratingError, setRatingError] = useState<string>('');
     const [error, setError] = useState<string>('');
 
+    /**
+     * If the length of the event's target's value is less than or equal to the commentMaxLength,
+     * then the function sets the comment to the event's target's value.
+     * @param {React.ChangeEvent<HTMLInputElement>} event
+     */
     const handleCommentChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -34,6 +42,11 @@ export const AddReview = (props: Props) => {
             setComment(event.target.value);
     };
 
+    /**
+     * If the value is null then return, else change the rating based on the value.
+     * @param {React.SyntheticEvent} event - ,
+     * @param {number | null} value - number | null
+     */
     const handleRatingChange = (
         event: React.SyntheticEvent,
         value: number | null
@@ -44,13 +57,17 @@ export const AddReview = (props: Props) => {
         else setRating(value);
     };
 
+    /**
+     * If the rating is 0, set the ratingError to 'Sternbewertung fehlt!' and return. Otherwise, try
+     * to add the review, and if it fails, set the error to 'Submission failed!' and throw the error.
+     * @returns the result of the async function.
+     */
     const submitReview = async () => {
         if (rating === 0) {
             setRatingError('Sternbewertung fehlt!');
             return;
         }
         try {
-            console.log('Submit Review:', rating, comment);
             await Backend.addreview({ movieId, rating, comment });
             onClose();
         } catch (error) {
@@ -59,6 +76,7 @@ export const AddReview = (props: Props) => {
         }
     };
 
+    /* Resetting the ratingError to an empty string whenever the rating changes. */
     useEffect(() => {
         setRatingError('');
     }, [rating]);
