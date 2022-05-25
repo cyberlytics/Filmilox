@@ -17,9 +17,23 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        try {
-            const { movieId, rating, comment } = req.body;
+        const { movieId, rating, comment } = req.body;
 
+        //check if the user has a review to the movie
+        const existingReview = await Review.findOne({
+            user: req.user,
+            movie: movieId,
+        });
+        if (existingReview)
+            return res.status(404).json({
+                errors: [
+                    {
+                        message: 'You can only add one review per movie.',
+                    },
+                ],
+            });
+
+        try {
             //create a new Review and save it
             const newReview = new Review({
                 user: req.user,
@@ -29,7 +43,7 @@ router.post(
             });
             await newReview.save();
 
-            return res.json({});
+            return res.json({ status: true });
         } catch (e) {
             return res.status(500).json({ error: { message: 'Failed' } });
         }
