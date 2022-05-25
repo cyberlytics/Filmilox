@@ -4,15 +4,18 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { useState, useEffect, ChangeEvent } from 'react';
+import Backend from '../api/Backend';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { setDate } from 'date-fns';
 
 const Admin = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [title, setTitel] = useState<string>();
-    const [description, setDescription] = useState<string>();
-    const [releaseDate, setReleaseDate] = useState<string>();
-    const [trailerLink, setTrailerLink] = useState<string>();
+    const [title, setTitel] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+    const [releaseDate, setReleaseDate] = useState<Date | null>(new Date());
+    const [trailerLink, setTrailerLink] = useState<string>('');
     const [image, setImage] = useState<File>();
-    const [preview, setPreview] = useState<string>();
+    const [preview, setPreview] = useState<string>('');
 
     useEffect(() => {
         if (image) {
@@ -22,7 +25,7 @@ const Admin = () => {
             };
             reader.readAsDataURL(image);
         } else {
-            setPreview(undefined);
+            setPreview('');
         }
     }, [image]);
 
@@ -34,9 +37,9 @@ const Admin = () => {
         setDescription(description);
     }
 
-    function handleDateChange(date: string) {
-        setReleaseDate(date);
-    }
+    const handleDateChange = (newValue: Date | null) => {
+        setReleaseDate(newValue);
+    };
 
     function handleTLinkChange(tlink: string) {
         setTrailerLink(tlink);
@@ -49,13 +52,23 @@ const Admin = () => {
         }
     }
 
-    function handleAddMovie() {
-        console.log(title);
-        console.log(description);
-        console.log(releaseDate);
-        console.log(trailerLink);
+    const handleAddMovie = async () => {
         setLoading(true);
-    }
+
+        const status = await Backend.addMovie({
+            title: title,
+            description: description,
+            release: releaseDate,
+            trailer: trailerLink,
+        });
+
+        if (status) {
+            window.location.reload();
+            alert('Film hinzugefügt!');
+        } else {
+            alert('Fehler beim Film hinzufügen!');
+        }
+    };
 
     const Input = styled('input')({
         display: 'none',
@@ -89,18 +102,14 @@ const Admin = () => {
                         handleDescriptionChange(event.target.value);
                     }}
                 />
-                <TextField
-                    id="date"
+                <DesktopDatePicker
                     label="Erscheinungsdatum"
-                    defaultValue="2000-01-01"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    className="scale-125 w-[100%]"
-                    type="date"
-                    onChange={(event) => {
-                        handleDateChange(event.target.value);
-                    }}
+                    inputFormat="MM/dd/yyyy"
+                    value={releaseDate}
+                    onChange={handleDateChange}
+                    renderInput={(params) => (
+                        <TextField className="scale-125 w-[100%]" {...params} />
+                    )}
                 />
                 <TextField
                     id="outlined-basic"

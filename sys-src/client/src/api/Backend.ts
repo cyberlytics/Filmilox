@@ -1,9 +1,14 @@
 import Axios from 'axios';
 import ApiRouter from './ApiRouter';
-import { ILoginResponse, IRegisterResponse } from '../model/IResponse';
+import {
+    ILoginResponse,
+    IMovieResponse,
+    IRegisterResponse,
+} from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
 import { IReview } from '../model/IReview';
+import { IMovie } from '../model/IMovie';
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -42,6 +47,26 @@ export default class Backend {
                 { movieId, rating, comment },
                 ApiRouter.createHeaders()
             );
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static addMovie = async ({
+        title,
+        description,
+        release,
+        trailer,
+    }: IMovie) => {
+        try {
+            const {
+                data: { status },
+            } = await Axios.post<IMovieResponse>(
+                ApiRouter.AddMovie,
+                { title, description, release, trailer },
+                ApiRouter.createHeaders()
+            );
+            return status;
         } catch (e) {
             throw e;
         }

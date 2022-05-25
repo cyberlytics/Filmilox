@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import theme from './Theme';
 import { ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -15,7 +17,9 @@ root.render(
     <React.StrictMode>
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <App />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <App />
+                </LocalizationProvider>
             </ThemeProvider>
         </Provider>
     </React.StrictMode>
