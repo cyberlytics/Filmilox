@@ -225,7 +225,7 @@ const Admin = () => {
                         Bild hinzufügen
                     </Button>
                 </label>
-                <img src={preview} className="w-[300px]" />
+                <img src={preview} className="w-[300px]" alt=""/>
 
                 <div
                     className="w-[115%]"
