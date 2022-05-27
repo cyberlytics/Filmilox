@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development nodemon --legacy-watch server.js",
+    "docker-install": "docker exec filmilox-server yarn install",
     "prod": "NODE_ENV=production node server.js"
   },
   "dependencies": {
