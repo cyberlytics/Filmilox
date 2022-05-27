@@ -39,4 +39,22 @@ router.post('/add-movie', auth, async (req, res) => {
     }
 });
 
+router.get('/get-movie/:_id', async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const movieDb = await Movie.findById(_id);
+        if (!movieDb)
+            return res.status(400).json({
+                status: false,
+                errors: [{ param: 'movie', message: 'no movie found' }],
+            });
+        return res.json(movieDb);
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({
+            status: false,
+            errors: [{ param: 'internal', message: e.message }],
+        });
+    }
+});
 module.exports = router;
