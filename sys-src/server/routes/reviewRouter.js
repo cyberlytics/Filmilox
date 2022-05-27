@@ -3,6 +3,24 @@ const router = require('express').Router();
 const Review = require('../models/reviewModel');
 const auth = require('../middleware/auth');
 
+/**
+ * Recalculate the rating of a movie by taking the average of all the ratings of the reviews that are
+ * associated with that movie.
+ *
+ * @param movie - The movie object that we want to recalculate the rating for.
+ */
+const recalculateMovieRating = async (movie) => {
+    const reviews = await Review.find({ movie: movie._id });
+
+    const newMovieRating =
+        reviews.reduce((sumRating, curReview) => {
+            return sumRating + curReview.rating;
+        }, 0) / reviews.length;
+
+    movie.rating = newMovieRating;
+    await movie.save();
+};
+
 router.post(
     '/addreview',
     auth,
@@ -53,6 +71,7 @@ router.post(
                 comment,
             });
             await newReview.save();
+            recalculateMovieRating(existingMovie);
 
             return res.json({ status: true });
         } catch (e) {
