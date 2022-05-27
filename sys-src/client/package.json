@@ -34,7 +34,8 @@
     "yarn": "^1.22.18"
   },
   "scripts": {
-    "dev": "node ./setup && react-scripts start",
+    "dev": "yarn install && node ./setup && react-scripts start",
+    "docker-install": "docker exec filmilox-client yarn install",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
