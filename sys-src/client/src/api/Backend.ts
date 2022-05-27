@@ -71,4 +71,13 @@ export default class Backend {
             throw e;
         }
     };
+    static getMovie = async ({ _id }: { _id: string }) => {
+        try {
+            const url = `${ApiRouter.GetMovieData}/${_id}`;
+            const { data } = await Axios.get<IMovie>(url);
+            return data;
+        } catch (e) {
+            throw e;
+        }
+    };
 }

@@ -3,4 +3,6 @@ export interface IMovie {
     description: string;
     trailer: string;
     release: Date | null;
+    image?: string;
+    rating?: number;
 }
