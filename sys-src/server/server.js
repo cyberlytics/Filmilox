@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname + '/public')); //Serves resources from public folder
 
 // Set up mongoose
 mongoose.connect(
@@ -33,10 +34,8 @@ app.listen(process.env.PORT, () => {
 });
 
 // Making sure that admin Account exist
-try {
-    Controller.createAdminUser().then((status) => {
-        if (status) console.log('Admin Account created');
-    });
-} catch (e) {
-    console.error(e);
-}
+Controller.initScripts()
+    .then(() => {
+        console.log('Init scripts executed');
+    })
+    .catch((e) => console.error(e));

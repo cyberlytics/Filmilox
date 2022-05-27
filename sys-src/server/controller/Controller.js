@@ -1,5 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
+const Movie = require('../models/movieModel');
+const testMovies = require('../controller/testMovies');
 
 class Controller {
     static createAdminUser = async () => {
@@ -33,6 +35,33 @@ class Controller {
             return true;
         } catch (e) {
             console.error(e);
+            throw e;
+        }
+    };
+
+    static addTestMovies = async () => {
+        try {
+            // check if movies exist
+            const existingMovie = await Movie.findOne({
+                title: testMovies[0].title,
+            });
+            if (existingMovie) return false;
+            for (let movie of testMovies) {
+                const newMovie = new Movie({ ...movie });
+                await newMovie.save();
+            }
+            return true;
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
+    };
+
+    static initScripts = async () => {
+        try {
+            await this.createAdminUser();
+            await this.addTestMovies();
+        } catch (e) {
             throw e;
         }
     };
