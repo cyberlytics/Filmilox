@@ -10,6 +10,4 @@ const movieSchema = new Schema({
     rating: { type: Number, default: 0 },
 });
 
-movieSchema.index({title: 'text', description: 'text'}, {weights: {title: 20, description: 10}, name: 'movieIndex'});
-
 module.exports = Movie = mongoose.model('Movie', movieSchema);
