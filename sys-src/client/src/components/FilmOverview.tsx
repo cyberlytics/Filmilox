@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Backend from '../api/Backend';
@@ -30,10 +29,11 @@ function FilmOverview() {
     }, []);
     return (
         <div className="flex flex-col justify-center w-full items-center">
-            {isLoggedIn && openAddReview && params.filmId && (
+            {isLoggedIn && openAddReview && params.filmId && movie && (
                 <AddReview
                     open={openAddReview}
                     onClose={handleAddReviewClose}
+                    movie={movie}
                     movieId={params.filmId}
                 />
             )}
