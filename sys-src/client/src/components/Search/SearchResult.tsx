@@ -32,8 +32,10 @@ function SearchResult() {
             {searchResult?.get(searchQuery)?.map((movie: IMovieWithID) => {
                 return (
                     <div className="flex flex-row shadow-md mb-4 p-4 w-11/12" key={movie._id}>
-                        {!movie.image && <div className="w-32 h-48 mr-10 mb-4 bg-gray-300 cursor-pointer"
-                                              onClick={() => handleNavigation(movie._id)}/>}
+                        {!movie.image && <div
+                            className="w-32 h-48 mr-10 mb-4 bg-gray-300 cursor-pointer text-8xl text-slate-100 text-center align-middle"
+                            style={{lineHeight: "10rem"}}
+                            onClick={() => handleNavigation(movie._id)}>?</div>}
                         {movie.image &&
                             <img
                                 className="w-32 h-48 mr-10 drop-shadow-md mb-4 cursor-pointer"
