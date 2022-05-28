@@ -13,7 +13,7 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Button } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, NavigateFunction, useNavigate, useSearchParams} from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function TopAppBar() {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
     const dispatch = useAppDispatch();
 
     const username = useAppSelector(selectUsername);
@@ -78,6 +78,9 @@ export default function TopAppBar() {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const [searchParams] = useSearchParams();
+    const [searchInputQuery, setSearchInputQuery] = React.useState(searchParams.get('find'));
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -227,6 +230,12 @@ export default function TopAppBar() {
         handleMenuClose();
         navigate(route);
     };
+
+    function handleSearchSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        handleNavigate(`/search?find=${searchInputQuery}`);
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -262,11 +271,17 @@ export default function TopAppBar() {
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>
-                            <StyledInputBase
-                                fullWidth
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
+                            <form onSubmit={handleSearchSubmit}>
+                                <StyledInputBase
+                                    fullWidth
+                                    placeholder="Search…"
+                                    onInput={(e: React.FormEvent<HTMLDivElement>) => {
+                                        setSearchInputQuery((e.target as HTMLTextAreaElement).value);
+                                    }}
+                                    inputProps={{ 'aria-label': 'search'}}
+                                />
+                                <input type="submit" hidden/>
+                            </form>
                         </Search>
                     </div>
 
