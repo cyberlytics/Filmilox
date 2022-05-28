@@ -95,6 +95,7 @@ export const AddReview = (props: Props) => {
                                 movie?.image &&
                                 ApiRouter.getImageLink(movie.image)
                             }
+                            alt={movie.title}
                         />
                     </Grid>
                     <Grid item xs={12}>
