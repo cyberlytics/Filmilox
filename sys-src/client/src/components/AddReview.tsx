@@ -7,11 +7,14 @@ import {
     TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import ApiRouter from '../api/ApiRouter';
 import Backend from '../api/Backend';
+import { IMovie } from '../model/IMovie';
 
 interface Props {
     open: boolean;
     onClose(): void;
+    movie: IMovie;
     movieId: string;
 }
 
@@ -22,7 +25,7 @@ interface Props {
  * @returns component
  */
 export const AddReview = (props: Props) => {
-    const { open, onClose, movieId } = props;
+    const { open, onClose, movie, movieId } = props;
     const commentMaxLength: number = 2000;
 
     const [rating, setRating] = useState<number>(0);
@@ -86,7 +89,13 @@ export const AddReview = (props: Props) => {
             <Dialog open={open} onClose={onClose} maxWidth={'md'}>
                 <Grid container spacing={2} textAlign={'center'}>
                     <Grid item xs={12} sx={{ mt: 4 }}>
-                        Movie Thumbnail
+                        <img
+                            className="tablet:w-48 w-full mx-auto"
+                            src={
+                                movie?.image &&
+                                ApiRouter.getImageLink(movie.image)
+                            }
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <Rating
