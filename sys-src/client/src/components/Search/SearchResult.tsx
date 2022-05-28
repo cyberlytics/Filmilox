@@ -28,7 +28,8 @@ function SearchResult() {
     return (
         <div className="flex flex-col justify-center w-full mx-16">
             <h1 className="text-4xl my-10 ">Ergebnisse für {searchQuery}</h1>
-            {searchResult && searchResult.map((movie: IMovieWithID) => {
+            {(!searchResult || searchResult?.length == 0) && <p>Keine Ergebnisse gefunden.</p>}
+            {searchResult?.map((movie: IMovieWithID) => {
                 return(
                     <div className="flex flex-row shadow-md mb-4 p-4 w-11/12" key={movie._id}>
                         <img
