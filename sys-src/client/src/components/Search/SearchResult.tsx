@@ -7,7 +7,7 @@ import {format} from "date-fns";
 
 function SearchResult() {
     const [searchParams] = useSearchParams();
-    const [searchResult, setSearchResult] = useState<Array<IMovieWithID>>();
+    const [searchResult, setSearchResult] = useState<Map<(string | null), Array<IMovieWithID> >>();
     const searchQuery: string | null = searchParams.get("find");
     const navigate: NavigateFunction = useNavigate();
 
@@ -16,10 +16,10 @@ function SearchResult() {
     }
 
     useEffect(() => {
-        if (searchQuery && !searchResult) {
+        if (searchQuery && !searchResult?.get(searchQuery)) {
             const fetchSearchResults = async () => {
                 const searchResults: Array<IMovieWithID> = await Backend.search(searchQuery);
-                setSearchResult(searchResults);
+                setSearchResult(new Map<(string | null), Array<IMovieWithID>>([[searchQuery, searchResults]]));
             };
             fetchSearchResults().catch(console.error);
         }
@@ -28,8 +28,8 @@ function SearchResult() {
     return (
         <div className="flex flex-col justify-center w-full mx-16">
             <h1 className="text-4xl my-10 ">Ergebnisse für {searchQuery}</h1>
-            {(!searchResult || searchResult?.length == 0) && <p>Keine Ergebnisse gefunden.</p>}
-            {searchResult?.map((movie: IMovieWithID) => {
+            {(!searchResult || searchResult?.get(searchQuery)?.length == 0) && <p>Keine Ergebnisse gefunden.</p>}
+            { searchResult?.get(searchQuery)?.map((movie: IMovieWithID) => {
                 return(
                     <div className="flex flex-row shadow-md mb-4 p-4 w-11/12" key={movie._id}>
                         <img
