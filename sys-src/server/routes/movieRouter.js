@@ -12,7 +12,7 @@ router.post('/add-movie', auth, async (req, res) => {
         }
         const { title, description, release, trailer } = req.body;
 
-        // Ceck if Admin:
+        // Check if Admin:
         const isAdmin = await User.findById(req.user);
         if (!isAdmin) {
             return res.status(400).json({
