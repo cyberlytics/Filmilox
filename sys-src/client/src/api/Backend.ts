@@ -8,7 +8,7 @@ import {
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
 import { IReview } from '../model/IReview';
-import { IMovie } from '../model/IMovie';
+import {IMovie, IMovieWithID} from '../model/IMovie';
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -80,4 +80,13 @@ export default class Backend {
             throw e;
         }
     };
+
+    static search = async (query: string) => {
+        try {
+            const { data } = await Axios.get<Array<IMovieWithID>>(`${ApiRouter.Search}?q=${query}`);
+            return data;
+        } catch (e) {
+            throw e;
+        }
+    }
 }

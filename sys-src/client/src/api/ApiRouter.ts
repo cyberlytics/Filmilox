@@ -6,7 +6,7 @@ export default class ApiRouter {
         const token = localStorage.getItem('token');
         return { headers: { 'x-auth-token': token ? token : '' } };
     };
-    static getImageLink = (dbLink: string) => {
+    static getImageLink (dbLink: string): string | undefined {
         return set(dbLink);
     };
 
@@ -16,4 +16,5 @@ export default class ApiRouter {
     static AddMovie = set('/admin/add-movie');
     static FetchUserData = set('/user/fetch-data');
     static GetMovieData = set('/admin/get-movie');
+    static Search = set('/search');
 }

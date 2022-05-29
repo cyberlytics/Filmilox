@@ -6,3 +6,7 @@ export interface IMovie {
     image?: string;
     rating?: number;
 }
+
+export interface IMovieWithID extends IMovie {
+    _id: string;
+}
