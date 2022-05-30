@@ -80,4 +80,14 @@ router.post(
     }
 );
 
+router.get('/getreview/:movieId', async (req, res) => {
+    const { movieId } = req.params;
+    console.log('Backend:', movieId);
+    const reviews = await Review.find({ movie: movieId });
+    if (!reviews) {
+        return res.status(400).json({ error: { message: 'No reviews found' } });
+    }
+    return res.json(reviews);
+});
+
 module.exports = router;
