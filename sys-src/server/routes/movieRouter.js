@@ -3,8 +3,20 @@ const User = require('../models/userModel');
 const { validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const Movie = require('../models/movieModel');
+const multer = require('multer');
 
-router.post('/add-movie', auth, async (req, res) => {
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({ storage: storage });
+
+router.post('/add-movie', auth, upload.single('file'), async (req, res) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

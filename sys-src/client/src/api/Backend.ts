@@ -8,7 +8,7 @@ import {
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
 import { IReview } from '../model/IReview';
-import {IMovie, IMovieWithID} from '../model/IMovie';
+import { IMovie, IMovieWithID } from '../model/IMovie';
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -52,18 +52,14 @@ export default class Backend {
         }
     };
 
-    static addMovie = async ({
-        title,
-        description,
-        release,
-        trailer,
-    }: IMovie) => {
+    static addMovie = async (formData: FormData) => {
         try {
+            console.log(formData);
             const {
                 data: { status },
             } = await Axios.post<IMovieResponse>(
                 ApiRouter.AddMovie,
-                { title, description, release, trailer },
+                formData,
                 ApiRouter.createHeaders()
             );
             return status;
@@ -83,10 +79,12 @@ export default class Backend {
 
     static search = async (query: string) => {
         try {
-            const { data } = await Axios.get<Array<IMovieWithID>>(`${ApiRouter.Search}?q=${query}`);
+            const { data } = await Axios.get<Array<IMovieWithID>>(
+                `${ApiRouter.Search}?q=${query}`
+            );
             return data;
         } catch (e) {
             throw e;
         }
-    }
+    };
 }
