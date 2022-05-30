@@ -118,12 +118,22 @@ const Admin = () => {
         if (formValid) {
             try {
                 setLoading(true);
-                const status = await Backend.addMovie({
-                    title: title,
-                    description: description,
-                    release: releaseDate,
-                    trailer: trailerLink,
-                });
+                var formData = new FormData();
+
+                formData.append('image', image as Blob);
+                formData.append('title', title);
+                formData.append('description', description);
+                let relDate =
+                    releaseDate?.getDay() +
+                    '.' +
+                    releaseDate?.getMonth() +
+                    '.' +
+                    releaseDate?.getFullYear();
+
+                formData.append('releaseDate', relDate);
+                formData.append('trailer', trailerLink);
+
+                const status = await Backend.addMovie(formData);
                 setLoading(false);
 
                 if (status) {
@@ -225,7 +235,7 @@ const Admin = () => {
                         Bild hinzufügen
                     </Button>
                 </label>
-                <img src={preview} className="w-[300px]" alt=""/>
+                <img src={preview} className="w-[300px]" alt="" />
 
                 <div
                     className="w-[115%]"
