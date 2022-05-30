@@ -7,8 +7,8 @@ import {
 } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
-import { IReview } from '../model/IReview';
-import {IMovie, IMovieWithID} from '../model/IMovie';
+import { IReviewAdd, IReviewGet } from '../model/IReview';
+import { IMovie, IMovieWithID } from '../model/IMovie';
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -40,13 +40,23 @@ export default class Backend {
         }
     };
 
-    static addreview = async ({ movieId, rating, comment }: IReview) => {
+    static addreview = async ({ movieId, rating, comment }: IReviewAdd) => {
         try {
             await Axios.post(
                 ApiRouter.AddReview,
                 { movieId, rating, comment },
                 ApiRouter.createHeaders()
             );
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static getReview = async ({ movieId }: { movieId: string }) => {
+        try {
+            const url = `${ApiRouter.GetReview}/${movieId}`;
+            const { data } = await Axios.get<Array<IReviewGet>>(url);
+            return data;
         } catch (e) {
             throw e;
         }
@@ -83,10 +93,12 @@ export default class Backend {
 
     static search = async (query: string) => {
         try {
-            const { data } = await Axios.get<Array<IMovieWithID>>(`${ApiRouter.Search}?q=${query}`);
+            const { data } = await Axios.get<Array<IMovieWithID>>(
+                `${ApiRouter.Search}?q=${query}`
+            );
             return data;
         } catch (e) {
             throw e;
         }
-    }
+    };
 }
