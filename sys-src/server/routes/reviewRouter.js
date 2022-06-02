@@ -103,4 +103,25 @@ router.get('/getreview/:movieId', async (req, res) => {
     }
 });
 
+router.post('/deleteReview', auth, async (req, res) => {
+    try {
+        const { reviewId } = req.body;
+        const reviewDb = await Review.findById(reviewId);
+        if (!reviewDb.user.equals(req.user)) {
+            return res.status(400).json({
+                errors: [{ param: 'auth', message: 'You are not allowed.' }],
+            });
+        }
+        await Review.findByIdAndDelete(reviewId);
+        const movieDb = await Movie.findById(reviewDb.movie);
+        await recalculateMovieRating(movieDb);
+        const updatedMoviewDb = await Movie.findById(reviewDb.movie);
+        return res.json(updatedMoviewDb);
+    } catch (e) {
+        return res
+            .status(500)
+            .json({ errors: [{ param: 'internal', message: e.message }] });
+    }
+});
+
 module.exports = router;

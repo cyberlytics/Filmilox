@@ -112,4 +112,33 @@ export default class Backend {
             throw e;
         }
     };
+
+    static deleteReview = async (
+        reviewId: string,
+        setReviews: any,
+        setMovie: any
+    ) => {
+        try {
+            const { data } = await Axios.post(
+                ApiRouter.deleteReview,
+                { reviewId: reviewId },
+                ApiRouter.createHeaders()
+            );
+            setReviews((reviews: any) => {
+                const oldReviews = [...reviews];
+                const index = oldReviews.findIndex(
+                    (item) => item._id === reviewId
+                );
+
+                if (index !== -1) {
+                    oldReviews.splice(index, 1);
+                    return oldReviews;
+                }
+                return reviews;
+            });
+            setMovie(data);
+        } catch (e) {
+            throw e;
+        }
+    };
 }
