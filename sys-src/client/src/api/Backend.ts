@@ -73,18 +73,13 @@ export default class Backend {
         }
     };
 
-    static addMovie = async ({
-        title,
-        description,
-        release,
-        trailer,
-    }: IMovie) => {
+    static addMovie = async (formData: FormData) => {
         try {
             const {
                 data: { status },
             } = await Axios.post<IMovieResponse>(
                 ApiRouter.AddMovie,
-                { title, description, release, trailer },
+                formData,
                 ApiRouter.createHeaders()
             );
             return status;
