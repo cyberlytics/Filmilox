@@ -71,13 +71,36 @@ router.post(
                 comment,
             });
             await newReview.save();
-            recalculateMovieRating(existingMovie);
+            await recalculateMovieRating(existingMovie);
+            const review = await Review.findById(newReview._id)
+                .populate({ path: 'user', select: 'username' })
+                .populate({ path: 'movie' })
+                .exec();
 
-            return res.json({ status: true });
+            return res.json(review);
         } catch (e) {
             return res.status(500).json({ error: { message: 'Failed' } });
         }
     }
 );
+
+router.get('/getreview/:movieId', async (req, res) => {
+    try {
+        const { movieId } = req.params;
+        const reviews = await Review.find({ movie: movieId })
+            .populate({ path: 'user', select: 'username' })
+            .exec();
+        if (!reviews) {
+            return res
+                .status(400)
+                .json({ error: { message: 'No reviews found' } });
+        }
+        return res.json(reviews);
+    } catch (e) {
+        return res
+            .status(500)
+            .json({ errors: [{ param: 'internal', message: e.message }] });
+    }
+});
 
 module.exports = router;

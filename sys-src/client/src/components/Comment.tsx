@@ -1,40 +1,41 @@
-import React from 'react';
 import { Card, IconButton, Rating } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import { format } from 'date-fns';
+import { IReviewGet } from '../model/IReview';
+import { IVote } from '../model/IVote';
 
-const data = {
-    userName: '@Arina',
-    rating: 7.5,
-    comment:
-        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-    date: format(new Date(), 'dd.MM.yyyy'),
-    like: 0,
-    dislike: 0,
-};
+interface Props {
+    review: IReviewGet;
+}
 
-export default function Comment() {
+const Comment = (props: Props) => {
+    const { review } = props;
+
+    //TODO
+    // get vote by review.id
+    const vote: IVote = { like: 1337, dislike: 69 };
+
     return (
-        <Card className="m-4">
-            <div className="p-4">
+        <Card sx={{ width: 1280 }} className="m-4">
+            <div className="p-6">
                 <div className="flex flex-col tablet:justify-between tablet:flex-row">
                     <div className="flex items-center justify-between">
                         <p className="mr-4 text-xl text-gray-500 font-bold">
-                            {data.userName}
+                            @{review.user.username}
                         </p>
                         <Rating
                             name="customized-10"
-                            defaultValue={data.rating}
+                            readOnly
+                            defaultValue={review.rating}
                             max={10}
                         />
                     </div>
 
                     <div className="flex items-center justify-between">
                         <p className="text-xl text-gray-500 font-bold mr-2">
-                            {data.date}
+                            {new Date(review.createdAt).toLocaleDateString()}
                         </p>
                         <div className="">
                             <IconButton>
@@ -47,24 +48,27 @@ export default function Comment() {
                     </div>
                 </div>
                 <div className="flex flex-col tablet:flex-row">
-                    <p className="mr-8">{data.comment}</p>
+                    <p className="mr-8">{review.comment}</p>
+                    <div style={{ flexGrow: 1 }} />
                     <div className="flex justify-end tablet:items-end">
                         <div className="flex-col flex justify-center items-center">
                             <IconButton>
                                 <ThumbUpIcon />
                             </IconButton>
-                            <p>{data.like}</p>
+                            <p>{vote.like}</p>
                         </div>
 
                         <div className="flex-col flex justify-center items-center">
                             <IconButton color="error">
                                 <ThumbDownIcon />
                             </IconButton>
-                            <p>{data.dislike}</p>
+                            <p>{vote.dislike}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </Card>
     );
-}
+};
+
+export default Comment;
