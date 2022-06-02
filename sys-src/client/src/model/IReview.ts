@@ -6,10 +6,10 @@ export interface IReviewAdd {
 
 export interface IReviewGet {
     _id: string;
-    userId: string;
-    movieId: string;
+    user: { _id: string; username: string };
+    movie: any;
     rating: number;
     comment: string;
-    createdAt: Date | null;
-    updatedAt: Date | null;
+    createdAt: string;
+    updatedAt: string;
 }

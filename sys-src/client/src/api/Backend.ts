@@ -42,11 +42,12 @@ export default class Backend {
 
     static addreview = async ({ movieId, rating, comment }: IReviewAdd) => {
         try {
-            await Axios.post(
+            const { data } = await Axios.post(
                 ApiRouter.AddReview,
                 { movieId, rating, comment },
                 ApiRouter.createHeaders()
             );
+            return data;
         } catch (e) {
             throw e;
         }
@@ -56,30 +57,7 @@ export default class Backend {
         try {
             const url = `${ApiRouter.GetReview}/${movieId}`;
             const { data } = await Axios.get(url);
-
-            const convertedData: IReviewGet[] = [];
-            data.forEach(
-                (ele: {
-                    _id: string;
-                    user: string;
-                    movie: string;
-                    comment: string;
-                    rating: number;
-                    createdAt: string;
-                    updatedAt: string;
-                }) => {
-                    convertedData.push({
-                        _id: ele._id,
-                        userId: ele.user,
-                        movieId: ele.movie,
-                        comment: ele.comment,
-                        rating: ele.rating,
-                        createdAt: new Date(ele.createdAt),
-                        updatedAt: new Date(ele.updatedAt),
-                    });
-                }
-            );
-            return convertedData;
+            return data;
         } catch (e) {
             throw e;
         }
