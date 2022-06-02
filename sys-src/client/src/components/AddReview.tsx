@@ -16,6 +16,8 @@ interface Props {
     onClose(): void;
     movie: IMovie;
     movieId: string;
+    setReview: any;
+    setMovie: any;
 }
 
 /**
@@ -25,7 +27,7 @@ interface Props {
  * @returns component
  */
 export const AddReview = (props: Props) => {
-    const { open, onClose, movie, movieId } = props;
+    const { open, onClose, movie, movieId, setReview, setMovie } = props;
     const commentMaxLength: number = 2000;
 
     const [rating, setRating] = useState<number>(0);
@@ -71,7 +73,15 @@ export const AddReview = (props: Props) => {
             return;
         }
         try {
-            await Backend.addreview({ movieId, rating, comment });
+            const newReview = await Backend.addreview({
+                movieId,
+                rating,
+                comment,
+            });
+            setReview((review: any) => {
+                return [...review, newReview];
+            });
+            setMovie(newReview.movie);
             onClose();
         } catch (error) {
             setError('Submission failed!');

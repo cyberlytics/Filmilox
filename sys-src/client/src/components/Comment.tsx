@@ -5,8 +5,6 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { IReviewGet } from '../model/IReview';
 import { IVote } from '../model/IVote';
-import Backend from '../api/Backend';
-import { useEffect, useState } from 'react';
 
 interface Props {
     review: IReviewGet;
@@ -14,21 +12,10 @@ interface Props {
 
 const Comment = (props: Props) => {
     const { review } = props;
-    const [username, setUsername] = useState<string>('');
 
     //TODO
     // get vote by review.id
     const vote: IVote = { like: 1337, dislike: 69 };
-
-    useEffect(() => {
-        const getUsername = async (userId: string) => {
-            const name = await Backend.getUsername({
-                userId: userId,
-            });
-            setUsername(name);
-        };
-        getUsername(review.userId);
-    }, [review]);
 
     return (
         <Card sx={{ width: 1280 }} className="m-4">
@@ -36,7 +23,7 @@ const Comment = (props: Props) => {
                 <div className="flex flex-col tablet:justify-between tablet:flex-row">
                     <div className="flex items-center justify-between">
                         <p className="mr-4 text-xl text-gray-500 font-bold">
-                            @{username}
+                            @{review.user.username}
                         </p>
                         <Rating
                             name="customized-10"
@@ -48,7 +35,7 @@ const Comment = (props: Props) => {
 
                     <div className="flex items-center justify-between">
                         <p className="text-xl text-gray-500 font-bold mr-2">
-                            {review.createdAt?.toLocaleDateString()}
+                            {new Date(review.createdAt).toLocaleDateString()}
                         </p>
                         <div className="">
                             <IconButton>

@@ -46,6 +46,8 @@ function FilmOverview() {
                     onClose={handleAddReviewClose}
                     movie={movie}
                     movieId={params.filmId}
+                    setReview={setReview}
+                    setMovie={setMovie}
                 />
             )}
             <MovieDetails
