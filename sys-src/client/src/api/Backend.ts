@@ -7,7 +7,7 @@ import {
 } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
-import { IReviewAdd, IReviewGet } from '../model/IReview';
+import { IReviewAdd } from '../model/IReview';
 import { IMovie, IMovieWithID } from '../model/IMovie';
 
 export default class Backend {
