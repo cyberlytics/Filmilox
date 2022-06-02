@@ -14,6 +14,7 @@ export default class ApiRouter {
     static Login = set('/user/login');
     static AddReview = set('/film/addreview');
     static GetReview = set('/film/getreview');
+    static GetUsername = set('/user/getusername');
     static AddMovie = set('/admin/add-movie');
     static FetchUserData = set('/user/fetch-data');
     static GetMovieData = set('/admin/get-movie');

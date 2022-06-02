@@ -55,8 +55,41 @@ export default class Backend {
     static getReview = async ({ movieId }: { movieId: string }) => {
         try {
             const url = `${ApiRouter.GetReview}/${movieId}`;
-            const { data } = await Axios.get<Array<IReviewGet>>(url);
-            return data;
+            const { data } = await Axios.get(url);
+
+            const convertedData: IReviewGet[] = [];
+            data.forEach(
+                (ele: {
+                    _id: string;
+                    user: string;
+                    movie: string;
+                    comment: string;
+                    rating: number;
+                    createdAt: string;
+                    updatedAt: string;
+                }) => {
+                    convertedData.push({
+                        _id: ele._id,
+                        userId: ele.user,
+                        movieId: ele.movie,
+                        comment: ele.comment,
+                        rating: ele.rating,
+                        createdAt: new Date(ele.createdAt),
+                        updatedAt: new Date(ele.updatedAt),
+                    });
+                }
+            );
+            return convertedData;
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static getUsername = async ({ userId }: { userId: string }) => {
+        try {
+            const url = `${ApiRouter.GetUsername}/${userId}`;
+            const { data } = await Axios.get(url);
+            return data.username;
         } catch (e) {
             throw e;
         }
