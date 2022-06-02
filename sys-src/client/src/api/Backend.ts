@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios, {AxiosResponse} from 'axios';
 import ApiRouter from './ApiRouter';
 import {
     ILoginResponse,
@@ -9,6 +9,7 @@ import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
 import { IReviewAdd } from '../model/IReview';
 import { IMovie, IMovieWithID } from '../model/IMovie';
+import {IVote} from "../model/IVote";
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -136,4 +137,24 @@ export default class Backend {
             throw e;
         }
     };
+
+    static vote = async (reviewId: string, isUpvote: boolean) => {
+        try {
+            const { data } = await Axios.post(ApiRouter.submitVote, {reviewId, isUpvote}, ApiRouter.createHeaders());
+            return data;
+        }
+        catch (e) {
+            throw e;
+        }
+    }
+
+    static getVotes = async (reviewId: string) => {
+        try {
+            const data: AxiosResponse<IVote>  = await Axios.get<IVote>(`${ApiRouter.GetVotes}/${reviewId}`);
+            return data;
+        }
+        catch (e) {
+            throw e;
+        }
+    }
 }

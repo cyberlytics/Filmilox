@@ -1,4 +1,4 @@
 export interface IVote {
-    like: number;
-    dislike: number;
+    upvote: number;
+    downvote: number;
 }
