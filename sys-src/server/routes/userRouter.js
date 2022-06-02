@@ -135,4 +135,13 @@ router.post('/fetch-data', auth, async (req, res) => {
     }
 });
 
+router.get('/getusername/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const user = await User.findById(userId).select('username');
+    if (!user) {
+        return res.status(400).json({ error: { message: 'No user found' } });
+    }
+    return res.json(user);
+});
+
 module.exports = router;

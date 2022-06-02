@@ -7,7 +7,7 @@ import {
 } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
-import { IReview } from '../model/IReview';
+import { IReviewAdd, IReviewGet } from '../model/IReview';
 import { IMovie, IMovieWithID } from '../model/IMovie';
 
 export default class Backend {
@@ -40,13 +40,34 @@ export default class Backend {
         }
     };
 
-    static addreview = async ({ movieId, rating, comment }: IReview) => {
+    static addreview = async ({ movieId, rating, comment }: IReviewAdd) => {
         try {
-            await Axios.post(
+            const { data } = await Axios.post(
                 ApiRouter.AddReview,
                 { movieId, rating, comment },
                 ApiRouter.createHeaders()
             );
+            return data;
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static getReview = async ({ movieId }: { movieId: string }) => {
+        try {
+            const url = `${ApiRouter.GetReview}/${movieId}`;
+            const { data } = await Axios.get(url);
+            return data;
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static getUsername = async ({ userId }: { userId: string }) => {
+        try {
+            const url = `${ApiRouter.GetUsername}/${userId}`;
+            const { data } = await Axios.get(url);
+            return data.username;
         } catch (e) {
             throw e;
         }
