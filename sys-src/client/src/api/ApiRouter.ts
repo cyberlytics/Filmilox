@@ -19,4 +19,5 @@ export default class ApiRouter {
     static FetchUserData = set('/user/fetch-data');
     static GetMovieData = set('/admin/get-movie');
     static Search = set('/search');
+    static deleteReview = set('/film/deleteReview');
 }

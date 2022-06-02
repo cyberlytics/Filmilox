@@ -14,7 +14,7 @@ function FilmOverview() {
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const [openAddReview, setOpenAddReview] = useState<boolean>(false);
     const [movie, setMovie] = useState<IMovie | undefined>();
-    const [review, setReview] = useState<IReviewGet[]>([]);
+    const [reviews, setReviews] = useState<IReviewGet[]>([]);
 
     const handleAddReviewClose = () => {
         setOpenAddReview(false);
@@ -33,7 +33,7 @@ function FilmOverview() {
             const reviewsData = await Backend.getReview({
                 movieId: params.filmId,
             });
-            setReview(reviewsData);
+            setReviews(reviewsData);
         };
         getMovie();
     }, []);
@@ -46,7 +46,7 @@ function FilmOverview() {
                     onClose={handleAddReviewClose}
                     movie={movie}
                     movieId={params.filmId}
-                    setReview={setReview}
+                    setReviews={setReviews}
                     setMovie={setMovie}
                 />
             )}
@@ -54,8 +54,13 @@ function FilmOverview() {
                 movie={movie}
                 handleAddReviewClick={handleAddReviewClick}
             />
-            {review.map((review: IReviewGet) => (
-                <Comment review={review} key={review._id} />
+            {reviews.map((review: IReviewGet) => (
+                <Comment
+                    review={review}
+                    setReviews={setReviews}
+                    key={review._id}
+                    setMovie={setMovie}
+                />
             ))}
         </div>
     );
