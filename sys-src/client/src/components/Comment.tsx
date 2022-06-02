@@ -1,5 +1,4 @@
 import { Card, IconButton, Rating } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -7,8 +6,6 @@ import { IReviewGet } from '../model/IReview';
 import { IVote } from '../model/IVote';
 import { useAppSelector } from '../redux/hooks';
 import { selectUsername } from '../redux/userSlice';
-import axios from 'axios';
-import ApiRouter from '../api/ApiRouter';
 import Backend from '../api/Backend';
 
 interface Props {
