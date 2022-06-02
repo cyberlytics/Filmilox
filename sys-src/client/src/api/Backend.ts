@@ -7,7 +7,7 @@ import {
 } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
-import { IReviewAdd, IReviewGet } from '../model/IReview';
+import { IReviewAdd } from '../model/IReview';
 import { IMovie, IMovieWithID } from '../model/IMovie';
 
 export default class Backend {
@@ -103,6 +103,35 @@ export default class Backend {
                 `${ApiRouter.Search}?q=${query}`
             );
             return data;
+        } catch (e) {
+            throw e;
+        }
+    };
+
+    static deleteReview = async (
+        reviewId: string,
+        setReviews: any,
+        setMovie: any
+    ) => {
+        try {
+            const { data } = await Axios.post(
+                ApiRouter.deleteReview,
+                { reviewId: reviewId },
+                ApiRouter.createHeaders()
+            );
+            setReviews((reviews: any) => {
+                const oldReviews = [...reviews];
+                const index = oldReviews.findIndex(
+                    (item) => item._id === reviewId
+                );
+
+                if (index !== -1) {
+                    oldReviews.splice(index, 1);
+                    return oldReviews;
+                }
+                return reviews;
+            });
+            setMovie(data);
         } catch (e) {
             throw e;
         }
