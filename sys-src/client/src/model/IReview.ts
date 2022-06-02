@@ -10,5 +10,6 @@ export interface IReviewGet {
     movieId: string;
     rating: number;
     comment: string;
-    timestamp: Date | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 }
