@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const Movie = require('../models/movieModel');
 const multer = require('multer');
+const { default: mongoose } = require('mongoose');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,12 +19,6 @@ const upload = multer({ storage: storage });
 
 router.post('/add-movie', auth, upload.single('file'), async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        const { title, description, release, trailer } = req.body;
-
         // Check if Admin:
         const isAdmin = await User.findById(req.user);
         if (!isAdmin) {
@@ -32,12 +27,22 @@ router.post('/add-movie', auth, upload.single('file'), async (req, res) => {
             });
         }
 
-        // Create new User:
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const formData = req.body;
+        const extension = formData['file'].mimetype.split('/')[1];
+        const id = new mongoose.Types.ObjectId();
+        const imageName = '/' + id + extension;
+
         const newMovie = new Movie({
-            title,
-            description,
-            release,
-            trailer,
+            title: formData['title'],
+            description: formData['description'],
+            release: formData['releaseDate'],
+            trailer: formData['trailer'],
+            image: imageName,
         });
 
         await newMovie.save();

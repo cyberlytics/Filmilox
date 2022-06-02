@@ -120,7 +120,7 @@ const Admin = () => {
                 setLoading(true);
                 var formData = new FormData();
 
-                formData.append('image', image as Blob);
+                formData.append('file', image as Blob);
                 formData.append('title', title);
                 formData.append('description', description);
                 let relDate =
@@ -140,6 +140,7 @@ const Admin = () => {
                     setTitel('');
                     setDescription('');
                     setTrailerLink('');
+                    setImage(undefined);
                     alert('Film hinzugefügt!');
                 } else {
                     alert('Fehler beim Film hinzufügen!');
