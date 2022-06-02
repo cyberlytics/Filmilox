@@ -54,7 +54,6 @@ export default class Backend {
 
     static addMovie = async (formData: FormData) => {
         try {
-            console.log(formData);
             const {
                 data: { status },
             } = await Axios.post<IMovieResponse>(
