@@ -46,7 +46,9 @@ const Comment = (props: Props) => {
 
     async function handleVote(isUpvote: boolean) {
         try {
-            setUserVote({userVote: isUpvote});
+            if (isLoggedIn){
+                setUserVote({userVote: isUpvote});
+            }
             await Backend.vote(review._id, isUpvote);
         } catch (e) {
             console.error(e);
