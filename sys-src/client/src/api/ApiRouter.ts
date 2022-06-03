@@ -20,8 +20,8 @@ export default class ApiRouter {
     static FetchUserData = set('/user/fetch-data');
     static GetMovieData = set('/admin/get-movie');
     static Search = set('/search');
-    static deleteReview = set('/film/deleteReview');
-    static submitVote = set('/votes/submitVote');
+    static DeleteReview = set('/film/deleteReview');
+    static SubmitVote = set('/votes/submitVote');
     static GetVotes = set('/votes');
     static GetExistingUserVote = set('/votes/existingVote');
 }
