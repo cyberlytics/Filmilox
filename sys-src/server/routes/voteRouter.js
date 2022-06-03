@@ -22,7 +22,7 @@ router.post(
             const existingReview = await Review.findById(reviewId);
             if (!existingReview)
                 return res.status(404).json({
-                    errors: [{message: "The review doesn't exist."}],
+                    errors: [{message: "The review you're trying to rate doesn't exist."}],
                 });
 
             const existingVote = await Vote.findOne({
