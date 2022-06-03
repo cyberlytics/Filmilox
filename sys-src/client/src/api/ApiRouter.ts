@@ -23,4 +23,5 @@ export default class ApiRouter {
     static deleteReview = set('/film/deleteReview');
     static submitVote = set('/votes/submitVote');
     static GetVotes = set('/votes');
+    static GetExistingUserVote = set('/votes/existingVote');
 }

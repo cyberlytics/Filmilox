@@ -68,4 +68,16 @@ router.get(
         return res.json( {upvote: upvotes, downvote: downvotes});
     }
 )
+
+router.get('/existingVote/:reviewId/', auth, async (req, res) => {
+    const {reviewId} = req.params;
+    Vote.findOne({user: req.user, review: reviewId}, (err, vote) => {
+        if (err) {
+            console.log(err);
+        }
+        return res.json({
+             userVote : vote.state
+        });
+    })
+})
 module.exports = router;
