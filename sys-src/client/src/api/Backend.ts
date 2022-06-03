@@ -9,7 +9,7 @@ import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
 import { IReviewAdd } from '../model/IReview';
 import { IMovie, IMovieWithID } from '../model/IMovie';
-import {IVote} from "../model/IVote";
+import {IUserVote, IVote} from "../model/IVote";
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -151,6 +151,18 @@ export default class Backend {
     static getVotes = async (reviewId: string) => {
         try {
             const data: AxiosResponse<IVote>  = await Axios.get<IVote>(`${ApiRouter.GetVotes}/${reviewId}`);
+            return data;
+        }
+        catch (e) {
+            throw e;
+        }
+    }
+
+    static getExistingUserVote = async (reviewId: string) => {
+        try {
+            const data: AxiosResponse<IUserVote>
+                = await Axios.get<IUserVote>(
+                `${ApiRouter.GetExistingUserVote}/${reviewId}`, ApiRouter.createHeaders());
             return data;
         }
         catch (e) {

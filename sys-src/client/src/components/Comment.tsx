@@ -1,11 +1,11 @@
-import { Card, IconButton, Rating } from '@mui/material';
+import {Card, IconButton, Rating} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import { IReviewGet } from '../model/IReview';
-import { IVote } from '../model/IVote';
-import { useAppSelector } from '../redux/hooks';
-import { selectUsername } from '../redux/userSlice';
+import {IReviewGet} from '../model/IReview';
+import {IUserVote, IVote} from '../model/IVote';
+import {useAppSelector} from '../redux/hooks';
+import {selectIsLoggedIn, selectUsername} from '../redux/userSlice';
 import Backend from '../api/Backend';
 import {useEffect, useState} from "react";
 import {AxiosResponse} from "axios";
@@ -17,15 +17,24 @@ interface Props {
 }
 
 const Comment = (props: Props) => {
-    const { review, setReviews, setMovie } = props;
+    const {review, setReviews, setMovie} = props;
     const userName = useAppSelector(selectUsername);
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-    const [vote, setVote] = useState <IVote| undefined>();
+    const [vote, setVote] = useState<IVote | undefined>();
+    const [userVote, setUserVote] = useState<IUserVote>();
 
     useEffect(() => {
         Backend.getVotes(review._id)
-                .then((response: AxiosResponse<IVote>) => setVote(response.data));
-    });
+               .then((response: AxiosResponse<IVote>) => {setVote(response.data); console.log(response.data)});
+    }, [userVote]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            Backend.getExistingUserVote(review._id)
+                .then((response: AxiosResponse<IUserVote>) => {setUserVote(response.data)} )
+        }
+    },[])
 
     const handleDelete = async () => {
         try {
@@ -37,6 +46,7 @@ const Comment = (props: Props) => {
 
     async function handleVote(isUpvote: boolean) {
         try {
+            setUserVote({userVote: isUpvote});
             await Backend.vote(review._id, isUpvote);
         } catch (e) {
             console.error(e);
@@ -71,26 +81,30 @@ const Comment = (props: Props) => {
                                     onClick={handleDelete}
                                     color="error"
                                 >
-                                    <DeleteIcon />
+                                    <DeleteIcon/>
                                 </IconButton>
                             )}
                         </div>
                     </div>
                     <div className="flex flex-col tablet:flex-row">
                         <p className="mr-8">{review.comment}</p>
-                        <div style={{ flexGrow: 1 }} />
+                        <div style={{flexGrow: 1}}/>
                         <div className="flex justify-end tablet:items-end">
                             <div className="flex-col flex justify-center items-center">
-                                <IconButton onClick={() => {handleVote(true)}}>
-                                    <ThumbUpIcon />
+                                <IconButton color={ userVote?.userVote === true ? 'primary' : 'default'} onClick={() => {
+                                    handleVote(true)
+                                }}>
+                                    <ThumbUpIcon/>
                                 </IconButton>
                                 <p>{vote && vote.upvote}</p>
                                 <p>{!vote && '--'}</p>
                             </div>
 
                             <div className="flex-col flex justify-center items-center">
-                                <IconButton color="error" onClick={() => {handleVote(false)}}>
-                                    <ThumbDownIcon />
+                                <IconButton color={ userVote?.userVote === false ? 'error' : 'default'}  onClick={() => {
+                                    handleVote(false)
+                                }}>
+                                    <ThumbDownIcon/>
                                 </IconButton>
                                 <p>{vote && vote.downvote}</p>
                                 <p>{!vote && '--'}</p>
