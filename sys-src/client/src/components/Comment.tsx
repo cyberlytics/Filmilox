@@ -1,14 +1,14 @@
-import {Card, IconButton, Rating} from '@mui/material';
+import { Card, IconButton, Rating } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import {IReviewGet} from '../model/IReview';
-import {IUserVote, IVote} from '../model/IVote';
-import {useAppSelector} from '../redux/hooks';
-import {selectIsLoggedIn, selectUsername} from '../redux/userSlice';
+import { IReviewGet } from '../model/IReview';
+import { IUserVote, IVote } from '../model/IVote';
+import { useAppSelector } from '../redux/hooks';
+import { selectIsLoggedIn, selectUsername } from '../redux/userSlice';
 import Backend from '../api/Backend';
-import {useEffect, useState} from "react";
-import {AxiosResponse} from "axios";
+import { useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
 
 interface Props {
     review: IReviewGet;
