@@ -6,6 +6,7 @@ export default class ApiRouter {
         const token = localStorage.getItem('token');
         return { headers: { 'x-auth-token': token ? token : '' } };
     };
+
     static getImageLink(dbLink: string): string | undefined {
         return set(dbLink);
     }
@@ -19,5 +20,8 @@ export default class ApiRouter {
     static FetchUserData = set('/user/fetch-data');
     static GetMovieData = set('/admin/get-movie');
     static Search = set('/search');
-    static deleteReview = set('/film/deleteReview');
+    static DeleteReview = set('/film/deleteReview');
+    static SubmitVote = set('/votes/submitVote');
+    static GetVotes = set('/votes');
+    static GetExistingUserVote = set('/votes/existingVote');
 }
