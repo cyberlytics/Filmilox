@@ -1,4 +1,8 @@
 export interface IVote {
-    like: number;
-    dislike: number;
+    upvote: number;
+    downvote: number;
+}
+
+export interface IUserVote {
+    userVote: boolean | undefined;
 }

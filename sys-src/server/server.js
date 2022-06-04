@@ -29,6 +29,7 @@ app.use('/user', require('./routes/userRouter'));
 app.use('/film', require('./routes/reviewRouter'));
 app.use('/admin', require('./routes/movieRouter'));
 app.use('/search', require('./routes/searchRouter'));
+app.use('/votes', require('./routes/voteRouter'))
 
 
 app.listen(process.env.PORT, () => {

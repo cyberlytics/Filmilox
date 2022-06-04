@@ -3,10 +3,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { IReviewGet } from '../model/IReview';
-import { IVote } from '../model/IVote';
+import { IUserVote, IVote } from '../model/IVote';
 import { useAppSelector } from '../redux/hooks';
-import { selectUsername } from '../redux/userSlice';
+import { selectIsLoggedIn, selectUsername } from '../redux/userSlice';
 import Backend from '../api/Backend';
+import { useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
 
 interface Props {
     review: IReviewGet;
@@ -15,11 +17,24 @@ interface Props {
 }
 
 const Comment = (props: Props) => {
-    const { review, setReviews, setMovie } = props;
+    const {review, setReviews, setMovie} = props;
     const userName = useAppSelector(selectUsername);
-    //TODO
-    // get vote by review.id
-    const vote: IVote = { like: 1337, dislike: 69 };
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
+    const [vote, setVote] = useState<IVote | undefined>();
+    const [userVote, setUserVote] = useState<IUserVote>();
+
+    useEffect(() => {
+        Backend.getVotes(review._id)
+               .then((response: AxiosResponse<IVote>) => {setVote(response.data); console.log(response.data)});
+    }, [userVote]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            Backend.getExistingUserVote(review._id)
+                .then((response: AxiosResponse<IUserVote>) => {setUserVote(response.data)} )
+        }
+    },[])
 
     const handleDelete = async () => {
         try {
@@ -28,6 +43,18 @@ const Comment = (props: Props) => {
             console.log(e);
         }
     };
+
+    async function handleVote(isUpvote: boolean) {
+        try {
+            if (isLoggedIn){
+                setUserVote({userVote: isUpvote});
+            }
+            await Backend.vote(review._id, isUpvote);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     return (
         <div className="m-4 w-full px-6">
             <Card className="w-full">
@@ -56,27 +83,33 @@ const Comment = (props: Props) => {
                                     onClick={handleDelete}
                                     color="error"
                                 >
-                                    <DeleteIcon />
+                                    <DeleteIcon/>
                                 </IconButton>
                             )}
                         </div>
                     </div>
                     <div className="flex flex-col tablet:flex-row">
                         <p className="mr-8">{review.comment}</p>
-                        <div style={{ flexGrow: 1 }} />
+                        <div style={{flexGrow: 1}}/>
                         <div className="flex justify-end tablet:items-end">
                             <div className="flex-col flex justify-center items-center">
-                                <IconButton>
-                                    <ThumbUpIcon />
+                                <IconButton color={ userVote?.userVote === true ? 'primary' : 'default'} onClick={() => {
+                                    handleVote(true)
+                                }}>
+                                    <ThumbUpIcon/>
                                 </IconButton>
-                                <p>{vote.like}</p>
+                                <p>{vote && vote.upvote}</p>
+                                <p>{!vote && '--'}</p>
                             </div>
 
                             <div className="flex-col flex justify-center items-center">
-                                <IconButton color="error">
-                                    <ThumbDownIcon />
+                                <IconButton color={ userVote?.userVote === false ? 'error' : 'default'}  onClick={() => {
+                                    handleVote(false)
+                                }}>
+                                    <ThumbDownIcon/>
                                 </IconButton>
-                                <p>{vote.dislike}</p>
+                                <p>{vote && vote.downvote}</p>
+                                <p>{!vote && '--'}</p>
                             </div>
                         </div>
                     </div>
