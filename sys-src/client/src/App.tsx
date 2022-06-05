@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Overview from './components/Overview';
+import Overview from './components/Overview/Overview';
 import Admin from './components/Admin';
 import Login from './components/Authentication/Login';
 import Registration from './components/Authentication/Registration';
@@ -8,7 +8,7 @@ import TopAppBar from './components/TopAppBar/TopAppBar';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { fetchUserData, selectIsAdmin } from './redux/userSlice';
-import SearchResult from "./components/Search/SearchResult";
+import SearchResult from './components/Search/SearchResult';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <TopAppBar/>
+            <TopAppBar />
             <Routes>
                 <Route path="/" element={<Overview />} />
                 <Route path="/film/:filmId" element={<FilmOverview />} />
