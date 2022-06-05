@@ -1,11 +1,11 @@
-import React from 'react';
-import { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { IMovie } from '../../model/IMovie';
 import YouTube from 'react-youtube';
 import { Skeleton } from '@mui/material';
+import { useWindowSize } from 'usehooks-ts';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -23,25 +23,30 @@ interface IProps {
 }
 
 export default function TrailerDialog({ open, setOpen, movie }: IProps) {
-    const youtubeRef = useRef<any>();
+    const { width, height } = useWindowSize();
     const [mount, setMount] = useState(false);
 
+    const wWidth = width < 1300 ? width / 1.2 : width / 1.5;
+    const wHeight = height / 1.5;
+
     const handleClose = () => {
-        youtubeRef.current.destroyPlayer();
+        setMount(false);
         setOpen(false);
     };
 
     const opts = {
-        height: '390',
-        width: '640',
+        height: wHeight,
+        width: wWidth,
         playerVars: {
             autoplay: 1,
         },
     };
 
-    const handleOnReady = () => {
-        setMount(true);
-    };
+    useEffect(() => {
+        setTimeout(() => {
+            setMount(true);
+        }, 500);
+    }, []);
 
     return (
         <Dialog
@@ -49,22 +54,26 @@ export default function TrailerDialog({ open, setOpen, movie }: IProps) {
             open={open}
             TransitionComponent={Transition}
             keepMounted
-            maxWidth="lg"
+            maxWidth="xl"
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <div className={`${mount ? 'flex' : 'hidden'}`}>
-                <YouTube
-                    ref={youtubeRef}
-                    videoId={movie.trailer.split('v=')[1].split('&')[0]}
-                    opts={opts}
-                    onReady={handleOnReady}
-                />
+            <div className="bg-black">
+                {mount && (
+                    <YouTube
+                        videoId={movie.trailer.split('v=')[1].split('&')[0]}
+                        opts={opts}
+                        loading={'lazy'}
+                    />
+                )}
+                {!mount && (
+                    <Skeleton
+                        variant="rectangular"
+                        width={wWidth}
+                        height={wHeight}
+                    />
+                )}
             </div>
-
-            {!mount && (
-                <Skeleton variant="rectangular" width={640} height={390} />
-            )}
         </Dialog>
     );
 }

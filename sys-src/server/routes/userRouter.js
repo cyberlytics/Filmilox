@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const Movie = require("../models/movieModel")
+const Movie = require('../models/movieModel');
 
 router.post(
     '/register',
@@ -137,33 +137,20 @@ router.post('/fetch-data', auth, async (req, res) => {
 });
 
 router.get('/getusername/:userId', async (req, res) => {
-    try{
-        const {userId} = req.params;
+    try {
+        const { userId } = req.params;
         const user = await User.findById(userId).select('username');
         if (!user) {
-            return res.status(400).json({error: {message: 'No user found'}});
+            return res
+                .status(400)
+                .json({ error: { message: 'No user found' } });
         }
         return res.json(user);
-    }catch (e) {
+    } catch (e) {
         return res
             .status(500)
             .json({ errors: [{ param: 'internal', message: e.message }] });
     }
 });
-
-
-router.get("/get-all-movies", async (req, res)=>{
-    try{
-
-        const movies = await Movie.find().limit(50)
-        return res.json({movies})
-    }catch (e) {
-        console.error(e)
-        return res
-            .status(500)
-            .json({ errors: [{ param: 'internal', message: e.message }] });
-    }
-})
-
 
 module.exports = router;
