@@ -89,6 +89,9 @@ router.get('/existingVote/:reviewId/', auth, async (req, res) => {
             if (err) {
                 console.log(err);
             }
+            if (!vote) {
+                return res.json({userVote: undefined});
+            }
             return res.json({
                 userVote: vote.state
             });
