@@ -28,7 +28,7 @@ const Comment = (props: Props) => {
         Backend.getVotes(review._id).then((response: AxiosResponse<IVote>) => {
             setVote(response.data);
         });
-    }, [userVote]);
+    }, [userVote, review]);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -38,7 +38,7 @@ const Comment = (props: Props) => {
                 }
             );
         }
-    }, []);
+    }, [review, isLoggedIn]);
 
     const handleDelete = async () => {
         try {

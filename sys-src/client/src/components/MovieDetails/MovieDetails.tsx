@@ -20,7 +20,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
 
     return (
         <>
-            {movie && (
+            {movie && open && (
                 <TrailerDialog open={open} setOpen={setOpen} movie={movie} />
             )}
 
@@ -31,6 +31,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                         src={
                             movie?.image && ApiRouter.getImageLink(movie.image)
                         }
+                        alt="Movie"
                     />
                     <Button variant="outlined" onClick={handleShowTrailer}>
                         TRAILER ANSCHAUEN

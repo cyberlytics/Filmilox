@@ -24,5 +24,5 @@ export default class ApiRouter {
     static SubmitVote = set('/votes/submitVote');
     static GetVotes = set('/votes');
     static GetExistingUserVote = set('/votes/existingVote');
-    static GetAllMovies = set("/user/get-all-movies")
+    static GetAllMovies = set('/admin/get-all-movies');
 }

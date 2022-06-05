@@ -19,7 +19,7 @@ function Overview() {
     }, []);
 
     return (
-        <div className="grid grid-col-1 tabLaptop:grid-cols-4 tablet:grid-cols-3 desktop:grid-cols-6 gap-4 p-8">
+        <div className="grid grid-col-1 tabLaptop:grid-cols-4 tablet:grid-cols-3 deLa:grid-cols-5 desktop:grid-cols-6 gap-4 p-8">
             {movies.map((m) => (
                 <MovieCard movie={m} key={m._id} />
             ))}
