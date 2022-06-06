@@ -56,12 +56,21 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                                 )}
                             </div>
                             <br className="tablet:hidden" />
-                            <Rating
-                                name="customized-10"
-                                readOnly
-                                value={movie?.rating ? movie.rating : 0}
-                                max={10}
-                            />
+                            <div className="flex items-center">
+                                <Rating
+                                    precision={0.1}
+                                    name="customized-10"
+                                    readOnly
+                                    value={movie?.rating ? movie.rating : 0}
+                                    max={10}
+                                />
+                                <p className="font-bold ml-4">
+                                    {movie?.rating
+                                        ? Math.round(movie.rating * 10) / 10
+                                        : '--'}
+                                </p>
+                            </div>
+
                             <p>
                                 Erscheinungsdatum:{' '}
                                 {movie?.release &&

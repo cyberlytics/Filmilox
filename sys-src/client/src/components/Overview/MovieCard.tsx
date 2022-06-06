@@ -5,6 +5,7 @@ import { IMovie } from '../../model/IMovie';
 import TrailerDialog from '../TrailerDialog/TrailerDialog';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import placeholder from './placeholder.svg';
 
 interface IProps {
     movie: IMovie;
@@ -32,11 +33,14 @@ const MovieCard = ({ movie }: IProps) => {
             <Card key={movie._id}>
                 <CardActionArea onClick={handleNavigate}>
                     <img
-                        className="object-cover w-full h-[400px] tablet:h-[350px] desktop:h-[350px] big:h-[450px]"
+                        placeholder="digga"
+                        className={`${
+                            movie.image ? 'aspect-[4/3]' : 'object-scale-down'
+                        } w-full h-[400px] tablet:h-[350px] desktop:h-[350px] big:h-[450px]`}
                         src={
                             movie.image
                                 ? ApiRouter.getImageLink(movie.image)
-                                : require('./placeholder.png')
+                                : placeholder
                         }
                         alt={movie.title}
                     />
@@ -45,7 +49,11 @@ const MovieCard = ({ movie }: IProps) => {
                     <p className="text-lg font-bold">{movie.title}</p>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                            <p className="mr-2">{movie.rating}</p>
+                            <p className="mr-2">
+                                {movie.rating
+                                    ? Math.round(movie.rating * 10) / 10
+                                    : '--'}
+                            </p>
                             <img
                                 src={require('./star.png')}
                                 alt="star"
