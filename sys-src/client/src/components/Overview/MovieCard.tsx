@@ -34,7 +34,7 @@ const MovieCard = ({ movie }: IProps) => {
                 <CardActionArea onClick={handleNavigate}>
                     <img
                         placeholder="placeholder"
-                        className={`w-full h-auto aspect-[2/3]`}
+                        className={`w-full h-96`}
                         src={
                             movie.image
                                 ? ApiRouter.getImageLink(movie.image)
