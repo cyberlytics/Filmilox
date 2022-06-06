@@ -7,6 +7,7 @@ import ApiRouter from '../../api/ApiRouter';
 import { format } from 'date-fns';
 import TrailerDialog from '../TrailerDialog/TrailerDialog';
 import { useState } from 'react';
+import placeholder from '../Overview/placeholder.svg';
 
 interface IProps {
     handleAddReviewClick: () => void;
@@ -29,7 +30,9 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                     <img
                         className="tablet:w-96 w-full rounded shadow-xl mb-4"
                         src={
-                            movie?.image && ApiRouter.getImageLink(movie.image)
+                            movie?.image
+                                ? ApiRouter.getImageLink(movie.image)
+                                : placeholder
                         }
                         alt="Movie"
                     />
