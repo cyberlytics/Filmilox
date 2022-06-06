@@ -81,4 +81,16 @@ router.get('/get-movie/:_id', async (req, res) => {
         });
     }
 });
+
+router.get('/get-all-movies', async (req, res) => {
+    try {
+        const movies = await Movie.find();
+        return res.json({ movies });
+    } catch (e) {
+        return res
+            .status(500)
+            .json({ errors: [{ param: 'internal', message: e.message }] });
+    }
+});
+
 module.exports = router;
