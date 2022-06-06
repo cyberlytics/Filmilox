@@ -1,5 +1,5 @@
-import { render } from './test-utils';
-import Login from '../components/Authentication/Login';
+import { render } from '../../utils/test-utils';
+import Login from './Login';
 
 test('renders learn react link', () => {
     const { getByText } = render(<Login />);
