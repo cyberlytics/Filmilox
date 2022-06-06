@@ -169,4 +169,13 @@ export default class Backend {
             throw e;
         }
     }
+
+    static getAllMovies = async ()=>{
+        try{
+            const {data} = await Axios.get(ApiRouter.GetAllMovies)
+            return data
+        }catch (e) {
+            throw e
+        }
+    }
 }

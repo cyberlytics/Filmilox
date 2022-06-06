@@ -36,7 +36,7 @@ function FilmOverview() {
             setReviews(reviewsData);
         };
         getMovie();
-    }, []);
+    }, [params]);
 
     return (
         <div className="flex flex-col justify-center w-full items-center">
