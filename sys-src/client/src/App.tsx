@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Overview from './components/Overview/Overview';
 import Admin from './components/Admin';
 import Login from './components/Authentication/Login';
@@ -20,7 +20,7 @@ function App() {
     }, [dispatch]);
 
     return (
-        <BrowserRouter>
+        <>
             <TopAppBar />
             <Routes>
                 <Route path="/" element={<Overview />} />
@@ -30,7 +30,7 @@ function App() {
                 <Route path="/register" element={<Registration />} />
                 <Route path="/search" element={<SearchResult />} />
             </Routes>
-        </BrowserRouter>
+        </>
     );
 }
 
