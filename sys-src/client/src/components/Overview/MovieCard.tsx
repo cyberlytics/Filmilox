@@ -33,7 +33,7 @@ const MovieCard = ({ movie }: IProps) => {
             <Card key={movie._id}>
                 <CardActionArea onClick={handleNavigate}>
                     <img
-                        placeholder="digga"
+                        placeholder="placeholder"
                         className={`w-full h-auto aspect-[2/3]`}
                         src={
                             movie.image
