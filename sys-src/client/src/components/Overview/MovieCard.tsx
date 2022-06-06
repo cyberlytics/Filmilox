@@ -34,9 +34,7 @@ const MovieCard = ({ movie }: IProps) => {
                 <CardActionArea onClick={handleNavigate}>
                     <img
                         placeholder="digga"
-                        className={`${
-                            movie.image ? 'aspect-[4/3]' : 'object-scale-down'
-                        } w-full h-[400px] tablet:h-[350px] desktop:h-[350px] big:h-[450px]`}
+                        className={`w-full h-auto aspect-[2/3]`}
                         src={
                             movie.image
                                 ? ApiRouter.getImageLink(movie.image)
