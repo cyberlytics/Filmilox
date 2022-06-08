@@ -62,9 +62,9 @@ const MovieCard = ({ movie }: IProps) => {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center">
                                             <p className="mr-2">
-                                                {movie.rating
+                                                <b>{movie.rating
                                                     ? Math.round(movie.rating * 10) / 10
-                                                    : '--'}
+                                                    : '--'}</b>
                                             </p>
                                             <img
                                                 src={require('./star.png')}
