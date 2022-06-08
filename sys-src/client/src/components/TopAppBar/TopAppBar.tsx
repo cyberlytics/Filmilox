@@ -137,18 +137,20 @@ export default function TopAppBar() {
                     <p>Add Movie</p>
                 </MenuItem>
             )}
-            <MenuItem onClick={()=>handleNavigate('/usersettings')}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <SettingsIcon />
-                </IconButton>
-                <p>User Settings</p>
-            </MenuItem>
+            {isLoggedIn && (
+                <MenuItem onClick={()=>handleNavigate('/usersettings')}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                    <p>User Settings</p>
+                </MenuItem>
+                )}
             <MenuItem onClick={handleLogOut}>
                 <IconButton
                     size="large"
@@ -195,6 +197,21 @@ export default function TopAppBar() {
                                 <AddIcon />
                             </IconButton>
                             <p>Add Movie</p>
+                        </MenuItem>
+                    )}
+
+                    {isLoggedIn && (
+                        <MenuItem onClick={()=>handleNavigate('/usersettings')}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="primary-search-account-menu"
+                                aria-haspopup="true"
+                                color="inherit"
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                            <p>User Settings</p>
                         </MenuItem>
                     )}
 
