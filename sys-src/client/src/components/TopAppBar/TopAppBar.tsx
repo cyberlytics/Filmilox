@@ -15,6 +15,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Button } from '@mui/material';
 import {Link, NavigateFunction, useNavigate, useSearchParams} from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
     selectIsAdmin,
@@ -136,6 +137,18 @@ export default function TopAppBar() {
                     <p>Add Movie</p>
                 </MenuItem>
             )}
+            <MenuItem onClick={()=>handleNavigate('/usersettings')}>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <SettingsIcon />
+                </IconButton>
+                <p>User Settings</p>
+            </MenuItem>
             <MenuItem onClick={handleLogOut}>
                 <IconButton
                     size="large"
