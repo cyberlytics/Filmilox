@@ -5,7 +5,11 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { IReviewGet } from '../model/IReview';
 import { IUserVote, IVote } from '../model/IVote';
 import { useAppSelector } from '../redux/hooks';
-import { selectIsLoggedIn, selectUsername } from '../redux/userSlice';
+import {
+    selectIsAdmin,
+    selectIsLoggedIn,
+    selectUsername,
+} from '../redux/userSlice';
 import Backend from '../api/Backend';
 import { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
@@ -20,7 +24,7 @@ const Comment = (props: Props) => {
     const { review, setReviews, setMovie } = props;
     const userName = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
-
+    const isAdmin = useAppSelector(selectIsAdmin);
     const [vote, setVote] = useState<IVote | undefined>();
     const [userVote, setUserVote] = useState<IUserVote>();
 
@@ -82,7 +86,7 @@ const Comment = (props: Props) => {
                                     review.createdAt
                                 ).toLocaleDateString()}
                             </p>
-                            {userName === review.user.username && (
+                            {(userName === review.user.username || isAdmin) && (
                                 <IconButton
                                     onClick={handleDelete}
                                     color="error"
