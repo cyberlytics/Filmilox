@@ -5,7 +5,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "NODE_ENV=test jest --coverage",
         "dev": "NODE_ENV=development nodemon --legacy-watch server.js",
         "docker-install": "docker exec filmilox-server yarn install",
         "prod": "NODE_ENV=production node server.js"
@@ -22,6 +22,9 @@
         "multer": "^1.4.5-lts.1"
     },
     "devDependencies": {
-        "nodemon": "^2.0.16"
+        "jest": "^28.1.1",
+        "mongodb-memory-server": "^8.6.0",
+        "nodemon": "^2.0.16",
+        "supertest": "^6.2.3"
     }
 }
