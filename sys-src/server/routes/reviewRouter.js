@@ -111,7 +111,8 @@ router.post('/deleteReview', auth, async (req, res) => {
     try {
         const { reviewId } = req.body;
         const reviewDb = await Review.findById(reviewId);
-        if (!reviewDb.user.equals(req.user)) {
+        const adminDb = await User.findOne({ admin: true });
+        if (!reviewDb.user.equals(req.user) && !adminDb) {
             return res.status(400).json({
                 errors: [{ param: 'auth', message: 'You are not allowed.' }],
             });
