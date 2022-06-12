@@ -1,6 +1,7 @@
 import { render } from '../../utils/test-utils';
 import { fireEvent } from '@testing-library/react';
 import Login from './Login';
+import Backend from '../../api/Backend';
 
 const setup = () => {
     const utils = render(<Login />);
@@ -29,4 +30,23 @@ test('It should change the email input', () => {
 
     fireEvent.change(passwordInput, { target: { value: 'password1234' } });
     expect(passwordInput.value).toBe('password1234');
+});
+
+test('make fake login', async () => {
+    try {
+        await Backend.login({
+            identifier: 'test',
+            password: 'test',
+        });
+    } catch (e: any) {
+        expect(e.message).toBe('Request failed with status code 400');
+    }
+});
+
+test('make admin login', async () => {
+    await Backend.login({
+        identifier: 'admin',
+        password: '!TjNL7(hmadc74~&',
+    });
+    expect(localStorage.getItem('token')).toBeDefined();
 });
