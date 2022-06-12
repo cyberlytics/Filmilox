@@ -86,6 +86,7 @@ const Login = () => {
                     helperText={passwordError.message}
                 />
                 <Button
+                    data-testid="login-button"
                     variant="contained"
                     fullWidth
                     sx={{ mt: 2 }}
