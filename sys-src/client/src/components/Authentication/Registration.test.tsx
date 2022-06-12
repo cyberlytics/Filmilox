@@ -20,7 +20,7 @@ test('renders Registration component', () => {
     expect(getByText(/Register/i, { selector: 'h1' })).toBeInTheDocument();
 });
 
-test('It should change the email/username input', () => {
+test('It should change the email username password input', () => {
     const { emailInput, passwordInput, userNameInput } = setup();
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
     expect(emailInput.value).toBe('test@test.com');
