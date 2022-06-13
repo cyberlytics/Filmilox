@@ -81,7 +81,6 @@ describe('tests to add a review', () => {
             movieId: '507f1f77bcf86cd799439010',
             rating: 9,
             comment: 'lipsum',
-            user: '507f1f77bcf86cd799439012',
         });
         expect(review0.statusCode).toBe(200);
 
@@ -89,7 +88,6 @@ describe('tests to add a review', () => {
             movieId: '507f1f77bcf86cd799439010',
             rating: 2,
             comment: 'lipsum lipsum',
-            user: '507f1f77bcf86cd799439012',
         });
         expect(review1.statusCode).toBe(404);
         expect(review1.error.text).toBe(
@@ -98,5 +96,6 @@ describe('tests to add a review', () => {
     });
 });
 
+//TODO
 describe('tests to delete a review', () => {});
 describe('tests to get a review', () => {});
