@@ -27,6 +27,16 @@ const clearDatabase = async () => {
 
 const addTestMoviesToDatabase = async () => {
     await Controller.addTestMovies();
+    const movie = new Movie({
+        _id: '507f1f77bcf86cd799439010',
+        title: 'Test movie',
+        description: 'Description of the test movie.',
+        release: new Date('1/1/2001'),
+        trailer: 'youtube link',
+        image: 'image id',
+        rating: 0,
+    });
+    await movie.save();
 };
 
 const addTestReviewToDatabase = async () => {
