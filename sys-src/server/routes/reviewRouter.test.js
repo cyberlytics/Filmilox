@@ -22,28 +22,28 @@ afterAll(async () => await mockDb.closeDatabase());
 describe('tests to add a review', () => {
     test('test invalid ratings', async () => {
         const review0 = await agent.post('/film/addreview').send({
-            movieId: 'lipsum',
+            movieId: '507f1f77bcf86cd799439010',
             rating: 0,
             comment: 'lipsum comment',
         });
         expect(review0.statusCode).toBe(400);
 
         const review1 = await agent.post('/film/addreview').send({
-            movieId: 'lipsum',
+            movieId: '507f1f77bcf86cd799439010',
             rating: 11,
             comment: 'lipsum comment',
         });
         expect(review1.statusCode).toBe(400);
 
         const review2 = await agent.post('/film/addreview').send({
-            movieId: 'lipsum',
+            movieId: '507f1f77bcf86cd799439010',
             rating: 5.5,
             comment: 'lipsum comment',
         });
         expect(review2.statusCode).toBe(400);
 
         const review3 = await agent.post('/film/addreview').send({
-            movieId: 'lipsum',
+            movieId: '507f1f77bcf86cd799439010',
             comment: 'lipsum comment',
         });
         expect(review3.statusCode).toBe(400);
@@ -69,7 +69,7 @@ describe('tests to add a review', () => {
 
     test('test invalid comment', async () => {
         const review0 = await agent.post('/film/addreview').send({
-            movieId: '507f1f77bcf86cd799439011',
+            movieId: '507f1f77bcf86cd799439010',
             rating: 9,
             comment: 'l' * 2001,
         });
