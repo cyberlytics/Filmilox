@@ -5,8 +5,8 @@ import { IMovie } from '../model/IMovie';
 import { IReviewGet } from '../model/IReview';
 import { useAppSelector } from '../redux/hooks';
 import { selectIsLoggedIn } from '../redux/userSlice';
-import { AddReview } from './AddReview';
-import Comment from './Comment';
+import { AddReview } from './Review/AddReview';
+import Review from './Review/Review';
 import MovieDetails from './MovieDetails/MovieDetails';
 
 function FilmOverview() {
@@ -55,7 +55,7 @@ function FilmOverview() {
                 handleAddReviewClick={handleAddReviewClick}
             />
             {reviews.map((review: IReviewGet) => (
-                <Comment
+                <Review
                     review={review}
                     setReviews={setReviews}
                     key={review._id}
