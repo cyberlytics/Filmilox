@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {MongoMemoryServer} = require('mongodb-memory-server');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const Controller = require('../controller/Controller');
 const Review = require('../models/reviewModel');
 
@@ -8,26 +8,26 @@ let mockDb;
 const connect = async () => {
     mockDb = await MongoMemoryServer.create();
     const mockDbUri = await mockDb.getUri();
-    const mongooseOpts = {useNewUrlParser: true, useUnifiedTopology: true};
+    const mongooseOpts = { useNewUrlParser: true, useUnifiedTopology: true };
     await mongoose.connect(mockDbUri, mongooseOpts);
-}
+};
 
 const closeDatabase = async () => {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
     await mockDb.stop();
-}
+};
 
 const clearDatabase = async () => {
     const collections = mongoose.connection.collections;
     for (const key in collections) {
         await collections[key].deleteMany();
     }
-}
+};
 
 const addTestMoviesToDatabase = async () => {
     await Controller.addTestMovies();
-}
+};
 
 const addTestReviewToDatabase = async () => {
     const review = new Review({
@@ -37,7 +37,12 @@ const addTestReviewToDatabase = async () => {
         comment: 'I am a test, I test things',
     });
     await review.save();
-}
+};
 
-
-module.exports = {connect, closeDatabase, clearDatabase, addTestMoviesToDatabase, addTestReviewToDatabase};
+module.exports = {
+    connect,
+    closeDatabase,
+    clearDatabase,
+    addTestMoviesToDatabase,
+    addTestReviewToDatabase,
+};
