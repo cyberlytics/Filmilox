@@ -5,7 +5,7 @@ import { IMovie } from '../../model/IMovie';
 import TrailerDialog from '../TrailerDialog/TrailerDialog';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import placeholder from './placeholder.svg';
+import placeholder from './placeholder.png';
 
 interface IProps {
     movie: IMovie;
@@ -31,7 +31,7 @@ const MovieCard = ({ movie }: IProps) => {
             )}
 
                 <div className="m-3 w-full flex items-center justify-between" key={movie._id}>
-                    <Card style={{ maxHeight: 430, maxWidth: 240, padding: 0 }}>
+                    <Card style={{ maxHeight: 435, maxWidth: 240, padding: 0 }}>
                         <CardActionArea onClick={handleNavigate}>
                             <CardMedia
                                 style={{
@@ -47,7 +47,7 @@ const MovieCard = ({ movie }: IProps) => {
                         </CardActionArea>
                             <CardContent
                                 className="content-center"
-                                style={{ maxHeight:70, maxWidth:240, justifyContent: 'top', padding: 0 }}
+                                style={{ maxHeight:75, maxWidth:240, justifyContent: 'top', padding: 0 }}
                             >
                                 <div
                                     style={{
