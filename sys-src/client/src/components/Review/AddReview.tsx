@@ -7,9 +7,9 @@ import {
     TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import ApiRouter from '../api/ApiRouter';
-import Backend from '../api/Backend';
-import { IMovie } from '../model/IMovie';
+import ApiRouter from '../../api/ApiRouter';
+import Backend from '../../api/Backend';
+import { IMovie } from '../../model/IMovie';
 
 interface Props {
     open: boolean;
