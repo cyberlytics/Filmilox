@@ -1,9 +1,8 @@
-import { fireEvent, render, screen } from '../utils/test-utils';
-import { IMovie } from '../model/IMovie';
+import { fireEvent, render, screen } from '../../utils/test-utils';
+import { IMovie } from '../../model/IMovie';
 import { useState } from 'react';
-import { IReviewGet } from '../model/IReview';
-import { AddReview } from '../components/AddReview';
-import { TextField } from '@mui/material';
+import { IReviewGet } from '../../model/IReview';
+import { AddReview } from './AddReview';
 import { act } from 'react-dom/test-utils';
 
 const Wrapper = () => {
