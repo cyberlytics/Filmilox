@@ -1,0 +1,27 @@
+image: node
+
+stages:
+  - build
+  - test
+
+build-job:
+  stage: build
+  script:
+    - echo "Building Filmilox"
+    - cd ./sys-src/client/
+    - yarn install
+    - yarn build
+    - echo "Build successfully!"
+
+unit-test-job:
+  stage: test
+  script:
+    - echo "Testing filmilox client."
+    - cd ./sys-src/client/
+    - yarn install
+    - yarn test
+    - echo "Testing filmilox server."
+    - cd ./sys-src/server/
+    - yarn install
+    - yarn test
+    - echo "Testing was successful!"
