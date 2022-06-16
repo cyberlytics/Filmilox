@@ -54,7 +54,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                                         variant="contained"
                                         onClick={handleAddReviewClick}
                                     >
-                                        Bewerten Abgeben
+                                        Bewertung Abgeben
                                     </Button>
                                 )}
                             </div>

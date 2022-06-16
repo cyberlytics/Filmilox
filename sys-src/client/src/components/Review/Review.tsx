@@ -2,11 +2,15 @@ import { Card, IconButton, Rating } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import { IReviewGet } from '../model/IReview';
-import { IUserVote, IVote } from '../model/IVote';
-import { useAppSelector } from '../redux/hooks';
-import { selectIsLoggedIn, selectUsername } from '../redux/userSlice';
-import Backend from '../api/Backend';
+import { IReviewGet } from '../../model/IReview';
+import { IUserVote, IVote } from '../../model/IVote';
+import { useAppSelector } from '../../redux/hooks';
+import {
+    selectIsAdmin,
+    selectIsLoggedIn,
+    selectUsername,
+} from '../../redux/userSlice';
+import Backend from '../../api/Backend';
 import { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
 
@@ -16,11 +20,11 @@ interface Props {
     setMovie: any;
 }
 
-const Comment = (props: Props) => {
+const Review = (props: Props) => {
     const { review, setReviews, setMovie } = props;
     const userName = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
-
+    const isAdmin = useAppSelector(selectIsAdmin);
     const [vote, setVote] = useState<IVote | undefined>();
     const [userVote, setUserVote] = useState<IUserVote>();
 
@@ -82,7 +86,7 @@ const Comment = (props: Props) => {
                                     review.createdAt
                                 ).toLocaleDateString()}
                             </p>
-                            {userName === review.user.username && (
+                            {(userName === review.user.username || isAdmin) && (
                                 <IconButton
                                     onClick={handleDelete}
                                     color="error"
@@ -137,4 +141,4 @@ const Comment = (props: Props) => {
     );
 };
 
-export default Comment;
+export default Review;

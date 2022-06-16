@@ -29,10 +29,9 @@ const PasswordInput = ({ value, setValue, helperText, error }: IProps) => {
     };
     return (
         <FormControl variant="filled" fullWidth sx={{ mt: 1 }}>
-            <InputLabel htmlFor="filled-adornment-password">
-                Password
-            </InputLabel>
+            <InputLabel htmlFor="password">Password</InputLabel>
             <FilledInput
+                id="password"
                 error={error}
                 type={showPassword ? 'text' : 'password'}
                 value={value}
