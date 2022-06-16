@@ -30,7 +30,7 @@ const MovieCard = ({ movie }: IProps) => {
                 />
             )}
 
-                <div className="m-3 w-full flex items-center justify-between" key={movie._id}>
+                <div className="m-3 flex items-center justify-between" key={movie._id}>
                     <Card style={{ maxHeight: 435, maxWidth: 240, padding: 0 }}>
                         <CardActionArea onClick={handleNavigate}>
                             <CardMedia
