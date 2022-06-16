@@ -273,6 +273,7 @@ const Admin = () => {
                     className="mx-auto scale-125 "
                 >
                     <Input
+                        data-testid="addImgInput"
                         accept="image/*"
                         id="contained-button-file"
                         type="file"
