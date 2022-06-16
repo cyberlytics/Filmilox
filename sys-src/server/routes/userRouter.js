@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const Movie = require('../models/movieModel');
 
 router.post(
     '/register',
