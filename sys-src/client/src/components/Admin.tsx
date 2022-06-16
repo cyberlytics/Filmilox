@@ -207,11 +207,14 @@ const Admin = () => {
     return (
         <>
             <div className="w-[600px] mx-auto flex flex-col flex-wrap items-center space-y-10 justify-between ">
-                <h1 className="font-medium text-left leading-tight text-5xl w-[125%] mt-3">
+                <h1
+                    className="font-medium text-left leading-tight text-5xl w-[125%] mt-3"
+                    data-testid="heading"
+                >
                     FILM HINZUFÜGEN:
                 </h1>
                 <TextField
-                    role="titleInput"
+                    data-testid="titleInput"
                     label="Titel"
                     variant="outlined"
                     className="scale-125 w-[100%]"
@@ -224,7 +227,7 @@ const Admin = () => {
                     }}
                 />
                 <TextField
-                    role="descriptionInput"
+                    data-testid="descriptionInput"
                     label="Beschreibung"
                     multiline
                     rows={7}
@@ -247,12 +250,12 @@ const Admin = () => {
                         <TextField
                             className="scale-125 w-[100%]"
                             {...params}
-                            role="datePicker"
+                            data-testid="datePicker"
                         />
                     )}
                 />
                 <TextField
-                    role="linkInput"
+                    data-testid="linkInput"
                     label="Trailer-Link"
                     variant="outlined"
                     className="scale-125 w-[100%]"
@@ -278,6 +281,7 @@ const Admin = () => {
                         }}
                     />
                     <Button
+                        data-testid="addImgButton"
                         variant="contained"
                         component="span"
                         startIcon={<InsertPhotoIcon />}
@@ -294,7 +298,7 @@ const Admin = () => {
                     style={{ marginBottom: 100, marginTop: 70 }}
                 >
                     <LoadingButton
-                        role="addMovieBtn"
+                        data-testid="addMovieBtn"
                         color="primary"
                         onClick={handleAddMovie}
                         loading={loading}
@@ -306,6 +310,7 @@ const Admin = () => {
                         Film hinzufügen
                     </LoadingButton>
                     <Button
+                        data-testid="cancelBtn"
                         variant="outlined"
                         className="scale-125 float-right"
                         onClick={() => handleNavigate('/')}
