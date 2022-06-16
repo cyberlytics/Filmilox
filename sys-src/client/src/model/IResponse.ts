@@ -9,3 +9,7 @@ export interface ILoginResponse {
 export interface IMovieResponse {
     status: boolean;
 }
+
+export interface IProfileUpdateResponse{
+    status: boolean;
+}

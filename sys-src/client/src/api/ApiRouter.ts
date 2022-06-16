@@ -25,4 +25,5 @@ export default class ApiRouter {
     static GetVotes = set('/votes');
     static GetExistingUserVote = set('/votes/existingVote');
     static GetAllMovies = set('/admin/get-all-movies');
+    static UpdateProfile = set('/user/usersettings');
 }

@@ -2,7 +2,7 @@ import Axios, { AxiosResponse } from 'axios';
 import ApiRouter from './ApiRouter';
 import {
     ILoginResponse,
-    IMovieResponse,
+    IMovieResponse, IProfileUpdateResponse,
     IRegisterResponse,
 } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
@@ -176,6 +176,22 @@ export default class Backend {
             return data
         }catch (e) {
             throw e
+        }
+    }
+
+    static updateProfile = async(formData: FormData) =>{
+        try{
+            const{
+                data: {status},
+            } = await Axios.post<IProfileUpdateResponse>(
+                ApiRouter.UpdateProfile,
+                formData,
+                ApiRouter.createHeaders()
+            );
+            return status;
+        }
+        catch (e) {
+            throw e;
         }
     }
 }

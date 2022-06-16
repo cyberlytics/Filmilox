@@ -25,9 +25,19 @@ const UserSettings = () => {
     }
 
     const handleUpdateProfile = async() =>{
-        const status = await Backend.updateProfile();
-        if (status){
-            setProfilePic(undefined);
+        try {
+            var formData = new FormData();
+            formData.append('file', profilePic as Blob);
+            const status = await Backend.updateProfile(formData);
+            if (status) {
+                setProfilePic(undefined);
+                alert("Profilbild aktualisiert.");
+            } else {
+                alert("Fehler beim Aktualisieren des Profilbilds.");
+            }
+        }
+        catch (error) {
+            console.error(error);
         }
     }
 
@@ -65,7 +75,8 @@ const UserSettings = () => {
                 <p><b>Email: </b>{email}</p>
             </div>
             <Button
-                startIcon={<SaveIcon/>}>
+                startIcon={<SaveIcon/>}
+                onClick={handleUpdateProfile}>
                 Speichern
             </Button>
         </div>
