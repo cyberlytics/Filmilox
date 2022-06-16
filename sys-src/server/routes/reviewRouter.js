@@ -11,7 +11,11 @@ const auth = require('../middleware/auth');
  */
 const recalculateMovieRating = async (movie) => {
     const reviews = await Review.find({ movie: movie._id });
-
+    if (reviews.length === 0) {
+        movie.rating = 0;
+        await movie.save();
+        return;
+    }
     const newMovieRating =
         reviews.reduce((sumRating, curReview) => {
             return sumRating + curReview.rating;
@@ -107,7 +111,8 @@ router.post('/deleteReview', auth, async (req, res) => {
     try {
         const { reviewId } = req.body;
         const reviewDb = await Review.findById(reviewId);
-        if (!reviewDb.user.equals(req.user)) {
+        const adminDb = await User.findOne({ admin: true });
+        if (!reviewDb.user.equals(req.user) && !adminDb) {
             return res.status(400).json({
                 errors: [{ param: 'auth', message: 'You are not allowed.' }],
             });
@@ -118,6 +123,7 @@ router.post('/deleteReview', auth, async (req, res) => {
         const updatedMoviewDb = await Movie.findById(reviewDb.movie);
         return res.json(updatedMoviewDb);
     } catch (e) {
+        console.log(e);
         return res
             .status(500)
             .json({ errors: [{ param: 'internal', message: e.message }] });

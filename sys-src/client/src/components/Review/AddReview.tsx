@@ -7,9 +7,9 @@ import {
     TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import ApiRouter from '../api/ApiRouter';
-import Backend from '../api/Backend';
-import { IMovie } from '../model/IMovie';
+import ApiRouter from '../../api/ApiRouter';
+import Backend from '../../api/Backend';
+import { IMovie } from '../../model/IMovie';
 
 interface Props {
     open: boolean;
@@ -85,7 +85,6 @@ export const AddReview = (props: Props) => {
             onClose();
         } catch (error) {
             setError('Submission failed!');
-            throw error;
         }
     };
 
@@ -96,7 +95,12 @@ export const AddReview = (props: Props) => {
 
     return (
         <>
-            <Dialog open={open} onClose={onClose} maxWidth={'md'}>
+            <Dialog
+                open={open}
+                onClose={onClose}
+                maxWidth={'md'}
+                data-testid="addreview-window"
+            >
                 <Grid container spacing={2} textAlign={'center'}>
                     <Grid item xs={12} sx={{ mt: 4 }}>
                         <img
@@ -106,6 +110,7 @@ export const AddReview = (props: Props) => {
                                 ApiRouter.getImageLink(movie.image)
                             }
                             alt={movie.title}
+                            data-testid="addreview-cover"
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -115,18 +120,18 @@ export const AddReview = (props: Props) => {
                             defaultValue={0}
                             onChange={handleRatingChange}
                             sx={{ fontSize: 60 }}
+                            data-testid="addreview-rating"
                         ></Rating>
-                        {ratingError && (
-                            <FormHelperText
-                                error
-                                sx={{
-                                    fontSize: 16,
-                                    textAlign: 'center',
-                                }}
-                            >
-                                {ratingError}
-                            </FormHelperText>
-                        )}
+                        <FormHelperText
+                            error
+                            sx={{
+                                fontSize: 16,
+                                textAlign: 'center',
+                            }}
+                            data-testid="addreview-ratingerror"
+                        >
+                            {ratingError}
+                        </FormHelperText>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -134,9 +139,10 @@ export const AddReview = (props: Props) => {
                             rows={6}
                             sx={{ width: 800 }}
                             onChange={handleCommentChange}
-                            value={comment}
+                            value={comment || ''}
                             label={'Kommentar'}
                             variant={'filled'}
+                            data-testid="addreview-comment"
                         ></TextField>
                         <FormHelperText
                             error={comment.length >= 2000 ? true : false}
@@ -146,6 +152,7 @@ export const AddReview = (props: Props) => {
                                 alignContent: 'center',
                                 mx: 'auto',
                             }}
+                            data-testid="addreview-commentlength"
                         >{`${comment.length}/${commentMaxLength}`}</FormHelperText>
                     </Grid>
                     <Grid item xs={12} sx={{ mb: 4 }}>
@@ -157,21 +164,22 @@ export const AddReview = (props: Props) => {
                                 width: 300,
                                 borderRadius: 10,
                             }}
+                            data-testid="addreview-button"
                         >
                             Bewerten
                         </Button>
-                        {error && (
-                            <FormHelperText
-                                error
-                                sx={{
-                                    fontSize: 16,
-                                    textAlign: 'center',
-                                    mt: 2,
-                                }}
-                            >
-                                {error}
-                            </FormHelperText>
-                        )}
+
+                        <FormHelperText
+                            error
+                            sx={{
+                                fontSize: 16,
+                                textAlign: 'center',
+                                mt: 2,
+                            }}
+                            data-testid="addreview-error"
+                        >
+                            {error}
+                        </FormHelperText>
                     </Grid>
                 </Grid>
             </Dialog>
