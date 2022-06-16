@@ -14,16 +14,18 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public')); //Serves resources from public folder
 
 // Set up mongoose
-mongoose.connect(
-    process.env.MONGODB_CONNECTION_STRING,
-    {
-        useNewUrlParser: true,
-    },
-    (err) => {
-        if (err) throw err;
-        console.log('Database Connected');
-    }
-);
+if (process.env.NODE_ENV !== 'test') {
+    mongoose.connect(
+        process.env.MONGODB_CONNECTION_STRING,
+        {
+            useNewUrlParser: true,
+        },
+        (err) => {
+            if (err) throw err;
+            console.log('Database Connected');
+        }
+    );
+}
 
 app.use('/user', require('./routes/userRouter'));
 app.use('/film', require('./routes/reviewRouter'));
@@ -31,10 +33,11 @@ app.use('/admin', require('./routes/movieRouter'));
 app.use('/search', require('./routes/searchRouter'));
 app.use('/votes', require('./routes/voteRouter'))
 
-
-app.listen(process.env.PORT, () => {
-    console.log(`Server started on port ${process.env.PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(process.env.PORT, () => {
+        console.log(`Server started on port ${process.env.PORT}`);
+    });
+}
 
 // Making sure that admin Account exist
 Controller.initScripts()
@@ -42,3 +45,5 @@ Controller.initScripts()
         console.log('Init scripts executed');
     })
     .catch((e) => console.error(e));
+
+module.exports = app;
