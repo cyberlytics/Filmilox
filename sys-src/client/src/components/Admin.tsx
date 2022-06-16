@@ -71,11 +71,11 @@ const Admin = () => {
             });
             setFormValid(false);
         }
-        // Beschreibung mind. 50 Zeichen
-        if (description.length < 50) {
+        // Beschreibung darf nicht leer sein
+        if (description.length == 0) {
             setDescriptionError({
                 status: true,
-                helperText: 'Beschreibung muss mind 50 Zeichen lang sein.',
+                helperText: 'Beschreibung darf nicht leer sein.',
             });
             setFormValid(false);
         }
@@ -166,7 +166,7 @@ const Admin = () => {
                     FILM HINZUFÜGEN:
                 </h1>
                 <TextField
-                    id="outlined-basic"
+                    role="titleInput"
                     label="Titel"
                     variant="outlined"
                     className="scale-125 w-[100%]"
@@ -179,8 +179,8 @@ const Admin = () => {
                     }}
                 />
                 <TextField
-                    id="outlined-multiline-static"
-                    label="Beschreibung (mind. 50 Zeichen)"
+                    role="descriptionInput"
+                    label="Beschreibung"
                     multiline
                     rows={7}
                     value={description}
@@ -199,11 +199,15 @@ const Admin = () => {
                     value={releaseDate}
                     onChange={handleDateChange}
                     renderInput={(params) => (
-                        <TextField className="scale-125 w-[100%]" {...params} />
+                        <TextField
+                            className="scale-125 w-[100%]"
+                            {...params}
+                            role="datePicker"
+                        />
                     )}
                 />
                 <TextField
-                    id="outlined-basic"
+                    role="linkInput"
                     label="Trailer-Link"
                     variant="outlined"
                     className="scale-125 w-[100%]"
@@ -243,6 +247,7 @@ const Admin = () => {
                     style={{ marginBottom: 100, marginTop: 70 }}
                 >
                     <LoadingButton
+                        role="addMovieBtn"
                         color="primary"
                         onClick={handleAddMovie}
                         loading={loading}
