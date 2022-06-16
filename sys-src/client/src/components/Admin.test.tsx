@@ -31,14 +31,33 @@ describe('Test Admin component', () => {
         expect(cancelBtn).toBeInTheDocument();
     });
 
-    test('Tests validation.', () => {
+    test('Tests validation with empty inputs.', () => {
         const { getByTestId } = render(<Admin />);
 
-        const addImgBtn = getByTestId('addImgButton');
-        const titleInput = getByTestId('titleInput');
+        const addMovieBtn = getByTestId('addMovieBtn');
+        const titleInput = getByTestId('titleInput').querySelector('div');
+        const descriptionInput =
+            getByTestId('descriptionInput').querySelector('div');
+        const linkInput = getByTestId('linkInput').querySelector('div');
 
-        fireEvent.click(addImgBtn);
+        fireEvent.click(addMovieBtn);
 
+        expect(titleInput?.querySelector('input')).toHaveAttribute(
+            'aria-invalid',
+            'true'
+        );
         expect(titleInput).toHaveClass('Mui-error');
+
+        expect(descriptionInput?.querySelector('textarea')).toHaveAttribute(
+            'aria-invalid',
+            'true'
+        );
+        expect(descriptionInput).toHaveClass('Mui-error');
+
+        expect(linkInput?.querySelector('input')).toHaveAttribute(
+            'aria-invalid',
+            'true'
+        );
+        expect(linkInput).toHaveClass('Mui-error');
     });
 });
