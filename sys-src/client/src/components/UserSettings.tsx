@@ -66,7 +66,10 @@ const UserSettings = () => {
                 <Badge
                     overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    badgeContent={<EditIcon />}
+                    badgeContent={
+                        <EditIcon style={{ height: 20, width: 20 }} />
+                    }
+                    color="info"
                 >
                     {imageProfile ? (
                         <Avatar
