@@ -100,14 +100,18 @@ const UserSettings = () => {
             </label>
             <div className="m-10 text-2xl">
                 <p>
-                    <b>User name:</b> {username}
+                    <b>Username:</b> {username}
                 </p>
                 <p>
                     <b>Email: </b>
                     {email}
                 </p>
             </div>
-            <Button startIcon={<SaveIcon />} onClick={handleUpdateProfile}>
+            <Button
+                startIcon={<SaveIcon />}
+                onClick={handleUpdateProfile}
+                variant="contained"
+            >
                 Speichern
             </Button>
         </div>
