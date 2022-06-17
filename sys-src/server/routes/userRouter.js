@@ -121,7 +121,7 @@ router.post(
 router.post('/fetch-data', auth, async (req, res) => {
     try {
         const userDb = await User.findById(req.user).select(
-            'username email admin'
+            'username email admin profile'
         );
         if (!userDb)
             return res.status(400).json({

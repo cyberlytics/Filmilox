@@ -1,15 +1,24 @@
-import {Avatar, Button, Input} from "@mui/material";
-import React, {ChangeEvent, useEffect, useState} from "react";
-import {useAppSelector} from "../redux/hooks";
-import {selectEmail, selectUsername} from "../redux/userSlice";
-import styled from "@emotion/styled";
-import Backend from "../api/Backend";
+import { Avatar, Badge, Button, Input } from '@mui/material';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {
+    selectEmail,
+    selectImageProfile,
+    selectUsername,
+    setImageProfile,
+} from '../redux/userSlice';
+import styled from '@emotion/styled';
+import Backend from '../api/Backend';
 import SaveIcon from '@mui/icons-material/Save';
-import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import ApiRouter from '../api/ApiRouter';
+import Controller from '../controller/Controller';
+import EditIcon from '@mui/icons-material/Edit';
 
 const UserSettings = () => {
+    const dispatch = useAppDispatch();
     const username = useAppSelector(selectUsername);
     const email = useAppSelector(selectEmail);
+    const imageProfile = useAppSelector(selectImageProfile);
     const [profilePic, setProfilePic] = useState<File>();
     const [profilePicPreview, setProfilePicPreview] = useState<string>('');
 
@@ -24,22 +33,16 @@ const UserSettings = () => {
         }
     }
 
-    const handleUpdateProfile = async() =>{
+    const handleUpdateProfile = async () => {
         try {
-            var formData = new FormData();
+            const formData = new FormData();
             formData.append('file', profilePic as Blob);
-            const status = await Backend.updateProfile(formData);
-            if (status) {
-                setProfilePic(undefined);
-                alert("Profilbild aktualisiert.");
-            } else {
-                alert("Fehler beim Aktualisieren des Profilbilds.");
-            }
-        }
-        catch (error) {
+            const updatedUser = await Backend.updateProfile(formData);
+            dispatch(setImageProfile(updatedUser.profile));
+        } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     useEffect(() => {
         if (profilePic) {
@@ -56,27 +59,52 @@ const UserSettings = () => {
     return (
         <div className="flex flex-col justify-center items-center">
             <h1 className="font-bold text-4xl mt-8">BENUTZER EINSTELLUNGEN</h1>
-            <label htmlFor="contained-button-file"
-                   className="mx-auto scale-125 ">
-                <Avatar style={{height: 190, width: 190, marginTop:50}}
-                        src={profilePicPreview}
-                        alt={`...Controller.stringAvatar(username)`}
-                />
+            <label
+                htmlFor="contained-button-file"
+                className="mx-auto scale-125 "
+            >
+                <Badge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    badgeContent={<EditIcon />}
+                >
+                    {imageProfile ? (
+                        <Avatar
+                            style={{ height: 190, width: 190, marginTop: 50 }}
+                            alt={username}
+                            src={
+                                profilePicPreview
+                                    ? profilePicPreview
+                                    : ApiRouter.getImageLink(imageProfile)
+                            }
+                        />
+                    ) : (
+                        <Avatar
+                            style={{ height: 190, width: 190, marginTop: 50 }}
+                            {...Controller.stringAvatar(username)}
+                            src={profilePicPreview ? profilePicPreview : ''}
+                        />
+                    )}
+                </Badge>
                 <Input
                     accept="image/*"
                     id="contained-button-file"
                     type="file"
                     onChange={(event) => {
                         handleProfilePictureUpload(event);
-                    }}/>
+                    }}
+                />
             </label>
             <div className="m-10 text-2xl">
-                <p><b>User name:</b> {username}</p>
-                <p><b>Email: </b>{email}</p>
+                <p>
+                    <b>User name:</b> {username}
+                </p>
+                <p>
+                    <b>Email: </b>
+                    {email}
+                </p>
             </div>
-            <Button
-                startIcon={<SaveIcon/>}
-                onClick={handleUpdateProfile}>
+            <Button startIcon={<SaveIcon />} onClick={handleUpdateProfile}>
                 Speichern
             </Button>
         </div>
