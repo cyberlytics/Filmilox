@@ -102,6 +102,7 @@ const Review = (props: Props) => {
                         <div className="flex justify-end tablet:items-end">
                             <div className="flex-col flex justify-center items-center">
                                 <IconButton
+                                    data-testid="upvote-icon-button"
                                     color={
                                         userVote?.userVote === true
                                             ? 'primary'
@@ -113,12 +114,17 @@ const Review = (props: Props) => {
                                 >
                                     <ThumbUpIcon />
                                 </IconButton>
-                                <p>{vote && vote.upvote}</p>
-                                <p>{!vote && '--'}</p>
+                                <p data-testid="upvote-count">
+                                    {vote && vote.upvote}
+                                </p>
+                                <p data-testid="upvote-count-placeholder">
+                                    {!vote && '--'}
+                                </p>
                             </div>
 
                             <div className="flex-col flex justify-center items-center">
                                 <IconButton
+                                    data-testid="downvote-icon-button"
                                     color={
                                         userVote?.userVote === false
                                             ? 'error'
@@ -130,8 +136,12 @@ const Review = (props: Props) => {
                                 >
                                     <ThumbDownIcon />
                                 </IconButton>
-                                <p>{vote && vote.downvote}</p>
-                                <p>{!vote && '--'}</p>
+                                <p data-testid="downvote-count">
+                                    {vote && vote.downvote}
+                                </p>
+                                <p data-testid="downvote-count-placeholder">
+                                    {!vote && '--'}
+                                </p>
                             </div>
                         </div>
                     </div>
