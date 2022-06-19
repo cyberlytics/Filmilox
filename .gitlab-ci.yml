@@ -17,6 +17,8 @@ build-job:
 unit-test-job:
   stage: test
   script:
+    - apt update
+    - apt install -y libcurl4
     - npm install -g yarn
     - echo "Testing filmilox client."
     - cd ./sys-src/client/
