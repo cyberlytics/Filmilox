@@ -96,7 +96,7 @@ const Admin = () => {
             formValid = false;
         }
         // Beschreibung darf nicht leer sein
-        if (description.length == 0) {
+        if (description.length === 0) {
             setDescriptionError({
                 status: true,
                 helperText: 'Beschreibung darf nicht leer sein.',
