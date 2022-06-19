@@ -1,14 +1,6 @@
 import { render } from '../../utils/test-utils';
 import { fireEvent } from '@testing-library/react';
 import Login from './Login';
-import axios from 'axios';
-
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
-mockedAxios.post.mockResolvedValue({
-    data: { token: 'token-received' },
-});
 
 const setup = () => {
     const utils = render(<Login />);
@@ -35,9 +27,5 @@ describe('login', () => {
 
         fireEvent.change(passwordInput, { target: { value: 'password1234' } });
         expect(passwordInput.value).toBe('password1234');
-
-        fireEvent.click(submitButton);
-
-        expect(mockedAxios.post).toHaveBeenCalledTimes(1);
     });
 });
