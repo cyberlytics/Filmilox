@@ -7,7 +7,7 @@ import ApiRouter from '../../api/ApiRouter';
 import { format } from 'date-fns';
 import TrailerDialog from '../TrailerDialog/TrailerDialog';
 import { useState } from 'react';
-import placeholder from '../Overview/placeholder.svg';
+import placeholder from '../Overview/placeholder.png';
 
 interface IProps {
     handleAddReviewClick: () => void;

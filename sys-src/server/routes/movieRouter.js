@@ -40,6 +40,14 @@ router.post(
 
             const formData = req.body;
 
+            // check if image is present:
+            var imgName;
+            if (req.file !== undefined) {
+                imgName = req.file.filename;
+            } else {
+                imgName = '';
+            }
+
             // create new movie with data from formData
             const newMovie = new Movie({
                 _id: req.imageId,
@@ -47,7 +55,7 @@ router.post(
                 description: formData['description'],
                 release: formData['releaseDate'],
                 trailer: formData['trailer'],
-                image: `/${req.file.filename}`,
+                image: `/${imgName}`,
             });
 
             //

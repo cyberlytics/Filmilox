@@ -13,16 +13,24 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Button } from '@mui/material';
-import {Link, NavigateFunction, useNavigate, useSearchParams} from 'react-router-dom';
+import {
+    Link,
+    NavigateFunction,
+    useNavigate,
+    useSearchParams,
+} from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
+    selectImageProfile,
     selectIsAdmin,
     selectIsLoggedIn,
     selectUsername,
     setIsLoggedIn,
 } from '../../redux/userSlice';
 import Controller from '../../controller/Controller';
+import ApiRouter from '../../api/ApiRouter';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -71,6 +79,7 @@ export default function TopAppBar() {
     const username = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const isAdmin = useAppSelector(selectIsAdmin);
+    const imageProfile = useAppSelector(selectImageProfile);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -80,7 +89,9 @@ export default function TopAppBar() {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const [searchParams] = useSearchParams();
-    const [searchInputQuery, setSearchInputQuery] = React.useState(searchParams.get('find'));
+    const [searchInputQuery, setSearchInputQuery] = React.useState(
+        searchParams.get('find')
+    );
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -136,6 +147,20 @@ export default function TopAppBar() {
                     <p>Add Movie</p>
                 </MenuItem>
             )}
+            {isLoggedIn && (
+                <MenuItem onClick={() => handleNavigate('/usersettings')}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                    <p>User Settings</p>
+                </MenuItem>
+            )}
             <MenuItem onClick={handleLogOut}>
                 <IconButton
                     size="large"
@@ -182,6 +207,23 @@ export default function TopAppBar() {
                                 <AddIcon />
                             </IconButton>
                             <p>Add Movie</p>
+                        </MenuItem>
+                    )}
+
+                    {isLoggedIn && (
+                        <MenuItem
+                            onClick={() => handleNavigate('/usersettings')}
+                        >
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="primary-search-account-menu"
+                                aria-haspopup="true"
+                                color="inherit"
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                            <p>User Settings</p>
                         </MenuItem>
                     )}
 
@@ -275,12 +317,17 @@ export default function TopAppBar() {
                                 <StyledInputBase
                                     fullWidth
                                     placeholder="Search…"
-                                    onInput={(e: React.FormEvent<HTMLDivElement>) => {
-                                        setSearchInputQuery((e.target as HTMLTextAreaElement).value);
+                                    onInput={(
+                                        e: React.FormEvent<HTMLDivElement>
+                                    ) => {
+                                        setSearchInputQuery(
+                                            (e.target as HTMLTextAreaElement)
+                                                .value
+                                        );
                                     }}
-                                    inputProps={{ 'aria-label': 'search'}}
+                                    inputProps={{ 'aria-label': 'search' }}
                                 />
-                                <input type="submit" hidden/>
+                                <input type="submit" hidden />
                             </form>
                         </Search>
                     </div>
@@ -308,9 +355,18 @@ export default function TopAppBar() {
                         )}
                         {isLoggedIn && (
                             <IconButton onClick={handleProfileMenuOpen}>
-                                <Avatar
-                                    {...Controller.stringAvatar(username)}
-                                />
+                                {imageProfile ? (
+                                    <Avatar
+                                        alt={username}
+                                        src={ApiRouter.getImageLink(
+                                            imageProfile
+                                        )}
+                                    />
+                                ) : (
+                                    <Avatar
+                                        {...Controller.stringAvatar(username)}
+                                    />
+                                )}
                             </IconButton>
                         )}
                     </Box>
