@@ -28,10 +28,11 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 app.use('/user', require('./routes/userRouter'));
+app.use('/user', require('./routes/userProfileRouter'));
 app.use('/film', require('./routes/reviewRouter'));
 app.use('/admin', require('./routes/movieRouter'));
 app.use('/search', require('./routes/searchRouter'));
-app.use('/votes', require('./routes/voteRouter'))
+app.use('/votes', require('./routes/voteRouter'));
 
 if (process.env.NODE_ENV !== 'test') {
     app.listen(process.env.PORT, () => {

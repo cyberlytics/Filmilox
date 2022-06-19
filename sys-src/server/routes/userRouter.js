@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const Movie = require('../models/movieModel');
 
 router.post(
     '/register',
@@ -122,7 +121,7 @@ router.post(
 router.post('/fetch-data', auth, async (req, res) => {
     try {
         const userDb = await User.findById(req.user).select(
-            'username email admin'
+            'username email admin profile'
         );
         if (!userDb)
             return res.status(400).json({
