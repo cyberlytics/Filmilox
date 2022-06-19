@@ -93,8 +93,6 @@ const Review = (props: Props) => {
                                     review.createdAt
                                 ).toLocaleDateString()}
                             </p>
-                            //if user to delete his own review or admin to
-                            delete any review
                             {(userName === review.user.username || isAdmin) && (
                                 <IconButton
                                     aria-label="delete"
