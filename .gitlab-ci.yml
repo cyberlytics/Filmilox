@@ -9,8 +9,8 @@ build-job:
   script:
     - echo "Building Filmilox"
     - cd ./sys-src/client/
-    - yarn install
-    - yarn build
+    - npm install
+    - npm build
     - echo "Build successfully!"
 
 unit-test-job:
@@ -18,10 +18,10 @@ unit-test-job:
   script:
     - echo "Testing filmilox client."
     - cd ./sys-src/client/
-    - yarn install
-    - yarn test
+    - npm install
+    - npm test
     - echo "Testing filmilox server."
     - cd ../../sys-src/server/
-    - yarn install
-    - yarn test
+    - npm install
+    - npm test
     - echo "Testing was successful!"
