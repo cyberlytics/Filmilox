@@ -21,7 +21,7 @@ unit-test-job:
     - yarn install
     - yarn test
     - echo "Testing filmilox server."
-    - cd ./sys-src/server/
+    - cd ../../sys-src/server/
     - yarn install
     - yarn test
     - echo "Testing was successful!"
