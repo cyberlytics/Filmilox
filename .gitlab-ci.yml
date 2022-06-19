@@ -7,21 +7,29 @@ stages:
 build-job:
   stage: build
   script:
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    - sudo apt update
+    - sudo apt install yarn
     - echo "Building Filmilox"
     - cd ./sys-src/client/
-    - npm install
-    - npm build
+    - yarn install
+    - yarn build
     - echo "Build successfully!"
 
 unit-test-job:
   stage: test
   script:
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    - sudo apt update
+    - sudo apt install yarn
     - echo "Testing filmilox client."
     - cd ./sys-src/client/
-    - npm install
-    - npm test
+    - yarn install
+    - yarn test
     - echo "Testing filmilox server."
     - cd ../../sys-src/server/
-    - npm install
-    - npm test
+    - yarn install
+    - yarn test
     - echo "Testing was successful!"
