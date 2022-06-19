@@ -7,12 +7,14 @@ import FilmOverview from './components/FilmOverview';
 import TopAppBar from './components/TopAppBar/TopAppBar';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
-import { fetchUserData, selectIsAdmin } from './redux/userSlice';
+import {fetchUserData, selectIsAdmin, selectIsLoggedIn} from './redux/userSlice';
 import SearchResult from './components/Search/SearchResult';
+import UserSettings from "./components/UserSettings";
 
 function App() {
     const dispatch = useAppDispatch();
     const isAdmin: boolean = useAppSelector(selectIsAdmin);
+    const isLoggedIn: boolean = useAppSelector(selectIsLoggedIn);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -29,6 +31,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
                 <Route path="/search" element={<SearchResult />} />
+                {isLoggedIn && <Route path="/usersettings" element={<UserSettings/>}/>}
             </Routes>
         </>
     );
