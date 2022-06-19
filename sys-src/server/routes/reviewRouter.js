@@ -109,8 +109,17 @@ router.get('/getreview/:movieId', async (req, res) => {
 
 router.post('/deleteReview', auth, async (req, res) => {
     try {
+        const userDb = await User.findById(req.user);
+        if (!userDb)
+            return res.status(400).json({
+                errors: [{ param: 'user', message: 'No user found.' }],
+            });
         const { reviewId } = req.body;
         const reviewDb = await Review.findById(reviewId);
+        if (!reviewDb)
+            return res.status(400).json({
+                errors: [{ param: 'movie', message: 'No moview found.' }],
+            });
         const adminDb = await User.findOne({ admin: true });
         if (!reviewDb.user.equals(req.user) && !adminDb) {
             return res.status(400).json({
