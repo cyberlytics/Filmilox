@@ -43,7 +43,7 @@ const Review = (props: Props) => {
             );
         }
     }, [review, isLoggedIn]);
-
+    //to delete a review
     const handleDelete = async () => {
         try {
             await Backend.deleteReview(review._id, setReviews, setMovie);
@@ -69,7 +69,10 @@ const Review = (props: Props) => {
                 <div className="p-6">
                     <div className="flex flex-col tablet:justify-between tablet:flex-row">
                         <div className="flex items-center justify-between">
-                            <p className="mr-4 text-xl text-gray-500 font-bold">
+                            <p
+                                className="mr-4 text-xl text-gray-500 font-bold"
+                                data-testid="addreview-username"
+                            >
                                 @{review.user.username}
                             </p>
                             <Rating
@@ -77,19 +80,27 @@ const Review = (props: Props) => {
                                 readOnly
                                 defaultValue={review.rating}
                                 max={10}
+                                data-testid="addreview-rating"
                             />
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <p className="text-xl text-gray-500 font-bold mr-2">
+                            <p
+                                className="text-xl text-gray-500 font-bold mr-2"
+                                data-testid="addreview-date"
+                            >
                                 {new Date(
                                     review.createdAt
                                 ).toLocaleDateString()}
                             </p>
+                            //if user to delete his own review or admin to
+                            delete any review
                             {(userName === review.user.username || isAdmin) && (
                                 <IconButton
+                                    aria-label="delete"
                                     onClick={handleDelete}
                                     color="error"
+                                    data-testid="deletereview-button"
                                 >
                                     <DeleteIcon />
                                 </IconButton>
@@ -97,7 +108,9 @@ const Review = (props: Props) => {
                         </div>
                     </div>
                     <div className="flex flex-col tablet:flex-row">
-                        <p className="mr-8">{review.comment}</p>
+                        <p className="mr-8" data-testid="deletereview-comment">
+                            {review.comment}
+                        </p>
                         <div style={{ flexGrow: 1 }} />
                         <div className="flex justify-end tablet:items-end">
                             <div className="flex-col flex justify-center items-center">

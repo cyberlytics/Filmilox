@@ -97,5 +97,28 @@ describe('tests to add a review', () => {
 });
 
 //TODO
-describe('tests to delete a review', () => {});
-describe('tests to get a review', () => {});
+
+test('get review to delete', async () => {
+    it('should get an existing review', async () => {
+        const review = await agent.get(
+            '/film/getreview/507f1f77bcf86cd799439011'
+        );
+        const reviewToDelete = await agent.post('film/deleteReview').send({
+            movieId: '507f1f77bcf86cd799439010',
+            rating: 9,
+            comment: 'lipsum',
+        });
+        expect(reviewToDelete.statusCode).toBe(200);
+    });
+});
+
+describe('tests to delete unexisting review', () => {
+    test('test invalid ratings', async () => {
+        const review0 = await agent.post('/film/addreview').send({
+            movieId: '507f1f77bcf86cd799439010',
+            rating: 0,
+            comment: 'lipsum comment',
+        });
+        expect(review0.statusCode).toBe(400);
+    });
+});
