@@ -13,6 +13,7 @@ beforeAll(async () => {
     await mockDb.connect();
 });
 beforeEach(async () => {
+    await mockDb.addTestUserToDatabase();
     await mockDb.addTestMoviesToDatabase();
     await mockDb.addTestReviewToDatabase();
 });
@@ -97,28 +98,20 @@ describe('tests to add a review', () => {
 });
 
 //TODO
-
 test('get review to delete', async () => {
-    it('should get an existing review', async () => {
-        const review = await agent.get(
-            '/film/getreview/507f1f77bcf86cd799439011'
-        );
-        const reviewToDelete = await agent.post('film/deleteReview').send({
-            movieId: '507f1f77bcf86cd799439010',
-            rating: 9,
-            comment: 'lipsum',
-        });
-        expect(reviewToDelete.statusCode).toBe(200);
+    const reviewToDelete = await agent.post('/film/deleteReview').send({
+        reviewId: '507f1f77bcf86cd799439040',
     });
+    console.log(reviewToDelete);
+    expect(reviewToDelete.statusCode).toBe(200);
 });
-
-describe('tests to delete unexisting review', () => {
-    test('test invalid ratings', async () => {
-        const review0 = await agent.post('/film/addreview').send({
-            movieId: '507f1f77bcf86cd799439010',
-            rating: 0,
-            comment: 'lipsum comment',
-        });
-        expect(review0.statusCode).toBe(400);
-    });
-});
+// describe('tests to delete unexisting review', () => {
+//     test('test invalid ratings', async () => {
+//         const review0 = await agent.post('/film/addreview').send({
+//             movieId: '507f1f77bcf86cd799439010',
+//             rating: 0,
+//             comment: 'lipsum comment',
+//         });
+//         expect(review0.statusCode).toBe(400);
+//     });
+// });
