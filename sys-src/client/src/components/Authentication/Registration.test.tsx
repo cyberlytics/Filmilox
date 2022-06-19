@@ -15,13 +15,10 @@ const setup = () => {
     };
 };
 
-test('renders Registration component', () => {
-    const { getByText } = render(<Registration />);
-    expect(getByText(/Register/i, { selector: 'h1' })).toBeInTheDocument();
-});
-
 test('It should change the email username password input', () => {
-    const { emailInput, passwordInput, userNameInput } = setup();
+    const { emailInput, passwordInput, userNameInput, getByText } = setup();
+
+    expect(getByText(/Register/i, { selector: 'h1' })).toBeInTheDocument();
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
     expect(emailInput.value).toBe('test@test.com');
 
