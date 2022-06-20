@@ -22,12 +22,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
     return (
         <>
             {movie && open && (
-                <TrailerDialog
-                    data-testid="trailerDialog"
-                    open={open}
-                    setOpen={setOpen}
-                    movie={movie}
-                />
+                <TrailerDialog open={open} setOpen={setOpen} movie={movie} />
             )}
 
             <div
