@@ -28,44 +28,44 @@ const Wrapper = () => {
 
 describe('Test MovieDetails component', () => {
     test('Check if all elements are present.', async () => {
-        const $ = require('jquery');
         render(<Wrapper />);
         const MovieDetailsId = screen.getByTestId('MovieDetailsId');
         expect(MovieDetailsId).toBeInTheDocument();
 
         const movieImage = screen.getByTestId('movieImage');
         expect(movieImage).toBeInTheDocument();
-        //expect(movieImage).toHaveAttribute('src', '/cover.png');
+        expect(movieImage).toHaveAttribute(
+            'src',
+            'http://localhost:9999/cover.png'
+        );
 
         const trailerBtn = screen.getByTestId('trailerBtn');
         expect(trailerBtn).toBeInTheDocument();
-        /*expect(trailerBtn).toHaveAttribute(
-            'onClick',
-            'https://www.youtube.com/watch?v=9gzmk29c9YM'
-        );*/
 
         const movieTitle = screen.getByTestId('movieTitle');
         expect(movieTitle).toBeInTheDocument();
-        expect($('#movieTitle').text()).toEqual('Andor');
-
-        /*const movieVot = screen.getByTestId('movieVot');
-        expect(movieVot).toBeInTheDocument();*/
+        expect(movieTitle.textContent).toEqual('Andor');
 
         const movieRating = screen.getByTestId('movieRating');
         expect(movieRating).toBeInTheDocument();
-        //expect(movieRating).toHaveValue(2);
+        movieRating.querySelectorAll('svg').forEach((rate, index) => {
+            if (index <= 19)
+                expect(rate.getAttribute('data-testid')).toBe('StarIcon');
+            else
+                expect(rate.getAttribute('data-testid')).toBe('StarBorderIcon');
+        });
 
         const movieRatingTxt = screen.getByTestId('movieRatingTxt');
         expect(movieRatingTxt).toBeInTheDocument();
-        //expect(movieRatingTxt).toHaveValue('2');
+        expect(movieRatingTxt.textContent).toBe('2');
 
         const movieRelease = screen.getByTestId('movieRelease');
         expect(movieRelease).toBeInTheDocument();
-        //expect(movieDescription).toHaveValue('Beschreibung');
+        expect(movieRelease.textContent).toBe('Erscheinungsdatum: 20.06.2022');
 
         const movieDescription = screen.getByTestId('movieDescription');
         expect(movieDescription).toBeInTheDocument();
-        //expect(movieDescription).toHaveValue('Beschreibung');
+        expect(movieDescription.textContent).toBe('Beschreibung');
     });
     test('Test Button clickable', () => {
         render(<Wrapper />);
@@ -74,15 +74,7 @@ describe('Test MovieDetails component', () => {
         act(() => {
             trailerBtn.click();
         });
-        //expected to open the trailer dialog
-
-        /*const TrailerDialog = screen.getByTestId('trailerDialog');
-        expect(TrailerDialog).toBeInTheDocument();*/
-        //expexted to open the dialog
-
-        /* const movieVot = screen.getByText('Bewertung Abgeben');
-        act(() => {
-            movieVot.click();
-        });*/
+        const TrailerDialog = screen.getByTestId('trailerDialog');
+        expect(TrailerDialog).toBeInTheDocument();
     });
 });
