@@ -82,7 +82,6 @@ router.get('/get-movie/:_id', async (req, res) => {
             });
         return res.json(movieDb);
     } catch (e) {
-        console.error(e);
         return res.status(500).json({
             status: false,
             errors: [{ param: 'internal', message: e.message }],
