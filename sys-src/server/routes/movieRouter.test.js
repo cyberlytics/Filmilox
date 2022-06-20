@@ -20,7 +20,9 @@ describe('tests to get a movie', () => {
         expect(movie.statusCode).toBe(200);
         expect(movie.body.title).toBe('Test movie');
         expect(movie.body.description).toBe('Description of the test movie.');
-        expect(movie.body.release).toBe('2000-12-31T23:00:00.000Z');
+        expect(new Date(movie.body.release).toLocaleString()).toBe(
+            new Date('1/1/2001').toLocaleString()
+        );
         expect(movie.body.trailer).toBe('youtube link');
         expect(movie.body.image).toBe('image id');
         expect(movie.body.rating).toBe(0);
