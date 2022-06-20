@@ -57,7 +57,7 @@ describe('Test MovieCard Component', () => {
         await user.click(trailerBtn);
 
         //check if trailer dialog opened
-        const trailerDialog = screen.getByTestId('trailerDialog-main');
+        const trailerDialog = screen.getByTestId('trailerDialog');
         expect(trailerDialog).toBeInTheDocument();
     });
 
