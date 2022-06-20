@@ -3,6 +3,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const Controller = require('../controller/Controller');
 const Review = require('../models/reviewModel');
 const User = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 
 let mockDb;
 
@@ -69,11 +70,13 @@ const addTestReviewToDatabase = async () => {
     await review1.save();
 };
 const addTestUserToDatabase = async () => {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash('password', salt);
     const user = new User({
         _id: '507f1f77bcf86cd799439012',
         username: 'Test User',
         email: 'test@test.de',
-        password: 'password',
+        password: passwordHash,
     });
 
     await user.save();
