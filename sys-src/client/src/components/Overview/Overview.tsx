@@ -19,12 +19,14 @@ function Overview() {
     }, []);
 
     return (
-            <div
-                className="text-center justify-center grid grid-col-1 tabLaptop:grid-cols-4 tablet:grid-cols-3 deLa:grid-cols-5 desktop:grid-cols-6 gap-4 p-8"
-            >
-                {movies.map((m)=>(
-                    <MovieCard movie={m} key={m._id}/>))}
-            </div>
+        <div
+            data-testid="overview-main"
+            className="text-center justify-center grid grid-col-1 tabLaptop:grid-cols-4 tablet:grid-cols-3 deLa:grid-cols-5 desktop:grid-cols-6 gap-4 p-8"
+        >
+            {movies.map((m) => (
+                <MovieCard movie={m} key={m._id} />
+            ))}
+        </div>
     );
 }
 export default Overview;

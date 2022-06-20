@@ -50,6 +50,7 @@ export default function TrailerDialog({ open, setOpen, movie }: IProps) {
 
     return (
         <Dialog
+            data-testid="trailerDialog-main"
             style={{ background: 'rgba(1,1,1,0.86)' }}
             open={open}
             TransitionComponent={Transition}
