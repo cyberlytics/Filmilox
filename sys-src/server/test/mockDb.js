@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const Controller = require('../controller/Controller');
 const Review = require('../models/reviewModel');
+const User = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 
 let mockDb;
 
@@ -37,6 +39,17 @@ const addTestMoviesToDatabase = async () => {
         rating: 0,
     });
     await movie.save();
+
+    const movie1 = new Movie({
+        _id: '507f1f77bcf86cd799439020',
+        title: 'Test movie',
+        description: 'Description of the test movie.',
+        release: new Date('1/1/2001'),
+        trailer: 'youtube link',
+        image: 'image id',
+        rating: 0,
+    });
+    await movie1.save();
 };
 
 const addTestReviewToDatabase = async () => {
@@ -47,6 +60,26 @@ const addTestReviewToDatabase = async () => {
         comment: 'I am a test, I test things',
     });
     await review.save();
+    const review1 = new Review({
+        _id: '507f1f77bcf86cd799439040',
+        movie: '507f1f77bcf86cd799439020',
+        user: '507f1f77bcf86cd799439012',
+        rating: 5,
+        comment: 'I am a test, I test things',
+    });
+    await review1.save();
+};
+const addTestUserToDatabase = async () => {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash('password', salt);
+    const user = new User({
+        _id: '507f1f77bcf86cd799439012',
+        username: 'Test User',
+        email: 'test@test.de',
+        password: passwordHash,
+    });
+
+    await user.save();
 };
 
 module.exports = {
@@ -55,4 +88,5 @@ module.exports = {
     clearDatabase,
     addTestMoviesToDatabase,
     addTestReviewToDatabase,
+    addTestUserToDatabase,
 };
