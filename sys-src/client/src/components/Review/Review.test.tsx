@@ -40,7 +40,7 @@ const Wrapper = () => {
 };
 
 describe('Test Voting on Review', () => {
-    it('should render the placeholders if no votes are found', () => {
+    it('should render the placeholders if no votes are found', async () => {
         jest.spyOn(Backend, 'getVotes').mockResolvedValue({
             data: {
                 upvote: 0,
@@ -53,10 +53,12 @@ describe('Test Voting on Review', () => {
         });
         const { getByTestId } = render(<Wrapper />);
 
-        const downvotePlaceholder = getByTestId('downvote-count-placeholder');
-        const upvotePlaceholder = getByTestId('upvote-count-placeholder');
-        expect(downvotePlaceholder).toBeInTheDocument();
-        expect(upvotePlaceholder).toBeInTheDocument();
+        await waitFor(()=> {
+            const downvotePlaceholder = getByTestId('downvote-count-placeholder');
+            const upvotePlaceholder = getByTestId('upvote-count-placeholder');
+            expect(downvotePlaceholder).toBeInTheDocument();
+            expect(upvotePlaceholder).toBeInTheDocument();
+        });
     });
     it('should display the vote counts', async () => {
         jest.spyOn(Backend, 'getVotes').mockResolvedValue({
