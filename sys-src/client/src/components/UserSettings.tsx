@@ -57,22 +57,33 @@ const UserSettings = () => {
     }, [profilePic]);
 
     return (
-        <div className="flex flex-col justify-center items-center">
-            <h1 className="font-bold text-4xl mt-8">BENUTZER EINSTELLUNGEN</h1>
+        <div
+            className="flex flex-col justify-center items-center"
+            data-testid="usersettings-main"
+        >
+            <h1 className="font-bold text-4xl mt-8" data-testid="header">
+                BENUTZER EINSTELLUNGEN
+            </h1>
             <label
                 htmlFor="contained-button-file"
                 className="mx-auto scale-125 "
+                data-testid="label"
             >
                 <Badge
+                    data-testid="badge"
                     overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     badgeContent={
-                        <EditIcon style={{ height: 20, width: 20 }} />
+                        <EditIcon
+                            data-testid="editicon"
+                            style={{ height: 20, width: 20 }}
+                        />
                     }
                     color="info"
                 >
                     {imageProfile ? (
                         <Avatar
+                            data-testid="pictureAvatar"
                             style={{ height: 190, width: 190, marginTop: 50 }}
                             alt={username}
                             src={
@@ -83,6 +94,7 @@ const UserSettings = () => {
                         />
                     ) : (
                         <Avatar
+                            data-testid="textAvatar"
                             style={{ height: 190, width: 190, marginTop: 50 }}
                             {...Controller.stringAvatar(username)}
                             src={profilePicPreview ? profilePicPreview : ''}
@@ -90,6 +102,7 @@ const UserSettings = () => {
                     )}
                 </Badge>
                 <Input
+                    data-testid="avatarInput"
                     accept="image/*"
                     id="contained-button-file"
                     type="file"
@@ -98,7 +111,7 @@ const UserSettings = () => {
                     }}
                 />
             </label>
-            <div className="m-10 text-2xl">
+            <div data-testid="accountDetailsDiv" className="m-10 text-2xl">
                 <p>
                     <b>Username:</b> {username}
                 </p>
@@ -108,6 +121,7 @@ const UserSettings = () => {
                 </p>
             </div>
             <Button
+                data-testid="saveButton"
                 startIcon={<SaveIcon />}
                 onClick={handleUpdateProfile}
                 variant="contained"
