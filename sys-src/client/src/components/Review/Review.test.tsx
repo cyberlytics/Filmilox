@@ -25,6 +25,8 @@ const reviewTest: IReviewGet = {
     updatedAt: new Date().toString(),
 };
 
+jest.mock("../../api/Backend");
+
 const Wrapper = () => {
     const [movie, setMovie] = useState<IMovie>(movieTest);
     const [reviews, setReviews] = useState<IReviewGet[]>([]);
@@ -39,6 +41,16 @@ const Wrapper = () => {
 
 describe('Test Voting on Review', () => {
     it('should render the placeholders if no votes are found', () => {
+        jest.spyOn(Backend, 'getVotes').mockResolvedValue({
+            data: {
+                upvote: 0,
+                downvote: 0,
+            },
+            status: 200,
+            statusText: 'OK',
+            headers: {},
+            config: {},
+        });
         const { getByTestId } = render(<Wrapper />);
 
         const downvotePlaceholder = getByTestId('downvote-count-placeholder');
