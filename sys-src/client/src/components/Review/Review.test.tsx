@@ -25,6 +25,8 @@ const reviewTest: IReviewGet = {
     updatedAt: new Date().toString(),
 };
 
+jest.mock("../../api/Backend");
+
 const Wrapper = () => {
     const [movie, setMovie] = useState<IMovie>(movieTest);
     const [reviews, setReviews] = useState<IReviewGet[]>([]);
@@ -38,13 +40,25 @@ const Wrapper = () => {
 };
 
 describe('Test Voting on Review', () => {
-    it('should render the placeholders if no votes are found', () => {
+    it('should render the placeholders if no votes are found', async () => {
+        jest.spyOn(Backend, 'getVotes').mockResolvedValue({
+            data: {
+                upvote: 0,
+                downvote: 0,
+            },
+            status: 200,
+            statusText: 'OK',
+            headers: {},
+            config: {},
+        });
         const { getByTestId } = render(<Wrapper />);
 
-        const downvotePlaceholder = getByTestId('downvote-count-placeholder');
-        const upvotePlaceholder = getByTestId('upvote-count-placeholder');
-        expect(downvotePlaceholder).toBeInTheDocument();
-        expect(upvotePlaceholder).toBeInTheDocument();
+        await waitFor(()=> {
+            const downvotePlaceholder = getByTestId('downvote-count-placeholder');
+            const upvotePlaceholder = getByTestId('upvote-count-placeholder');
+            expect(downvotePlaceholder).toBeInTheDocument();
+            expect(upvotePlaceholder).toBeInTheDocument();
+        });
     });
     it('should display the vote counts', async () => {
         jest.spyOn(Backend, 'getVotes').mockResolvedValue({

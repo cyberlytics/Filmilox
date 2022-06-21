@@ -43,7 +43,7 @@ router.post(
             // check if image is present:
             var imgName;
             if (req.file !== undefined) {
-                imgName = req.file.filename;
+                imgName = '/' + req.file.filename;
             } else {
                 imgName = '';
             }
@@ -55,7 +55,7 @@ router.post(
                 description: formData['description'],
                 release: formData['releaseDate'],
                 trailer: formData['trailer'],
-                image: `/${imgName}`,
+                image: `${imgName}`,
             });
 
             //
@@ -82,7 +82,6 @@ router.get('/get-movie/:_id', async (req, res) => {
             });
         return res.json(movieDb);
     } catch (e) {
-        console.error(e);
         return res.status(500).json({
             status: false,
             errors: [{ param: 'internal', message: e.message }],

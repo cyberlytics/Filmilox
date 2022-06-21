@@ -30,10 +30,11 @@ const MovieCard = ({ movie }: IProps) => {
                 />
             )}
 
-                <div className="m-3 flex items-center justify-between" key={movie._id}>
-                    <Card style={{ maxHeight: 435, maxWidth: 240, padding: 0 }}>
-                        <CardActionArea onClick={handleNavigate}>
+                <div data-testid="movieCard-main" className="m-3 flex items-center justify-between" key={movie._id}>
+                    <Card data-testid="movieCard-card" style={{ maxHeight: 435, maxWidth: 240, padding: 0 }}>
+                        <CardActionArea onClick={handleNavigate} data-testid="movieCard-navigate">
                             <CardMedia
+                                data-testid="movieCard-image"
                                 style={{
                                     maxHeight: 360,
                                     maxWidth: 240,
@@ -56,23 +57,25 @@ const MovieCard = ({ movie }: IProps) => {
                                         paddingTop: 5,
                                     }}
                                 >
-                                    <p className="text-sm"><b>{movie.title}</b></p>
+                                    <p className="text-sm"><b data-testid="movieCard-title">{movie.title}</b></p>
                                 </div>
                                 <div className="px-4 py-2 h-20">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center">
                                             <p className="mr-2">
-                                                <b>{movie.rating
+                                                <b data-testid="movieCard-rating">{movie.rating
                                                     ? Math.round(movie.rating * 10) / 10
                                                     : '--'}</b>
                                             </p>
                                             <img
+                                                data-testid="movieCard-ratingImage"
                                                 src={require('./star.png')}
                                                 alt="star"
                                                 className="w-4 h-4"
                                             />
                                         </div>
                                         <Button
+                                            data-testid="movieCard-trailerBtn"
                                             startIcon={<PlayArrowIcon />}
                                             onClick={handleOpenDialog}
                                         >
