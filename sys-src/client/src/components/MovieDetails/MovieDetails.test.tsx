@@ -12,7 +12,7 @@ const Wrapper = () => {
         title: 'Andor',
         description: 'Beschreibung',
         trailer: 'https://www.youtube.com/watch?v=9gzmk29c9YM',
-        release: new Date(),
+        release: new Date(2022, 5, 20),
         image: '/cover.png',
         rating: 2,
     };
