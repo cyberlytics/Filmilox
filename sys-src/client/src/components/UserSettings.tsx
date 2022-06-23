@@ -26,6 +26,7 @@ const UserSettings = () => {
         display: 'none',
     });
 
+    /*Select a Picture*/
     function handleProfilePictureUpload(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files![0];
         if (file != null && file.type.substring(0, 5) === 'image') {
@@ -33,6 +34,7 @@ const UserSettings = () => {
         }
     }
 
+    /*Save Profile Picture in Backend and Update User in Database*/
     const handleUpdateProfile = async () => {
         try {
             const formData = new FormData();
@@ -44,6 +46,7 @@ const UserSettings = () => {
         }
     };
 
+    /*Set Profile Picture as Preview before Saving*/
     useEffect(() => {
         if (profilePic) {
             const reader = new FileReader();

@@ -184,6 +184,7 @@ export default class Backend {
         }
     };
 
+    /*Update User Profile*/
     static updateProfile = async (formData: FormData) => {
         try {
             const { data } = await Axios.post<IUser>(
