@@ -1,6 +1,5 @@
 import UserSettings from './UserSettings';
-import { render, screen } from '../utils/test-utils';
-import { IUser } from '../model/IUser';
+import { fireEvent, render, screen } from '../utils/test-utils';
 
 describe('UserSettings component Unit Test', () => {
     test('test if all the UI is present', () => {
@@ -20,9 +19,6 @@ describe('UserSettings component Unit Test', () => {
 
         const editicon = screen.getByTestId('editicon');
         expect(editicon).toBeInTheDocument();
-
-        /*const pictureAvatar = screen.getByTestId('pictureAvatar');
-        expect(pictureAvatar).toBeInTheDocument();*/
 
         const textAvatar = screen.getByTestId('textAvatar');
         expect(textAvatar).toBeInTheDocument();
