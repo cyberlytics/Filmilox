@@ -4,9 +4,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { useState, useEffect, ChangeEvent } from 'react';
-import Backend from '../api/Backend';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useNavigate } from 'react-router-dom';
+import Backend from '../../api/Backend';
 
 const Admin = () => {
     const navigate = useNavigate();
@@ -19,6 +19,9 @@ const Admin = () => {
     const [preview, setPreview] = useState<string>('');
     const [showFileTypeErr, setShowFileTypeErr] = useState<boolean>(false);
     const [showImgSizeErr, setShowImgSizeTypeErr] = useState<boolean>(false);
+    const [showAddMovieError, setShowAddMovieError] = useState<boolean>(false);
+    const [showAddMovieSuccess, setShowAddMovieSuccess] =
+        useState<boolean>(false);
     let formValid: boolean = false;
 
     // validation states
@@ -37,15 +40,47 @@ const Admin = () => {
 
     // errors for image
     const FileTypeErr = () => (
-        <p className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6">
+        <p
+            className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6"
+            data-testid="FileTypeErr"
+        >
             Falscher Dateityp des Bildes! (Akzeptierte Dateitypen: .png / .jpg)
         </p>
     );
     const ImgSizeErr = () => (
-        <p className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6">
+        <p
+            className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6"
+            data-testid="ImgSizeErr"
+        >
             Größe des Bildes zu klein! (Akzeptierte Größe: mind. 400x600 Pixel)
         </p>
     );
+
+    // error/success on movieAdd
+    const AddMovieSuccess = () => (
+        <p
+            className="text-lime-500 text-lg font-semibold border-solid border-2 rounded-md border-lime-500 p-2 text-center w-full"
+            data-testid="uploadSuccess"
+        >
+            Film hinzugefügt!
+        </p>
+    );
+    const AddMovieError = () => (
+        <p
+            className="text-red-600 text-lg font-semibold border-solid border-2 rounded-md border-red-600 p-2 text-center w-full"
+            data-testid="uploadError"
+        >
+            Film hinzugefügen fehlergeschlagen!
+        </p>
+    );
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowAddMovieSuccess(false);
+            setShowAddMovieError(false);
+        }, 7000);
+        return () => clearTimeout(timer);
+    }, [showAddMovieError, showAddMovieSuccess]);
 
     useEffect(() => {
         if (image) {
@@ -186,9 +221,11 @@ const Admin = () => {
                     setDescription('');
                     setTrailerLink('');
                     setImage(undefined);
-                    alert('Film hinzugefügt!');
+                    setShowAddMovieSuccess(true);
+                    setShowAddMovieError(false);
                 } else {
-                    alert('Fehler beim Film hinzufügen!');
+                    setShowAddMovieSuccess(false);
+                    setShowAddMovieError(true);
                 }
             } catch (error) {
                 console.error(error);
@@ -294,10 +331,7 @@ const Admin = () => {
                 {showFileTypeErr ? <FileTypeErr /> : null}
                 {showImgSizeErr ? <ImgSizeErr /> : null}
 
-                <div
-                    className="w-[115%]"
-                    style={{ marginBottom: 100, marginTop: 70 }}
-                >
+                <div className="w-[115%]" style={{ marginTop: 70 }}>
                     <LoadingButton
                         data-testid="addMovieBtn"
                         color="primary"
@@ -319,6 +353,9 @@ const Admin = () => {
                         Abbrechen
                     </Button>
                 </div>
+                {showAddMovieSuccess ? <AddMovieSuccess /> : null}
+                {showAddMovieError ? <AddMovieError /> : null}
+                <div style={{ marginBottom: 100 }}></div>
             </div>
         </>
     );
