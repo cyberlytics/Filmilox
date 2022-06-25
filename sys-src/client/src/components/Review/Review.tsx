@@ -64,8 +64,8 @@ const Review = (props: Props) => {
     }
 
     return (
-        <div className="m-4 w-full px-6">
-            <Card className="w-full">
+        <div data-testid="review-main" className="m-4 w-full px-6">
+            <Card data-testid="review-card" className="w-full">
                 <div className="p-6">
                     <div className="flex flex-col tablet:justify-between tablet:flex-row">
                         <div className="flex items-center justify-between">
@@ -106,7 +106,7 @@ const Review = (props: Props) => {
                         </div>
                     </div>
                     <div className="flex flex-col tablet:flex-row">
-                        <p className="mr-8" data-testid="deletereview-comment">
+                        <p className="mr-8" data-testid="addreview-comment">
                             {review.comment}
                         </p>
                         <div style={{ flexGrow: 1 }} />
