@@ -8,12 +8,8 @@ function Overview() {
 
     useEffect(() => {
         const fetchMovies = async () => {
-            try {
-                const data = await Backend.getAllMovies();
-                setMovies(data.movies);
-            } catch (e) {
-                console.error(e);
-            }
+            const data = await Backend.getAllMovies();
+            if (data?.movies) setMovies(data.movies);
         };
         fetchMovies();
     }, []);
