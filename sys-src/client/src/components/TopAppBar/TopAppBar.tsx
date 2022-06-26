@@ -291,6 +291,7 @@ export default function TopAppBar() {
                         sx={{ mr: 2 }}
                     >
                         <img
+                            data-testid="logo"
                             src={require('./logo.png')}
                             alt="logo"
                             className="w-8 h-8"
@@ -298,6 +299,7 @@ export default function TopAppBar() {
                     </IconButton>
                     <Link to="/">
                         <Typography
+                            data-testid="brand-text"
                             variant="h6"
                             noWrap
                             component="div"
@@ -309,7 +311,7 @@ export default function TopAppBar() {
 
                     <Box sx={{ flexGrow: 1 }} />
                     <div className="max-w-7xl w-full">
-                        <Search>
+                        <Search data-testid="search">
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>
@@ -337,6 +339,7 @@ export default function TopAppBar() {
                         {!isLoggedIn && (
                             <>
                                 <Button
+                                    data-testid="loginBtn"
                                     onClick={() => handleNavigate('login')}
                                     variant="outlined"
                                     color="inherit"
@@ -345,6 +348,7 @@ export default function TopAppBar() {
                                     Login
                                 </Button>
                                 <Button
+                                    data-testid="registerBtn"
                                     onClick={() => handleNavigate('register')}
                                     variant="outlined"
                                     color="inherit"
