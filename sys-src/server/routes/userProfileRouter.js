@@ -25,12 +25,15 @@ router.post(
     upload.single('file'),
     async (req, res) => {
         try {
+            /*Find the logged in User*/
             const user = await User.findById(req.user);
+            /*No User found*/
             if (!user) {
                 return res.status(400).json({
                     errors: [{ param: 'no user', message: 'Not allowed!' }],
                 });
             }
+            /*Find Image and Path*/
             if (user.profile) {
                 const imagePath = path.join(
                     __dirname,
@@ -49,6 +52,7 @@ router.post(
             } else {
                 imgName = '';
             }
+            /*Update User Profile column with Link to image*/
             await User.findByIdAndUpdate(req.user, {
                 profile: `/${imgName}`,
             });
