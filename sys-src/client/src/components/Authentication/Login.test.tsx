@@ -1,6 +1,6 @@
 import { render, fireEvent } from '../../utils/test-utils';
 import Login from './Login';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { waitFor } from '@testing-library/react';
 import ApiRouter from '../../api/ApiRouter';
 
