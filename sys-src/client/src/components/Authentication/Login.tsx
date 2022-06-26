@@ -5,7 +5,6 @@ import Backend from '../../api/Backend';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-import Axios from 'axios';
 import { IResponseError } from '../../model/IResponseError';
 
 const Login = () => {
@@ -30,9 +29,8 @@ const Login = () => {
             await Backend.login({ password, identifier });
             dispatch(await fetchUserData());
             navigate('/');
-        } catch (e) {
-            console.error(e);
-            if (Axios.isAxiosError(e) && e.response) {
+        } catch (e: any) {
+            if (e.response) {
                 const data = e.response?.data as IResponseError;
 
                 const identifierError = data.errors.find(
@@ -68,7 +66,12 @@ const Login = () => {
     return (
         <div className="flex flex-col justify-center items-center">
             <div className="flex flex-col justify-center items-center max-w-sm w-full px-6">
-                <h1 className="font-bold text-4xl mt-8">Login</h1>
+                <h1
+                    className="font-bold text-4xl mt-8"
+                    data-testid="login-text"
+                >
+                    Login
+                </h1>
                 <TextField
                     error={identifierError.status}
                     helperText={identifierError.message}
