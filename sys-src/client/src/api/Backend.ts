@@ -7,9 +7,10 @@ import {
 } from '../model/IResponse';
 import { IRegister } from '../model/IRegister';
 import { ILogin } from '../model/ILogin';
+import { IUser } from '../model/IUser';
 import { IReviewAdd } from '../model/IReview';
 import { IMovie, IMovieWithID } from '../model/IMovie';
-import { IUserVote, IVote } from "../model/IVote";
+import { IUserVote, IVote } from '../model/IVote';
 
 export default class Backend {
     static register = async ({ email, username, password }: IRegister) => {
@@ -140,42 +141,60 @@ export default class Backend {
 
     static vote = async (reviewId: string, isUpvote: boolean) => {
         try {
-            const { data } = await Axios.post(ApiRouter.SubmitVote, {reviewId, isUpvote}, ApiRouter.createHeaders());
+            const { data } = await Axios.post(
+                ApiRouter.SubmitVote,
+                { reviewId, isUpvote },
+                ApiRouter.createHeaders()
+            );
             return data;
-        }
-        catch (e) {
+        } catch (e) {
             throw e;
         }
-    }
+    };
 
     static getVotes = async (reviewId: string) => {
         try {
-            const data: AxiosResponse<IVote>  = await Axios.get<IVote>(`${ApiRouter.GetVotes}/${reviewId}`);
+            const data: AxiosResponse<IVote> = await Axios.get<IVote>(
+                `${ApiRouter.GetVotes}/${reviewId}`
+            );
             return data;
-        }
-        catch (e) {
+        } catch (e) {
             throw e;
         }
-    }
+    };
 
     static getExistingUserVote = async (reviewId: string) => {
         try {
-            const data: AxiosResponse<IUserVote>
-                = await Axios.get<IUserVote>(
-                `${ApiRouter.GetExistingUserVote}/${reviewId}`, ApiRouter.createHeaders());
+            const data: AxiosResponse<IUserVote> = await Axios.get<IUserVote>(
+                `${ApiRouter.GetExistingUserVote}/${reviewId}`,
+                ApiRouter.createHeaders()
+            );
             return data;
-        }
-        catch (e) {
+        } catch (e) {
             throw e;
         }
-    }
+    };
 
-    static getAllMovies = async ()=>{
-        try{
-            const {data} = await Axios.get(ApiRouter.GetAllMovies)
-            return data
-        }catch (e) {
-            throw e
+    static getAllMovies = async () => {
+        try {
+            const { data } = await Axios.get(ApiRouter.GetAllMovies);
+            return data;
+        } catch (e) {
+            throw e;
         }
-    }
+    };
+
+    /*Update User Profile*/
+    static updateProfile = async (formData: FormData) => {
+        try {
+            const { data } = await Axios.post<IUser>(
+                ApiRouter.UpdateProfile,
+                formData,
+                ApiRouter.createHeaders()
+            );
+            return data;
+        } catch (e) {
+            throw e;
+        }
+    };
 }

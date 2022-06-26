@@ -3,11 +3,10 @@ import { Button, TextField } from '@mui/material';
 import PasswordInput from '../inputs/PasswordInput';
 import Backend from '../../api/Backend';
 import Controller from '../../controller/Controller';
-import Axios from 'axios';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { IResponseError } from '../../model/iResponseError';
+import { IResponseError } from '../../model/IResponseError';
 
 const Registration = () => {
     const dispatch = useAppDispatch();
@@ -65,24 +64,22 @@ const Registration = () => {
             if (error) return;
 
             // Get token from backend
-            const status = await Backend.register({
+            await Backend.register({
                 email,
                 username,
                 password,
             });
-            if (status) {
-                // if User successful registered, than login
-                await Backend.login({
-                    identifier: email,
-                    password,
-                });
-                dispatch(await fetchUserData());
-                navigate('/');
-            }
+            // if User successful registered, than login
+            await Backend.login({
+                identifier: email,
+                password,
+            });
+            dispatch(await fetchUserData());
+            navigate('/');
 
             // Log in User
-        } catch (e) {
-            if (Axios.isAxiosError(e) && e.response) {
+        } catch (e: any) {
+            if (e.response) {
                 const data = e.response?.data as IResponseError;
                 const emailError = data.errors.find(
                     (item) => item.param === 'email'
@@ -151,6 +148,7 @@ const Registration = () => {
                     helperText={passwordError.message}
                 />
                 <Button
+                    data-testid="registration-button"
                     variant="contained"
                     fullWidth
                     sx={{ mt: 2 }}

@@ -17,7 +17,9 @@ const Admin = () => {
     const [trailerLink, setTrailerLink] = useState<string>('');
     const [image, setImage] = useState<File>();
     const [preview, setPreview] = useState<string>('');
-    const [formValid, setFormValid] = useState<boolean>(false);
+    const [showFileTypeErr, setShowFileTypeErr] = useState<boolean>(false);
+    const [showImgSizeErr, setShowImgSizeTypeErr] = useState<boolean>(false);
+    let formValid: boolean = false;
 
     // validation states
     const [titleError, setTitelError] = useState({
@@ -33,20 +35,42 @@ const Admin = () => {
         helperText: '',
     });
 
+    // errors for image
+    const FileTypeErr = () => (
+        <p className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6">
+            Falscher Dateityp des Bildes! (Akzeptierte Dateitypen: .png / .jpg)
+        </p>
+    );
+    const ImgSizeErr = () => (
+        <p className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6">
+            Größe des Bildes zu klein! (Akzeptierte Größe: mind. 400x600 Pixel)
+        </p>
+    );
+
     useEffect(() => {
         if (image) {
+            //load file and set preview
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPreview(reader.result as string);
             };
             reader.readAsDataURL(image);
+
+            // read File as image and validate
+            reader.onload = function (theFile) {
+                var image = new Image();
+                image.src = theFile?.target?.result as string;
+                image.onload = function () {
+                    validateImageSize(image);
+                };
+            };
         } else {
             setPreview('');
         }
     }, [image]);
 
     function validate() {
-        setFormValid(true);
+        formValid = true;
 
         // Reset Errors:
         setTitelError({
@@ -69,15 +93,15 @@ const Admin = () => {
                 status: true,
                 helperText: 'Titel darf nicht leer sein.',
             });
-            setFormValid(false);
+            formValid = false;
         }
-        // Beschreibung mind. 50 Zeichen
-        if (description.length < 50) {
+        // Beschreibung darf nicht leer sein
+        if (description.length === 0) {
             setDescriptionError({
                 status: true,
-                helperText: 'Beschreibung muss mind 50 Zeichen lang sein.',
+                helperText: 'Beschreibung darf nicht leer sein.',
             });
-            setFormValid(false);
+            formValid = false;
         }
         // trailer Link leer
         if (trailerLink === '') {
@@ -85,7 +109,11 @@ const Admin = () => {
                 status: true,
                 helperText: 'Trailer-Link darf nicht leer sein.',
             });
-            setFormValid(false);
+            formValid = false;
+        }
+
+        if (showImgSizeErr === true || showFileTypeErr === true) {
+            formValid = false;
         }
     }
 
@@ -107,14 +135,31 @@ const Admin = () => {
 
     function handlePosterUpload(event: ChangeEvent<HTMLInputElement>) {
         const file = event.target.files![0];
-        if (file != null && file.type.substring(0, 5) === 'image') {
+        if (file != null && validateImageType(file)) {
             setImage(event.target.files![0]);
         }
     }
 
-    const handleAddMovie = async () => {
-        await validate();
+    function validateImageSize(image: HTMLImageElement) {
+        if (image.height >= 600 && image.width >= 400) {
+            setShowImgSizeTypeErr(false);
+        } else {
+            setShowImgSizeTypeErr(true);
+        }
+    }
 
+    function validateImageType(file: File): boolean {
+        if (file.type === 'image/jpeg' || file.type === 'image/png') {
+            setShowFileTypeErr(false);
+            return true;
+        } else {
+            setShowFileTypeErr(true);
+            return false;
+        }
+    }
+
+    async function handleAddMovie() {
+        validate();
         if (formValid) {
             try {
                 setLoading(true);
@@ -149,7 +194,7 @@ const Admin = () => {
                 console.error(error);
             }
         }
-    };
+    }
 
     const Input = styled('input')({
         display: 'none',
@@ -162,11 +207,14 @@ const Admin = () => {
     return (
         <>
             <div className="w-[600px] mx-auto flex flex-col flex-wrap items-center space-y-10 justify-between ">
-                <h1 className="font-medium text-left leading-tight text-5xl w-[125%] mt-3">
+                <h1
+                    className="font-medium text-left leading-tight text-5xl w-[125%] mt-3"
+                    data-testid="heading"
+                >
                     FILM HINZUFÜGEN:
                 </h1>
                 <TextField
-                    id="outlined-basic"
+                    data-testid="titleInput"
                     label="Titel"
                     variant="outlined"
                     className="scale-125 w-[100%]"
@@ -179,8 +227,8 @@ const Admin = () => {
                     }}
                 />
                 <TextField
-                    id="outlined-multiline-static"
-                    label="Beschreibung (mind. 50 Zeichen)"
+                    data-testid="descriptionInput"
+                    label="Beschreibung"
                     multiline
                     rows={7}
                     value={description}
@@ -199,11 +247,15 @@ const Admin = () => {
                     value={releaseDate}
                     onChange={handleDateChange}
                     renderInput={(params) => (
-                        <TextField className="scale-125 w-[100%]" {...params} />
+                        <TextField
+                            className="scale-125 w-[100%]"
+                            {...params}
+                            data-testid="datePicker"
+                        />
                     )}
                 />
                 <TextField
-                    id="outlined-basic"
+                    data-testid="linkInput"
                     label="Trailer-Link"
                     variant="outlined"
                     className="scale-125 w-[100%]"
@@ -221,6 +273,7 @@ const Admin = () => {
                     className="mx-auto scale-125 "
                 >
                     <Input
+                        data-testid="addImgInput"
                         accept="image/*"
                         id="contained-button-file"
                         type="file"
@@ -229,6 +282,7 @@ const Admin = () => {
                         }}
                     />
                     <Button
+                        data-testid="addImgButton"
                         variant="contained"
                         component="span"
                         startIcon={<InsertPhotoIcon />}
@@ -237,12 +291,15 @@ const Admin = () => {
                     </Button>
                 </label>
                 <img src={preview} className="w-[300px]" alt="" />
+                {showFileTypeErr ? <FileTypeErr /> : null}
+                {showImgSizeErr ? <ImgSizeErr /> : null}
 
                 <div
                     className="w-[115%]"
                     style={{ marginBottom: 100, marginTop: 70 }}
                 >
                     <LoadingButton
+                        data-testid="addMovieBtn"
                         color="primary"
                         onClick={handleAddMovie}
                         loading={loading}
@@ -254,6 +311,7 @@ const Admin = () => {
                         Film hinzufügen
                     </LoadingButton>
                     <Button
+                        data-testid="cancelBtn"
                         variant="outlined"
                         className="scale-125 float-right"
                         onClick={() => handleNavigate('/')}
