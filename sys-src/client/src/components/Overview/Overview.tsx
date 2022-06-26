@@ -6,6 +6,7 @@ import MovieCard from './MovieCard';
 function Overview() {
     const [movies, setMovies] = useState<IMovie[]>([]);
 
+    /*Get all Movies from Backend to be shown in the Overview*/
     useEffect(() => {
         const fetchMovies = async () => {
             const data = await Backend.getAllMovies();
