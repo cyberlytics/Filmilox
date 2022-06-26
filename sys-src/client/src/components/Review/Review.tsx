@@ -64,14 +64,14 @@ const Review = (props: Props) => {
     }
 
     return (
-        <div className="m-4 w-full px-6">
+        <div data-testid="review-main" className="m-4 w-full px-6">
             <Card className="w-full">
                 <div className="p-6">
                     <div className="flex flex-col tablet:justify-between tablet:flex-row">
                         <div className="flex items-center justify-between">
                             <p
                                 className="mr-4 text-xl text-gray-500 font-bold"
-                                data-testid="addreview-username"
+                                data-testid="review-username"
                             >
                                 @{review.user.username}
                             </p>
@@ -80,14 +80,14 @@ const Review = (props: Props) => {
                                 readOnly
                                 defaultValue={review.rating}
                                 max={10}
-                                data-testid="addreview-rating"
+                                data-testid="review-rating"
                             />
                         </div>
 
                         <div className="flex items-center justify-between">
                             <p
                                 className="text-xl text-gray-500 font-bold mr-2"
-                                data-testid="addreview-date"
+                                data-testid="review-date"
                             >
                                 {new Date(
                                     review.createdAt
@@ -106,7 +106,7 @@ const Review = (props: Props) => {
                         </div>
                     </div>
                     <div className="flex flex-col tablet:flex-row">
-                        <p className="mr-8" data-testid="deletereview-comment">
+                        <p className="mr-8" data-testid="review-comment">
                             {review.comment}
                         </p>
                         <div style={{ flexGrow: 1 }} />
