@@ -5,7 +5,7 @@ import Backend from '../../api/Backend';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { IResponseError } from '../../model/iResponseError';
+import { IResponseError } from '../../model/IResponseError';
 
 const Login = () => {
     const dispatch = useAppDispatch();
