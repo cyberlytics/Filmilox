@@ -13,7 +13,7 @@ import {
 } from './redux/userSlice';
 import SearchResult from './components/Search/SearchResult';
 import UserSettings from './components/UserSettings';
-import Admin from './components/Admin/Admin';
+import Admin from './components/Admin';
 
 function App() {
     const dispatch = useAppDispatch();

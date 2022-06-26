@@ -6,7 +6,7 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { useState, useEffect, ChangeEvent } from 'react';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useNavigate } from 'react-router-dom';
-import Backend from '../../api/Backend';
+import Backend from '../api/Backend';
 
 const Admin = () => {
     const navigate = useNavigate();

@@ -81,6 +81,19 @@ const addTestUserToDatabase = async () => {
 
     await user.save();
 };
+const addAdminUserToDatabase = async () => {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash('passwordAdmin', salt);
+    const user = new User({
+        _id: '507f1f77bcf86cd799439015',
+        username: 'Test AdminUser',
+        email: 'test@test.de',
+        password: passwordHash,
+        admin: true,
+    });
+
+    await user.save();
+};
 
 module.exports = {
     connect,
@@ -89,4 +102,5 @@ module.exports = {
     addTestMoviesToDatabase,
     addTestReviewToDatabase,
     addTestUserToDatabase,
+    addAdminUserToDatabase,
 };
