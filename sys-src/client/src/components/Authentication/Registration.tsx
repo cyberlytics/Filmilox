@@ -70,19 +70,17 @@ const Registration = () => {
                 username,
                 password,
             });
-            if (status) {
-                // if User successful registered, than login
-                await Backend.login({
-                    identifier: email,
-                    password,
-                });
-                dispatch(await fetchUserData());
-                navigate('/');
-            }
+            // if User successful registered, than login
+            await Backend.login({
+                identifier: email,
+                password,
+            });
+            dispatch(await fetchUserData());
+            navigate('/');
 
             // Log in User
-        } catch (e) {
-            if (Axios.isAxiosError(e) && e.response) {
+        } catch (e: any) {
+            if (e.response) {
                 const data = e.response?.data as IResponseError;
                 const emailError = data.errors.find(
                     (item) => item.param === 'email'
@@ -151,6 +149,7 @@ const Registration = () => {
                     helperText={passwordError.message}
                 />
                 <Button
+                    data-testid="registration-button"
                     variant="contained"
                     fullWidth
                     sx={{ mt: 2 }}
