@@ -83,13 +83,7 @@ test('It should change the email username password input', async () => {
 });
 
 test('Error Handling', async () => {
-    const {
-        emailInput,
-        passwordInput,
-        userNameInput,
-        getByText,
-        submitButton,
-    } = setup();
+    const { emailInput, passwordInput, userNameInput, submitButton } = setup();
 
     fireEvent.click(submitButton);
 
