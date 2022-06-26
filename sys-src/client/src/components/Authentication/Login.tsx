@@ -5,7 +5,6 @@ import Backend from '../../api/Backend';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-import Axios from 'axios';
 import { IResponseError } from '../../model/iResponseError';
 
 const Login = () => {
