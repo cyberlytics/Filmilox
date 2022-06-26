@@ -64,7 +64,7 @@ const Registration = () => {
             if (error) return;
 
             // Get token from backend
-            const status = await Backend.register({
+            await Backend.register({
                 email,
                 username,
                 password,
