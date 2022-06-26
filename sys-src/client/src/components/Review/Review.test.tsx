@@ -25,7 +25,7 @@ const reviewTest: IReviewGet = {
     updatedAt: new Date().toString(),
 };
 
-jest.mock("../../api/Backend");
+jest.mock('../../api/Backend');
 
 const Wrapper = () => {
     const [movie, setMovie] = useState<IMovie>(movieTest);
@@ -53,8 +53,10 @@ describe('Test Voting on Review', () => {
         });
         const { getByTestId } = render(<Wrapper />);
 
-        await waitFor(()=> {
-            const downvotePlaceholder = getByTestId('downvote-count-placeholder');
+        await waitFor(() => {
+            const downvotePlaceholder = getByTestId(
+                'downvote-count-placeholder'
+            );
             const upvotePlaceholder = getByTestId('upvote-count-placeholder');
             expect(downvotePlaceholder).toBeInTheDocument();
             expect(upvotePlaceholder).toBeInTheDocument();
@@ -79,6 +81,43 @@ describe('Test Voting on Review', () => {
             expect(downvoteCount).toHaveTextContent('50');
             expect(upvoteCount).toBeInTheDocument();
             expect(upvoteCount).toHaveTextContent('100');
+        });
+    });
+});
+
+describe('Test Review component', () => {
+    test('Check if all elements are present.', async () => {
+        jest.spyOn(Backend, 'getVotes').mockResolvedValue({
+            data: {
+                upvote: 0,
+                downvote: 0,
+            },
+            status: 200,
+            statusText: 'OK',
+            headers: {},
+            config: {},
+        });
+        const { getByTestId } = render(<Wrapper />);
+        await waitFor(() => {
+            const ReviewId = getByTestId('review-main');
+            expect(ReviewId).toBeInTheDocument();
+
+            const username = getByTestId('review-username');
+            expect(username).toBeInTheDocument();
+            expect(username.textContent).toEqual('@TestUser');
+
+            //check rating in the review
+            const rating = getByTestId('review-rating');
+            expect(rating).toBeInTheDocument();
+
+            // check date of the review
+            const reviewDate = getByTestId('review-date');
+            expect(reviewDate).toBeInTheDocument();
+
+            //check the comment of the review
+            const comment = getByTestId('review-comment');
+            expect(comment).toBeInTheDocument();
+            expect(comment.textContent).toBe('Beschreibung');
         });
     });
 });
