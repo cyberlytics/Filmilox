@@ -3,7 +3,6 @@ import { Button, TextField } from '@mui/material';
 import PasswordInput from '../inputs/PasswordInput';
 import Backend from '../../api/Backend';
 import Controller from '../../controller/Controller';
-import Axios from 'axios';
 import { useAppDispatch } from '../../redux/hooks';
 import { fetchUserData } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
