@@ -1,10 +1,7 @@
-import { fireEvent, render, screen } from '../../utils/test-utils';
+import { render, screen } from '../../utils/test-utils';
 import { IMovie } from '../../model/IMovie';
-import { useState } from 'react';
-import { IReviewGet } from '../../model/IReview';
 import { act } from 'react-dom/test-utils';
 import MovieDetails from './MovieDetails';
-import { debug } from 'console';
 
 const Wrapper = () => {
     const movieTest: IMovie = {
