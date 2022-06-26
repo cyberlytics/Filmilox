@@ -1,6 +1,5 @@
 import Admin from './Admin';
-import { fireEvent, render, screen } from '../utils/test-utils';
-import { debug } from 'console';
+import { fireEvent, render } from '../utils/test-utils';
 
 describe('Test Admin component', () => {
     test('Tests if all necessary inputs/buttons (UI) are present.', () => {
