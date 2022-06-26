@@ -5,7 +5,7 @@ import {
     render,
     screen,
     waitFor,
-} from '../utils/test-utils';
+} from '../../utils/test-utils';
 import { debug } from 'console';
 import userEvent from '@testing-library/user-event';
 
