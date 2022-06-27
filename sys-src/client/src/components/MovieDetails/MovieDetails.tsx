@@ -45,7 +45,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                         variant="outlined"
                         onClick={handleShowTrailer}
                     >
-                        TRAILER ANSCHAUEN
+                        WATCH TRAILER
                     </Button>
                 </div>
                 <div className="max-w-3xl">
@@ -66,7 +66,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                                         variant="contained"
                                         onClick={handleAddReviewClick}
                                     >
-                                        Bewertung Abgeben
+                                        Add a review
                                     </Button>
                                 )}
                             </div>
@@ -91,7 +91,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                             </div>
 
                             <p data-testid="movieRelease">
-                                Erscheinungsdatum:{' '}
+                                Release date:{' '}
                                 {movie?.release &&
                                     format(
                                         new Date(movie.release),

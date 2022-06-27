@@ -33,7 +33,7 @@ describe('Test SearchResult component, with no result', () => {
         const { getByText } = render(<Wrapper />);
 
         expect(
-            getByText('Ergebnisse für', { selector: 'h1' })
+            getByText('Results:', { selector: 'h1' })
         ).toBeInTheDocument();
     });
 
@@ -41,7 +41,7 @@ describe('Test SearchResult component, with no result', () => {
         const { getByText } = render(<Wrapper />);
 
         expect(
-            getByText('Keine Ergebnisse gefunden.', { selector: 'p' })
+            getByText('No results.', { selector: 'p' })
         ).toBeInTheDocument();
     });
 });
@@ -57,7 +57,7 @@ describe('Test SearchResult component, with results', () => {
 
         await waitFor(() => {
             expect(
-                getByText('Ergebnisse für Titel', { selector: 'h1' })
+                getByText('Results: Titel', { selector: 'h1' })
             ).toBeInTheDocument();
             expect(getByText(movieTest1.title)).toBeInTheDocument();
             expect(getByText(movieTest2.title)).toBeInTheDocument();
