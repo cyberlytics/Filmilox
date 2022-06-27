@@ -5,7 +5,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "test": "jest --coverage",
+        "test": "NODE_ENV=test jest --coverage",
         "dev": "NODE_ENV=development nodemon --legacy-watch server.js",
         "docker-install": "docker exec filmilox-server yarn install",
         "prod": "NODE_ENV=production node server.js"
