@@ -44,7 +44,7 @@ const Admin = () => {
             className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6"
             data-testid="FileTypeErr"
         >
-            Falscher Dateityp des Bildes! (Akzeptierte Dateitypen: .png / .jpg)
+            Invalid image filetype! (Accepted filetype: .png / .jpg)
         </p>
     );
     const ImgSizeErr = () => (
@@ -52,7 +52,7 @@ const Admin = () => {
             className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6"
             data-testid="ImgSizeErr"
         >
-            Größe des Bildes zu klein! (Akzeptierte Größe: mind. 400x600 Pixel)
+            Image too small! (Accepted size: min. 400x600 pixel)
         </p>
     );
 
@@ -62,7 +62,7 @@ const Admin = () => {
             className="text-lime-500 text-lg font-semibold border-solid border-2 rounded-md border-lime-500 p-2 text-center w-full"
             data-testid="uploadSuccess"
         >
-            Film hinzugefügt!
+            Added movie!
         </p>
     );
     const AddMovieError = () => (
@@ -70,7 +70,7 @@ const Admin = () => {
             className="text-red-600 text-lg font-semibold border-solid border-2 rounded-md border-red-600 p-2 text-center w-full"
             data-testid="uploadError"
         >
-            Film hinzugefügen fehlergeschlagen!
+            Adding movie failed!
         </p>
     );
 
@@ -126,7 +126,7 @@ const Admin = () => {
         if (title === '') {
             setTitelError({
                 status: true,
-                helperText: 'Titel darf nicht leer sein.',
+                helperText: 'Title must not be empty.',
             });
             formValid = false;
         }
@@ -134,7 +134,7 @@ const Admin = () => {
         if (description.length === 0) {
             setDescriptionError({
                 status: true,
-                helperText: 'Beschreibung darf nicht leer sein.',
+                helperText: 'Description must not be empty.',
             });
             formValid = false;
         }
@@ -142,7 +142,7 @@ const Admin = () => {
         if (trailerLink === '') {
             setTrailerError({
                 status: true,
-                helperText: 'Trailer-Link darf nicht leer sein.',
+                helperText: 'Trailer-Link must not be empty.',
             });
             formValid = false;
         }
@@ -248,11 +248,11 @@ const Admin = () => {
                     className="font-medium text-left leading-tight text-5xl w-[125%] mt-3"
                     data-testid="heading"
                 >
-                    FILM HINZUFÜGEN:
+                    Add movie:
                 </h1>
                 <TextField
                     data-testid="titleInput"
-                    label="Titel"
+                    label="Title"
                     variant="outlined"
                     className="scale-125 w-[100%]"
                     type="text"
@@ -265,7 +265,7 @@ const Admin = () => {
                 />
                 <TextField
                     data-testid="descriptionInput"
-                    label="Beschreibung"
+                    label="Description"
                     multiline
                     rows={7}
                     value={description}
@@ -279,7 +279,7 @@ const Admin = () => {
                     }}
                 />
                 <DesktopDatePicker
-                    label="Erscheinungsdatum"
+                    label="Release date"
                     inputFormat="MM/dd/yyyy"
                     value={releaseDate}
                     onChange={handleDateChange}
@@ -324,7 +324,7 @@ const Admin = () => {
                         component="span"
                         startIcon={<InsertPhotoIcon />}
                     >
-                        Bild hinzufügen
+                        Add movie cover
                     </Button>
                 </label>
                 <img src={preview} className="w-[300px]" alt="" />
@@ -342,7 +342,7 @@ const Admin = () => {
                         variant="contained"
                         className="scale-125 float-left"
                     >
-                        Film hinzufügen
+                        Add movie
                     </LoadingButton>
                     <Button
                         data-testid="cancelBtn"
@@ -350,7 +350,7 @@ const Admin = () => {
                         className="scale-125 float-right"
                         onClick={() => handleNavigate('/')}
                     >
-                        Abbrechen
+                        Cancel
                     </Button>
                 </div>
                 {showAddMovieSuccess ? <AddMovieSuccess /> : null}

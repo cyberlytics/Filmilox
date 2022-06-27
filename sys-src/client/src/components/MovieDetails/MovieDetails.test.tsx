@@ -58,7 +58,7 @@ describe('Test MovieDetails component', () => {
 
         const movieRelease = screen.getByTestId('movieRelease');
         expect(movieRelease).toBeInTheDocument();
-        expect(movieRelease.textContent).toBe('Erscheinungsdatum: 20.06.2022');
+        expect(movieRelease.textContent).toBe('Release date: 20.06.2022');
 
         const movieDescription = screen.getByTestId('movieDescription');
         expect(movieDescription).toBeInTheDocument();
@@ -67,7 +67,7 @@ describe('Test MovieDetails component', () => {
     test('Test Button clickable', () => {
         render(<Wrapper />);
 
-        const trailerBtn = screen.getByText('TRAILER ANSCHAUEN');
+        const trailerBtn = screen.getByText('WATCH TRAILER');
         act(() => {
             trailerBtn.click();
         });
