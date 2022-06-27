@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { render } from '../../utils/test-utils';
 import Backend from '../../api/Backend';
 import { waitFor } from '@testing-library/react';
-
+//movie data to be matched against expected test values
 const movieTest: IMovie = {
     _id: 'random_id',
     title: 'Titel',
@@ -15,6 +15,7 @@ const movieTest: IMovie = {
     image: '/cover.png',
     rating: 2,
 };
+//review data to be matched against expected test values
 const reviewTest: IReviewGet = {
     _id: 'test_id',
     user: { _id: 'test_id', username: 'TestUser' },
@@ -28,6 +29,7 @@ const reviewTest: IReviewGet = {
 jest.mock('../../api/Backend');
 
 const Wrapper = () => {
+    // hooks to reuse movie and review logic
     const [movie, setMovie] = useState<IMovie>(movieTest);
     const [reviews, setReviews] = useState<IReviewGet[]>([]);
     return (
@@ -84,7 +86,7 @@ describe('Test Voting on Review', () => {
         });
     });
 });
-
+// test if UI elements of the Review component are rendered as expected
 describe('Test Review component', () => {
     test('Check if all elements are present.', async () => {
         jest.spyOn(Backend, 'getVotes').mockResolvedValue({
@@ -98,10 +100,13 @@ describe('Test Review component', () => {
             config: {},
         });
         const { getByTestId } = render(<Wrapper />);
+        // Wait until the callback does not throw an error
+        // it'll wait until the function has been called once.
         await waitFor(() => {
+            //check main div is rendered in the review component
             const ReviewId = getByTestId('review-main');
             expect(ReviewId).toBeInTheDocument();
-
+            //check username in the review
             const username = getByTestId('review-username');
             expect(username).toBeInTheDocument();
             expect(username.textContent).toEqual('@TestUser');
