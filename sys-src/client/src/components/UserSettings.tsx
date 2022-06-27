@@ -65,7 +65,7 @@ const UserSettings = () => {
             data-testid="usersettings-main"
         >
             <h1 className="font-bold text-4xl mt-8" data-testid="header">
-                BENUTZER EINSTELLUNGEN
+                User Settings
             </h1>
             <label
                 htmlFor="contained-button-file"
@@ -129,7 +129,7 @@ const UserSettings = () => {
                 onClick={handleUpdateProfile}
                 variant="contained"
             >
-                Speichern
+                Save
             </Button>
         </div>
     );

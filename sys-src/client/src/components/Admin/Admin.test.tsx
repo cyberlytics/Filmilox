@@ -17,13 +17,13 @@ describe('Test Admin component', () => {
         expect(heading).toBeInTheDocument();
 
         const titleInput = getByTestId('titleInput');
-        expect(titleInput).toHaveTextContent('Titel');
+        expect(titleInput).toHaveTextContent('Title');
 
         const descriptionInput = getByTestId('descriptionInput');
-        expect(descriptionInput).toHaveTextContent('Beschreibung');
+        expect(descriptionInput).toHaveTextContent('Description');
 
         const dateInput = getByTestId('datePicker');
-        expect(dateInput).toHaveTextContent('Erscheinungsdatum');
+        expect(dateInput).toHaveTextContent('Release date');
 
         const trailerInput = getByTestId('linkInput');
         expect(trailerInput).toHaveTextContent('Trailer-Link');
