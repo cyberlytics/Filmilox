@@ -65,7 +65,7 @@ const Review = (props: Props) => {
     }
     // build a review
     return (
-        <div data-testid="review-main" className="m-4 w-full px-6">
+        <div data-testid="review-main" className="max-w-7xl w-full">
             <Card className="w-full">
                 <div className="p-6">
                     <div className="flex flex-col tablet:justify-between tablet:flex-row">
