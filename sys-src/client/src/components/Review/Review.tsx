@@ -25,7 +25,7 @@ const Review = (props: Props) => {
     const userName = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const isAdmin = useAppSelector(selectIsAdmin);
-    // hooks to reuse movie and review logic
+    // hooks to reuse vote logic
     const [vote, setVote] = useState<IVote | undefined>();
     const [userVote, setUserVote] = useState<IUserVote>();
     //handle votes after first render and every update
