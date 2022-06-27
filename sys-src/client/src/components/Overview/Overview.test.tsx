@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom/client';
 import Backend from '../../api/Backend';
 import { IMovie } from '../../model/IMovie';
 import { act, render, screen, waitFor } from '../../utils/test-utils';
