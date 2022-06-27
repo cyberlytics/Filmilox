@@ -28,14 +28,23 @@ router.post(
             // Check if Admin:
             const isAdmin = await User.findById(req.user);
             if (!isAdmin) {
-                return res.status(400).json({
+                return res.status(401).json({
                     errors: [{ param: 'notAdmin', message: 'not allowed' }],
                 });
             }
 
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array() });
+                return res
+                    .status(400)
+                    .json({
+                        errors: [
+                            {
+                                param: 'validationResultFail',
+                                message: 'validationResult failed',
+                            },
+                        ],
+                    });
             }
 
             const formData = req.body;
