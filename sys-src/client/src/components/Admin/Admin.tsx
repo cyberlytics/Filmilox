@@ -44,7 +44,7 @@ const Admin = () => {
             className="text-red-600 border-solid border-2 rounded-md border-red-600 p-2 -translate-y-6"
             data-testid="FileTypeErr"
         >
-            Invalid image filetype! (Accepted filetype: .png / .jpg)
+            Invalid image filetype! (Accepted filetypes: .png / .jpg)
         </p>
     );
     const ImgSizeErr = () => (
@@ -70,7 +70,7 @@ const Admin = () => {
             className="text-red-600 text-lg font-semibold border-solid border-2 rounded-md border-red-600 p-2 text-center w-full"
             data-testid="uploadError"
         >
-            Adding movie failed!
+            Failed to add movie!
         </p>
     );
 
