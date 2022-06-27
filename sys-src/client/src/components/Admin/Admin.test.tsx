@@ -1,5 +1,13 @@
 import Admin from './Admin';
-import { fireEvent, render } from '../utils/test-utils';
+import {
+    fireEvent,
+    getByText,
+    render,
+    screen,
+    waitFor,
+} from '../../utils/test-utils';
+import { debug } from 'console';
+import userEvent from '@testing-library/user-event';
 
 describe('Test Admin component', () => {
     test('Tests if all necessary inputs/buttons (UI) are present.', () => {
@@ -58,5 +66,50 @@ describe('Test Admin component', () => {
             'true'
         );
         expect(linkInput).toHaveClass('Mui-error');
+    });
+
+    test('Tests adding movie', async () => {
+        const { getByTestId } = render(<Admin />);
+
+        const addMovieBtn = getByTestId('addMovieBtn');
+        const titleInput =
+            getByTestId('titleInput').querySelector('div')?.firstChild;
+        const descriptionInput =
+            getByTestId('descriptionInput').querySelector('div')?.firstChild;
+        const linkInput =
+            getByTestId('linkInput').querySelector('div')?.firstChild;
+
+        await userEvent.type(titleInput as HTMLInputElement, 'TitelBeispiel');
+        await userEvent.type(
+            descriptionInput as HTMLInputElement,
+            'BeschreibungBeispiel'
+        );
+        await userEvent.type(linkInput as HTMLInputElement, 'LinkBeispiel');
+
+        expect(titleInput).toHaveValue('TitelBeispiel');
+        expect(descriptionInput).toHaveValue('BeschreibungBeispiel');
+        expect(linkInput).toHaveValue('LinkBeispiel');
+
+        await userEvent.click(addMovieBtn);
+    });
+
+    test('Tests image validation', async () => {
+        const { getByTestId } = render(<Admin />);
+
+        const uploadImage = getByTestId('addImgInput');
+        expect(uploadImage).toHaveAttribute('accept', 'image/*');
+
+        const file = new File(['(⌐□_□)'], 'chucknorris.png', {
+            type: 'image/png',
+        });
+        await waitFor(() =>
+            fireEvent.change(uploadImage, {
+                target: { files: [file] },
+            })
+        );
+
+        // fehlt: testen der validierung
+        //const imgErr = getByTestId('ImgSizeErr');
+        //expect(imgErr).toBeInTheDocument();
     });
 });
