@@ -25,9 +25,10 @@ const Review = (props: Props) => {
     const userName = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const isAdmin = useAppSelector(selectIsAdmin);
+    // hooks to reuse movie and review logic
     const [vote, setVote] = useState<IVote | undefined>();
     const [userVote, setUserVote] = useState<IUserVote>();
-
+    //handle votes after first render and every update
     useEffect(() => {
         Backend.getVotes(review._id).then((response: AxiosResponse<IVote>) => {
             setVote(response.data);
@@ -51,7 +52,7 @@ const Review = (props: Props) => {
             console.log(e);
         }
     };
-
+    //handles up-, downvotes for a logged in user
     async function handleVote(isUpvote: boolean) {
         try {
             if (isLoggedIn) {
@@ -62,7 +63,7 @@ const Review = (props: Props) => {
             console.error(e);
         }
     }
-
+    // build a review
     return (
         <div data-testid="review-main" className="m-4 w-full px-6">
             <Card className="w-full">
