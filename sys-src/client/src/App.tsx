@@ -1,15 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
 import Overview from './components/Overview/Overview';
-import Admin from './components/Admin';
 import Login from './components/Authentication/Login';
 import Registration from './components/Authentication/Registration';
 import FilmOverview from './components/FilmOverview';
 import TopAppBar from './components/TopAppBar/TopAppBar';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
-import {fetchUserData, selectIsAdmin, selectIsLoggedIn} from './redux/userSlice';
+import {
+    fetchUserData,
+    selectIsAdmin,
+    selectIsLoggedIn,
+} from './redux/userSlice';
 import SearchResult from './components/Search/SearchResult';
-import UserSettings from "./components/UserSettings";
+import UserSettings from './components/UserSettings';
+import Admin from './components/Admin/Admin';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -31,7 +35,9 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Registration />} />
                 <Route path="/search" element={<SearchResult />} />
-                {isLoggedIn && <Route path="/usersettings" element={<UserSettings/>}/>}
+                {isLoggedIn && (
+                    <Route path="/usersettings" element={<UserSettings />} />
+                )}
             </Routes>
         </>
     );
