@@ -13,7 +13,7 @@ const Admin = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [title, setTitel] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [releaseDate, setReleaseDate] = useState<Date | null>(new Date());
+    const [releaseDate, setReleaseDate] = useState<Date>(new Date());
     const [trailerLink, setTrailerLink] = useState<string>('');
     const [image, setImage] = useState<File>();
     const [preview, setPreview] = useState<string>('');
@@ -161,7 +161,7 @@ const Admin = () => {
     }
 
     const handleDateChange = (newValue: Date | null) => {
-        setReleaseDate(newValue);
+        if (newValue !== null) setReleaseDate(newValue);
     };
 
     function handleTLinkChange(tlink: string) {
@@ -203,14 +203,7 @@ const Admin = () => {
                 formData.append('file', image as Blob);
                 formData.append('title', title);
                 formData.append('description', description);
-                let relDate =
-                    releaseDate?.getDay() +
-                    '.' +
-                    releaseDate?.getMonth() +
-                    '.' +
-                    releaseDate?.getFullYear();
-
-                formData.append('releaseDate', relDate);
+                formData.append('releaseDate', releaseDate.toDateString());
                 formData.append('trailer', trailerLink);
 
                 const status = await Backend.addMovie(formData);
