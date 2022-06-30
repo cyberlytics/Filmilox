@@ -28,7 +28,7 @@ const PasswordInput = ({ value, setValue, helperText, error }: IProps) => {
         event.preventDefault();
     };
     return (
-        <FormControl variant="filled" fullWidth sx={{ mt: 1 }}>
+        <FormControl fullWidth sx={{ mt: 1 }}>
             <InputLabel htmlFor="password" error={error}>
                 Password
             </InputLabel>
