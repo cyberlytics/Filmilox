@@ -60,7 +60,9 @@ class Controller {
     static initScripts = async () => {
         try {
             await this.createAdminUser();
-            await this.addTestMovies();
+            if (process.env.NODE_ENV !== 'production') {
+                await this.addTestMovies();
+            }
         } catch (e) {
             throw e;
         }
