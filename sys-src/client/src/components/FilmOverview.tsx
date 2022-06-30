@@ -8,6 +8,7 @@ import { selectIsLoggedIn } from '../redux/userSlice';
 import { AddReview } from './Review/AddReview';
 import Review from './Review/Review';
 import MovieDetails from './MovieDetails/MovieDetails';
+import Footer from './Footer/Footer';
 
 function FilmOverview() {
     const params = useParams();
@@ -39,29 +40,32 @@ function FilmOverview() {
     }, [params]);
 
     return (
-        <div className="flex flex-col justify-center w-full items-center">
-            {isLoggedIn && openAddReview && params.filmId && movie && (
-                <AddReview
-                    open={openAddReview}
-                    onClose={handleAddReviewClose}
+        <div>
+            <div className="flex flex-col justify-center w-full items-center">
+                {isLoggedIn && openAddReview && params.filmId && movie && (
+                    <AddReview
+                        open={openAddReview}
+                        onClose={handleAddReviewClose}
+                        movie={movie}
+                        movieId={params.filmId}
+                        setReviews={setReviews}
+                        setMovie={setMovie}
+                    />
+                )}
+                <MovieDetails
                     movie={movie}
-                    movieId={params.filmId}
-                    setReviews={setReviews}
-                    setMovie={setMovie}
+                    handleAddReviewClick={handleAddReviewClick}
                 />
-            )}
-            <MovieDetails
-                movie={movie}
-                handleAddReviewClick={handleAddReviewClick}
-            />
-            {reviews.map((review: IReviewGet) => (
-                <Review
-                    review={review}
-                    setReviews={setReviews}
-                    key={review._id}
-                    setMovie={setMovie}
-                />
-            ))}
+                {reviews.map((review: IReviewGet) => (
+                    <Review
+                        review={review}
+                        setReviews={setReviews}
+                        key={review._id}
+                        setMovie={setMovie}
+                    />
+                ))}
+            </div>
+            <Footer />
         </div>
     );
 }
