@@ -9,10 +9,6 @@ filmilox.com {
 	}
 }
 
-http://filmilox.com {
-	redir https://{host}{uri}
-}
-
 filmilox.com:5000 {
 	reverse_proxy mongo-express:8081
 }
