@@ -56,9 +56,10 @@ const Review = (props: Props) => {
     async function handleVote(isUpvote: boolean) {
         try {
             if (isLoggedIn) {
-                setUserVote({ userVote: isUpvote });
+                await Backend.vote(review._id, isUpvote).then(() =>
+                    setUserVote({ userVote: isUpvote })
+                );
             }
-            await Backend.vote(review._id, isUpvote);
         } catch (e) {
             console.error(e);
         }
