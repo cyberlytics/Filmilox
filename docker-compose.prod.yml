@@ -53,7 +53,7 @@ services:
       - "4000:4000"
       - "5000:5000"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./:/etc/caddy/
       - caddy_data:/data
       - caddy_config:/config
 volumes:
