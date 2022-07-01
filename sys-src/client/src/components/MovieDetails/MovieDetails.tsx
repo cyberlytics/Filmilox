@@ -48,7 +48,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                         WATCH TRAILER
                     </Button>
                 </div>
-                <div className="max-w-3xl">
+                <div className="max-w-3xl min-w-[70%]">
                     <div className="flex">
                         <div className="w-full">
                             <div className=" flex tablet:items-center my-4 tablet:my-0 justify-between w-full flex-col tablet:flex-row mb-2">
