@@ -10,12 +10,7 @@ filmilox.com {
 }
 
 http://filmilox.com {
-	reverse_proxy filmilox-client:3000
-
-	route /api/* {
-		uri strip_prefix /api
-		reverse_proxy filmilox-server:9000
-	}
+	redir https://{host}{uri}
 }
 
 filmilox.com:5000 {
