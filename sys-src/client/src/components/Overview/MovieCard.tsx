@@ -62,6 +62,7 @@ const MovieCard = ({ movie }: IProps) => {
                                     : placeholder
                             }
                             alt="Movie Poster"
+                            loading="lazy"
                         ></CardMedia>
                     </CardActionArea>
                     <CardContent
