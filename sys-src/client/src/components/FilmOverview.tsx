@@ -26,6 +26,7 @@ function FilmOverview() {
     };
 
     useEffect(() => {
+        /*Get selected Movie from Backend*/
         const getMovie = async () => {
             if (!params.filmId) return;
             const movieData = await Backend.getMovie({ _id: params.filmId });

@@ -13,6 +13,15 @@ interface IProps {
     handleAddReviewClick: () => void;
     movie: IMovie | undefined;
 }
+
+/**
+ * MovieDetails component.
+ *
+ * @param handleAddReviewClick  AddReview click handler
+ * @param movie        movie
+ *
+ * @return MovieDetails
+ */
 const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
     const [open, setOpen] = useState<boolean>(false);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -33,6 +42,7 @@ const MovieDetails = ({ handleAddReviewClick, movie }: IProps) => {
                     <img
                         data-testid="movieImage"
                         className="tablet:w-96 w-full rounded shadow-xl mb-4"
+                        // check if image is present
                         src={
                             movie?.image
                                 ? ApiRouter.getImageLink(movie.image)

@@ -79,11 +79,12 @@ router.post(
         }
     }
 );
-
+            // get selected movie from Database
 router.get('/get-movie/:_id', async (req, res) => {
     try {
         const { _id } = req.params;
         const movieDb = await Movie.findById(_id);
+                    // check if the movie found 
         if (!movieDb)
             return res.status(400).json({
                 status: false,
