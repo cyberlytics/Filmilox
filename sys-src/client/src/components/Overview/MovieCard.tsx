@@ -54,10 +54,7 @@ const MovieCard = ({ movie }: IProps) => {
                     >
                         <CardMedia
                             data-testid="movieCard-image"
-                            style={{
-                                maxHeight: 360,
-                                maxWidth: 240,
-                            }}
+                            className="w-full h-auto aspect-[2/3]"
                             component="img"
                             src={
                                 movie.image

@@ -25,9 +25,10 @@ const Review = (props: Props) => {
     const userName = useAppSelector(selectUsername);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const isAdmin = useAppSelector(selectIsAdmin);
+    // hooks to reuse vote logic
     const [vote, setVote] = useState<IVote | undefined>();
     const [userVote, setUserVote] = useState<IUserVote>();
-
+    //handle votes after first render and every update
     useEffect(() => {
         Backend.getVotes(review._id).then((response: AxiosResponse<IVote>) => {
             setVote(response.data);
@@ -51,20 +52,21 @@ const Review = (props: Props) => {
             console.log(e);
         }
     };
-
+    //handles up-, downvotes for a logged in user
     async function handleVote(isUpvote: boolean) {
         try {
             if (isLoggedIn) {
-                setUserVote({ userVote: isUpvote });
+                await Backend.vote(review._id, isUpvote).then(() =>
+                    setUserVote({ userVote: isUpvote })
+                );
             }
-            await Backend.vote(review._id, isUpvote);
         } catch (e) {
             console.error(e);
         }
     }
-
+    // build a review
     return (
-        <div data-testid="review-main" className="m-4 w-full px-6">
+        <div data-testid="review-main" className="max-w-7xl w-full mb-4">
             <Card className="w-full">
                 <div className="p-6">
                     <div className="flex flex-col tablet:justify-between tablet:flex-row">
